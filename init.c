@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 13:55:26 by zslowian          #+#    #+#             */
-/*   Updated: 2025/05/21 14:53:02 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/05/21 17:39:15 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void		ft_init(char *file_name, t_cub3d *data);
 static void	ft_validate_input_file(char *file_name, t_cub3d *data);
+
 /**
  * Function initializing the whole program and populating the data for it:
  * 1. allocate the program data
@@ -26,10 +27,8 @@ static void	ft_validate_input_file(char *file_name, t_cub3d *data);
 void	ft_init(char *file_name, t_cub3d *data)
 {
 	//t_list	*tokens;
-	
-	data = ft_calloc(sizeof(t_cub3d), 1);
-	if (data == NULL)
-		ft_error(MEM_ERROR, "ft_init", data);
+
+	data->infile_fd = -1;
 	ft_validate_input_file(file_name, data);
 	//ft_tokenize(data);
 	//ft_parse(data);
@@ -41,6 +40,16 @@ void	ft_init(char *file_name, t_cub3d *data)
  */
 static void	ft_validate_input_file(char *file_name, t_cub3d *data)
 {
-	(void)data;
-	ft_printf("We are in ft_validate_input_file, file name: %s\n", file_name);
+	char	*ptr;
+
+	ptr = file_name;
+	if (*ptr == '.')
+		ptr++;
+	while (*ptr && *ptr != '.')
+		ptr++;
+	if ((*ptr && ft_strncmp(ptr, ".cub", 5) != 0) || !ptr)
+		ft_error(FF_ERROR, "ft_validate_input_file", data);
+	data->infile_fd = open(file_name, O_RDONLY);
+	if (data->infile_fd < 0)
+		ft_error(OPEN_ERROR, "ft_validate_input_file", data);
 }

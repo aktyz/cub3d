@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 13:49:46 by zslowian          #+#    #+#             */
-/*   Updated: 2025/05/21 14:53:49 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/05/21 17:24:53 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,11 @@ void				ft_error(t_cub3d_errors nb, char *ft_name, t_cub3d *data);
 static const char	**ft_get_error_message(void)
 {
 	static const char	*e_msg[ERROR_NB];
-	
+
 	e_msg[1] = ": Provide only one argument: .cub file\n";
 	e_msg[2] = ": Memory allocation error\n";
+	e_msg[3] = ": Provided file has wrong format: .cub expected\n";
+	e_msg[4] = ": File opening error (doesn't exist?)\n";
 	return (e_msg);
 }
 
@@ -43,13 +45,12 @@ void	ft_error(t_cub3d_errors nb, char *ft_name, t_cub3d *data)
 {
 	char	*msg;
 
-	// print error message
 	if (nb < ERROR_NB)
 		msg = ft_strjoin(ft_name, ft_get_error_message()[nb]);
 	else
 		msg = ft_strjoin(ft_name, ": Unknown error\n");
 	write(2, msg, ft_strlen(msg));
 	(void) data;
-	//ft_clean(&data);
+	ft_clean(data);
 	exit(EXIT_FAILURE);
 }
