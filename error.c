@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 13:49:46 by zslowian          #+#    #+#             */
-/*   Updated: 2025/05/21 17:24:53 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/05/21 22:18:20 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static const char	**ft_get_error_message(void)
 /**
  * Error and exit function for our program, it:
  * 1. prints error message
- * 2. cleans program memory to avoid leaks [TODO]
+ * 2. cleans program memory to avoid leaks
  * 3. exits cub3d
  *
  */

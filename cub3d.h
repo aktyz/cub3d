@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/05/21 17:38:41 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/05/21 22:19:56 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ typedef struct s_color
 
 /**
  * Global cub3d data representation.
- * First part is reprsenting static information passed from the infile
- * Second part is representig MiniLibX pointer so that we are able to clean
- * them nicely when exiting the program.
+ * First part is representing static information passed from the infile
+ * Second part is representing MiniLibX pointers so that we are able to clean
+ * render data nicely when exiting the program.
  *
  */
 typedef struct s_cub3d
