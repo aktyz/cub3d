@@ -6,7 +6,7 @@
 #    By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/16 21:43:31 by zslowian          #+#    #+#              #
-#    Updated: 2025/05/16 22:00:14 by zslowian         ###   ########.fr        #
+#    Updated: 2025/05/21 14:50:49 by zslowian         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,9 @@ LIBFT = libft
 LIBFT_SRC = git@github.com:aktyz/libft.git
 RM = rm -rf
 
-SRC = main.c
+SRC = main.c \
+	error.c \
+	init.c
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
