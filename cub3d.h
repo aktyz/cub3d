@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/10 15:47:40 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/12 09:45:58 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,6 +219,27 @@ void	ft_clean(t_cub3d *data);
 // DEBUGGING
 void	ft_print_token_list(t_cub3d *data);
 void	ft_print_map_player(t_cub3d *data);
+# include "math.h"
+
+typedef struct s_player_position
+{
+	int height; //half of grid size = 32 (looks good on the screen)
+	int fov; //how many degrees - 60 
+	int position_x;
+    int position_y;
+	int distance_to_projection_plane; // calculated after each movement
+}	t_player_position;
+
+
+typedef struct s_projection_plane
+{
+	//dimensions of the projection plane = 320 x 200 (resolution of most VGA video cards)
+	//grid_height = 64
+
+	int x;
+	int y;
+
+} t_projection_plane;
 
 //ray_angles.c
 float	degrees_to_radians(float degrees);
