@@ -6,7 +6,7 @@
 #    By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/16 21:43:31 by zslowian          #+#    #+#              #
-#    Updated: 2025/05/16 22:00:14 by zslowian         ###   ########.fr        #
+#    Updated: 2025/05/21 17:26:46 by zslowian         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,10 @@ LIBFT = libft
 LIBFT_SRC = git@github.com:aktyz/libft.git
 RM = rm -rf
 
-SRC = main.c
+SRC = main.c \
+	clean.c \
+	error.c \
+	init.c
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -48,5 +51,12 @@ fclean: clean
 clean:
 	$(RM) ./$(LIBFT)
 	$(RM) ./$(MLX)
+
+debug:
+	$(RM) $(NAME)
+	$(CC) $(CFLAGS) -o $(NAME) $(SRC) \
+	-L $(MLX) $(MLX_FLAGS) \
+	-L $(LIBFT) $(LIBFT_FLAGS) \
+	-no-pie -g
 
 re: fclean all
