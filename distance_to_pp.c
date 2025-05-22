@@ -9,11 +9,6 @@ float degrees_to_radians(float degrees)
 /*
 the distance between the player and the projection plane at this exact moment
 
--Dimension of the Projection Plane = 320 x 200 units
--Angle between subsequent rays = 60/320 degrees
-*/
-
-#include "math.h"
 
 /* degrees between the player looking directly in front of them 
 and the given column. There are 320 columns total.
@@ -80,19 +75,38 @@ Check if the wall has been hit by a ray
 - a wall can only be hit on the grid boundary, so we check only those places
 - if there is a grid on either of them, the checking stops
 */
+/*Render a scene - trace 320 rays starting from left to right, can be done in a loop
+
+*/
+
+float get_angle_from_center(int column_number) 
+{
+    float angle_per_column;
+    float center_column;
+    int columns_from_center;
+    float angle;
+
+    center_column = (float)SCREEN_WIDTH / 2.0f;
+    angle_per_column = FOV_DEGREES / (float)SCREEN_WIDTH; //in our case 60/320
+
+    //number of column steps from the center reference
+    columns_from_center = fabsf(center_column - column_number);
+
+    angle = angle_per_column * column_offset;
+    return (angle);
+}
+
+
+
+/*
+Check if the wall has been hit by a ray
+- I check both vertically and horizontally
+- a wall can only be hit on the grid boundary, so we check only those places
+- if there is a grid on either of them, the checking stops
+*/
 
 
 /*Render a scene - trace 320 rays starting from left to right, can be done in a loop
 
 
 */
-int get_degrees(int column_number)
-{
-    //angle between subsequent columns/rays = 60/320
-    //column 0
-    int degree;
-
-    degree = 60/320 * (abs(160 - column_number));
-    return (degree);   
-}
-
