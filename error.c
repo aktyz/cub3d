@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 13:49:46 by zslowian          #+#    #+#             */
-/*   Updated: 2025/05/21 22:18:20 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/05/22 12:52:58 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void				ft_error(t_cub3d_errors nb, char *ft_name, t_cub3d *data);
  * without explicitly using global variable.
  *
  * - Prefix your message with ": "
- * - Suffix your message with "'\n'
+ * - Suffix your message with new line "\n"
  *       so that it prints nicely
  */
 static const char	**ft_get_error_message(void)
@@ -40,17 +40,20 @@ static const char	**ft_get_error_message(void)
  * 2. cleans program memory to avoid leaks
  * 3. exits cub3d
  *
+ * If you are in a hurry and don't want to add docs for new error
+ * call this function with nb = ERROR_NB to log unknown error
  */
 void	ft_error(t_cub3d_errors nb, char *ft_name, t_cub3d *data)
 {
 	char	*msg;
 
-	if (nb < ERROR_NB)
+	if (nb > 0 && nb < ERROR_NB)
 		msg = ft_strjoin(ft_name, ft_get_error_message()[nb]);
 	else
 		msg = ft_strjoin(ft_name, ": Unknown error\n");
 	write(2, msg, ft_strlen(msg));
 	(void) data;
 	ft_clean(data);
+	free(msg);
 	exit(EXIT_FAILURE);
 }
