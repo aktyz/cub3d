@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hhurnik <hhurnik@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:00:34 by zslowian          #+#    #+#             */
-/*   Updated: 2025/05/22 12:50:36 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/07/24 19:44:52 by hhurnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,10 @@ int	main(int argc, char **argv)
 	}
 	ft_clean(data);
 	exit(EXIT_SUCCESS);
+
+	window_init(&s_projection_plane);
+	
+	
+	ft_printf("Project can be run\n");
+	return (0);
 }

@@ -6,16 +6,22 @@
 /*   By: hhurnik <hhurnik@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/07/24 19:41:57 by hhurnik          ###   ########.fr       */
+/*   Updated: 2025/07/24 19:43:37 by hhurnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
+# include "math.h"
+# include <stdlib.h>
 # include "libft/headers/libft.h"
 # include "minilibx-linux/mlx.h"
 # include <fcntl.h>
+
+#define SCREEN_HEIGHT 200 //units in this world
+#define SCREEN_WIDTH 320
+#define FOV_DEGREES 60
 
 typedef enum e_cub3d_token_types
 {
@@ -108,6 +114,48 @@ typedef struct s_token
 	char				*value;
 } t_token;
 
+
+typedef struct s_player_position
+{
+	int height; //half of grid size = 32 (looks good on the screen)
+	int fov; //how many degrees - 60 
+	int position_x;
+    int position_y;
+	int distance_to_projection_plane; // calculated after each movement
+}	t_player_position;
+
+
+typedef struct s_projection_plane
+{
+	//dimensions of the projection plane = 320 x 200 (resolution of most VGA video cards)
+	//grid_height = 64
+
+	int x;
+	int y;
+
+} t_projection_plane;
+
+typedef struct s_window
+{
+	void *mlx_connection;
+	void *mlx_window;
+	t_img	image;
+} t_fractal;
+
+typedef struct s_img
+{
+	void	*img_ptr; // pointer to image struct
+	char	*pix_ptr;
+	int		bpp; // bits per pixel
+	int		endian;
+	int		line_len;
+}	t_img;
+
+#endif
+
+
+//Function prototypes
+
 // INITIALIZATION
 void	ft_init(char *file_name, t_cub3d *data);
 
@@ -133,26 +181,12 @@ void	ft_clean(t_cub3d *data);
 // DEBUGGING
 void	ft_print_token_list(t_cub3d *data);
 void	ft_print_map_player(t_cub3d *data);
-# include "math.h"
 
-typedef struct s_player_position
-{
-	int height; //half of grid size = 32 (looks good on the screen)
-	int fov; //how many degrees - 60 
-	int position_x;
-    int position_y;
-	int distance_to_projection_plane; // calculated after each movement
-}	t_player_position;
+//init_window.c
+void	ft_malloc_error(void);
+void window_init(t_projection_plane *projection_plane);
 
-
-typedef struct s_projection_plane
-{
-	//dimensions of the projection plane = 320 x 200 (resolution of most VGA video cards)
-	//grid_height = 64
-
-	int x;
-	int y;
-
-} t_projection_plane;
-
-#endif
+//distance_to_pp.c
+float degrees_to_radians(float degrees);
+float get_angle_from_center(int column_number);
+float distance_to_pp(int degree);
