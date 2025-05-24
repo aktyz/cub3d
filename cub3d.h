@@ -6,7 +6,7 @@
 /*   By: hhurnik <hhurnik@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/07/24 19:52:06 by hhurnik          ###   ########.fr       */
+/*   Updated: 2025/07/24 19:56:13 by hhurnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,16 +119,6 @@ typedef struct s_token
 
 
 
-typedef struct s_player_position
-{
-	int height; //half of grid size = 32 (looks good on the screen)
-	int fov; //how many degrees - 60 
-	// int position_x; //for raycasting i use mostly t_player, probably not needed here then
-    // int position_y;
-	// int distance_to_projection_plane; // calculated 
-}	t_player_position;
-
-
 typedef struct s_window
 {
 	void *mlx_connection;
@@ -184,6 +174,15 @@ typedef struct s_projection_plane
 	int y;
 
 } t_projection_plane;
+
+
+typedef struct s_player
+{
+	float p_x;
+	float p_y;
+}	t_player
+
+
 
 
 //Function prototypes
