@@ -55,7 +55,7 @@ int find_horizontal_intersection_y(int column_number, t_player player)
 }
 
 //based on closest grid y, get the x-value of the point of the intersection
-int find_horizontal_intersecion_x(int column_number, t_player player)
+int find_horizontal_intersection_x(int column_number, t_player player)
 {
     int point_y = find_horizontal_intersecion_y(column_number, player);
     int intersection_x;
@@ -66,7 +66,31 @@ int find_horizontal_intersecion_x(int column_number, t_player player)
     return (intersection_x);
 }
 
+
+//check boundaries
+//how to check if specific intersection is a wall or not?
+//boundary check, scale for the grid size, then check the array
+
+
+
 //check if the grid at this intersection point - intersection_x and intersection_y
 //is a wall. If so - stop and calculate the distance
+int is_wall_on_intersection()
 
 
+
+
+//the loop for finding intersection and calculating distance to
+//the wall at each column
+
+void render_loop(int column_number, t_player player)
+{
+    int i = 0;
+
+    while (i < 319)
+    {
+        find_horizontal_intersection_y(column_number, player);
+        find_horizontal_intersection_x(column_number, player);
+
+    }
+}
