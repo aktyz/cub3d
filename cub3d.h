@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/12 09:50:16 by marvin           ###   ########.fr       */
+/*   Updated: 2025/08/12 09:52:29 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,6 +227,12 @@ typedef struct s_window
 	void *mlx_window;
 	t_img	image;
 } t_fractal;
+
+typedef struct s_player
+{
+	float p_x;
+	float p_y;
+}	t_player
 
 typedef struct s_img
 {
