@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/12 09:56:50 by marvin           ###   ########.fr       */
+/*   Updated: 2025/08/12 09:57:23 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,10 +228,10 @@ typedef struct s_img
 
 typedef struct s_player
 {
-	float p_x;
+	float p_x; //worls coordinates of a player
 	float p_y;
+	float angle_in_rad; //player's viewing angle in radians
 }	t_player
-
 
 
 

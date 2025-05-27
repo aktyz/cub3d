@@ -77,47 +77,29 @@ int is_facin_up(int column_number)
     else
         facing_up = 0;
 
-    return (facing_up);
-}
-//A.y
-int find_horizontal_intersection_y(int column_number, t_player player)
-{
-    //find y-coordinate of the horizontal grid line at or above the player
-    int intersection_y;
-
-    if (is_facing_up == 1)
-        intersection_y = floor(player.p_y/64) * 64 - 1;
-    else
-        intersection_y = floor(player.p_y/64) * 64 + 64;
-
-    return (intersection_y);
-}
-
-//based on closest grid y, get the x-value of the point of the intersection
-int find_horizontal_intersection_x(int column_number, t_player player)
-{
-    int point_y = find_horizontal_intersecion_y(column_number, player);
-    int intersection_x;
-    float alpha = degrees_to_radians(get_angle_from_center(column_number));
-
-    intersection_x = player.p_x + (player.p_y - point_y)/tan(alpha);
-    
-    return (intersection_x);
-}
-
-
-//check boundaries
-//how to check if specific intersection is a wall or not?
-//boundary check, scale for the grid size, then check the array
 
 
 
 //check if the grid at this intersection point - intersection_x and intersection_y
 //is a wall. If so - stop and calculate the distance
-int is_wall_on_intersection()
+int is_wall_on_grid(int map_x_grid, int map_y_grid, t_game_data *data)
+{
+    //check if the grid's within the map
+    if (map_x_grid < 0 || map_x_grid >= data->map_width_grid ||
+        map_y_grid < 0 || map_y_grid >= data->map_height_grid)
+    {
+        return (1); //outside of the boundaries are treated as a wall to stop rays
+    }
 
+    //check the map content
+    if (data->map[map_y_grid][map_x_grid] == '1')
+        return (1);
 
+    return (0); //no wall or it's an empty space character
+}
 
+//a helper function to use in the render_loop
+void cast_single_ray()
 
 //the loop for finding intersection and calculating distance to
 //the wall at each column
