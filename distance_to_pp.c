@@ -10,21 +10,43 @@ float degrees_to_radians(float degrees)
 /* degrees between the player looking directly in front of them 
 and the given column. There are 320 columns total.
  */
-float get_angle_from_center(int column_number) 
+//this is the angle from the player's direct line of sight - maybe useful for the future when 
+//the pov will be moving? Below a function with absolute wworld angle
+// float get_angle_from_center(int column_number) 
+// {
+//     float angle_per_column;
+//     float center_column;
+//     int columns_from_center;
+//     float angle;
+
+//     center_column = (float)SCREEN_WIDTH / 2.0f;
+//     angle_per_column = FOV_DEGREES / (float)SCREEN_WIDTH; //in our case 60/320
+
+//     //number of column steps from the center reference
+//     columns_from_center = fabsf(center_column - column_number);
+
+//     angle = angle_per_column * column_offset;
+//     return (angle);
+// }
+
+float get_ray_angle(int column, float player_angle_rad, float fov_rad)
 {
-    float angle_per_column;
-    float center_column;
-    int columns_from_center;
-    float angle;
+    float first_ray_angle; //angle of the first ray
+    float angle_increment; //increment per 1 columnt
+    float ray_angle; //angle for the current column
 
-    center_column = (float)SCREEN_WIDTH / 2.0f;
-    angle_per_column = FOV_DEGREES / (float)SCREEN_WIDTH; //in our case 60/320
+    first_ray_angle = player_angle_rad - (fov_rad / 2.0f);
+    angle_increment = fov_rad / (float)SCREEN_WIDTH;
 
-    //number of column steps from the center reference
-    columns_from_center = fabsf(center_column - column_number);
+    //calculate the angle for the current column
+    ray_angle = first_ray_angle + (column * angle_increment);
 
-    angle = angle_per_column * column_offset;
-    return (angle);
+    //normalize angle to be between 0 and 2*PI, because it may be problematic to add
+    //player's angle and the rey's offset angle and may exceed 360/2PI
+    ray_angle = fmod(ray_angle, 2.0f * M_PI);
+    if (ray_angle < 0)
+        ray_angle += 2.0f * M_PI;
+    return (ray_angle);
 }
 
 //distance to projection plane is fixed
