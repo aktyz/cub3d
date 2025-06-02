@@ -6,7 +6,7 @@
 /*   By: hhurnik <hhurnik@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/05/28 13:12:24 by hhurnik          ###   ########.fr       */
+/*   Updated: 2025/06/02 17:02:56 by hhurnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ void	ft_clean(t_cub3d *data);
 
 #define SCREEN_HEIGHT 200 //dimensions of the window/screen in pixels
 #define SCREEN_WIDTH 320 //the number of columns to be rendered - how many rays will be cast
-#define FOV_DEGREES 60
+#define FOV_DEGREES 60.0f  //a float literal
+#define FOV_RAD (FOV_DEGREES * M_PI / 180.0f)  //fov in radians
 #define GRID_SIZE 64
 #define EXIT_FAILURE 
 
