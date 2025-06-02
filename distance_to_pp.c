@@ -32,14 +32,15 @@ and the given column. There are 320 columns total.
 //     return (angle);
 // }
 
-float get_ray_angle(int column, float player_angle_rad, float fov_rad)
+float get_ray_angle(int column, float player_angle_rad)
 {
+    //player_angle_rad is for rotation later - after pressing keys
     float first_ray_angle; //angle of the first ray
     float angle_increment; //increment per 1 columnt
     float ray_angle; //angle for the current column
 
-    first_ray_angle = player_angle_rad - (fov_rad / 2.0f);
-    angle_increment = fov_rad / (float)SCREEN_WIDTH;
+    first_ray_angle = player_angle_rad - (FOV_RAD / 2.0f);
+    angle_increment = FOV_RAD / (float)SCREEN_WIDTH;
 
     //calculate the angle for the current column
     ray_angle = first_ray_angle + (column * angle_increment);

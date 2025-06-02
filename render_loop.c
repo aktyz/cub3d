@@ -48,14 +48,48 @@ int is_wall_on_grid(int map_x_grid, int map_y_grid, t_game_data *data)
     return (0); //no wall or it's an empty space character
 }
 
+//if there's a wall on the intersectiom, calculate the distance (to the horizontal intersection)
+float distance_to_the_wall_horizontal(t_player player, float horizontal_x, int column, float player_angle_rad)
+{
+    float distance_horizontal;
+    void(player_angle_rad); //in the future it will account fot the moving player
+
+    //distance = (x2 - xp)/sin(alpha) or (yp - y2)/cos(alpha)
+    distance_horizontal = (horizontal_x - player.p_x)/cosf(get_ray_angle(column, player_angle_rad));
+
+    return (distance_horizontal);
+}
+//if there's a wall on the intersectiom, calculate the distance (to the vertical intersection)
+float distance_to_the_wall_vertical(t_player player, float vertical_x, int column, float player_angle_rad)
+{
+    float distance_vertical;
+    void(player_angle_rad); //in the future it will account fot the moving player
+
+    //distance = (x2 - xp)/sin(alpha) or (yp - y2)/cos(alpha)
+    distance_vertical = (horizontal_x - player.p_x)/cosf(get_ray_angle(column, player_angle_rad));
+
+    return (distance_vertical);
+}
+
 //a helper function to use in the render_loop
 void cast_single_ray()
 
 //the loop for finding intersection and calculating distance to
 //the wall at each column
 
+/*
+1. cast a ray
+2. trace it until it hits a wall
+    a. check horizontal - if there is a wall stop and compare 
+        distances to both intersections, choose the closest one
+    b. check vertical - if there is a wall stop and compare 
+        distances to both intersections, choose the closest one
+3. record the distance to the wall
+4. add the angle increment and repeat 2 and 3
+*/
 void render_loop(int column_number, t_player player)
 {
+
     int i = 0;
 
     while (i < 319)
@@ -63,6 +97,7 @@ void render_loop(int column_number, t_player player)
         find_horizontal_intersection_y(column_number, player);
         find_horizontal_intersection_x(column_number, player);
 
+        i++;
     }
 }
 //check which way the ray is facing
