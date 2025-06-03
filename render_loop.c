@@ -185,6 +185,7 @@ only then I compare the distances and choose the closer intersection
 //if theres NO wall - go to the next intersection point.
 //new intersection point: Xnew = Xold + Xa and Ynew = Yold + Ya
 
+//not finished - probably will be placed inside cast_single_ray
 float *horizontal_wall(int column, t_player player, float player_angle_rad)
 {
     find_horizontal_intersection_y(column, player);
