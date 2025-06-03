@@ -6,7 +6,7 @@
 /*   By: hhurnik <hhurnik@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/06/02 17:02:56 by hhurnik          ###   ########.fr       */
+/*   Updated: 2025/06/03 16:35:47 by hhurnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	ft_clean(t_cub3d *data);
 # include "math.h"
 # include <mlx.h>
 # include <stdlib.h>
+# include <float.h>
 
 #define SCREEN_HEIGHT 200 //dimensions of the window/screen in pixels
 #define SCREEN_WIDTH 320 //the number of columns to be rendered - how many rays will be cast
@@ -81,6 +82,8 @@ void	ft_clean(t_cub3d *data);
 #define FOV_RAD (FOV_DEGREES * M_PI / 180.0f)  //fov in radians
 #define GRID_SIZE 64
 #define EXIT_FAILURE 
+#define INFINITY FLT_MAX
+#define EPSILON 0.0001f //a small value for float comparisons
 
 typedef struct s_player_position
 {
@@ -91,16 +94,6 @@ typedef struct s_player_position
 	// int distance_to_projection_plane; // calculated 
 }	t_player_position;
 
-//it is defined as macro - will it be needed? probably not
-// typedef struct s_projection_plane
-// {
-// 	//dimensions of the projection plane = 320 x 200 (resolution of most VGA video cards)
-// 	//grid_height = 64
-
-// 	int x;
-// 	int y;
-
-// } t_projection_plane;
 
 typedef struct s_window
 {
@@ -138,6 +131,27 @@ typedef struct s_game_data
     float	distances[SCREEN_WIDTH]; //distances for each ray
 } t_game_data;
 
+
+//the two below still unused yet
+//a structure for the result of a DDA check along one axis (horizontal or vertical)
+typedef struct s_axis_hit 
+{
+    float   dist;   //distance to the hit point
+    float   hit_x;  //x-coordinate of the hit
+    float   hit_y;  //y-coordinate of the hit
+} t_axis_hit;
+
+//struct for infomration about a ray's intersection with a wall
+typedef struct s_ray_hit_info 
+{
+    float   distance;           //final (corrected) distance to the wall
+    float   raw_distance;       //uncorrected distance (useful for some calcs)
+    float   hit_x;              //x-coordinate of the wall hit
+    float   hit_y;              //y-coordinate of the wall hit
+    int     was_horizontal_hit; // 1 if hit a horizontal segment, 0 if vertical, -1 if no hit
+    //maybe for the future - wall orientation like NORTH, SOUTH, EAST, WEST
+} t_ray_hit_info;
+
 #endif
 
 
@@ -149,5 +163,5 @@ void window_init(t_projection_plane *projection_plane);
 
 //distance_to_pp.c
 float degrees_to_radians(float degrees);
-float get_angle_from_center(int column_number);
+float get_ray_angle(int column, float player_angle_rad);
 float distance_to_pp(int degree);
