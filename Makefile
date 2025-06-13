@@ -6,7 +6,7 @@
 #    By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/16 21:43:31 by zslowian          #+#    #+#              #
-#    Updated: 2025/05/21 17:26:46 by zslowian         ###   ########.fr        #
+#    Updated: 2025/05/22 19:11:44 by zslowian         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ RM = rm -rf
 SRC = main.c \
 	clean.c \
 	error.c \
-	init.c
+	init.c \
+	tokenize.c
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@

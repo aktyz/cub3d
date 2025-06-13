@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/05/21 22:19:56 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/06/13 10:30:08 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,13 @@
 # include "libft/headers/libft.h"
 # include "minilibx-linux/mlx.h"
 # include <fcntl.h>
+
+# define NO_ID "NO"
+# define SO_ID "SO"
+# define WE_ID "WE"
+# define EA_ID "EA"
+# define FLOOR_COLOR "F"
+# define CEILING_COLOR "C"
 
 /**
  * Structure (enumeration) of our cub3d possible errors.
@@ -58,13 +65,16 @@ typedef struct s_color
 typedef struct s_cub3d
 {
 	int		infile_fd;
-	t_list	*textures;
+	t_list	*tokens;
 	t_color	*floor_color;
 	t_color	*ceiling_color;
 }	t_cub3d;
 
 // INITIALIZATION
 void	ft_init(char *file_name, t_cub3d *data);
+
+// TOKEN CREATION
+void	ft_tokenize(t_cub3d *data);
 
 // ERROR HANDLING
 void	ft_error(t_cub3d_errors nb, char *ft_name, t_cub3d *data);
