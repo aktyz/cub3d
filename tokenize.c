@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:10:04 by zslowian          #+#    #+#             */
-/*   Updated: 2025/06/15 13:35:17 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/06/15 18:46:23 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void				ft_tokenize(t_cub3d *data);
 void				ft_add_token(int *i, char *line, t_cub3d *data);
 bool				ft_is_data_identifier(int *i, char *line, t_cub3d *data);
+void				ft_add_data_id_value(int *i, char *line, t_cub3d *data);
 static const char	**ft_get_data_identifiers(void);
 
 /**
@@ -27,16 +28,16 @@ void	ft_tokenize(t_cub3d *data)
 {
 	char	*line;
 	int		i;
-	int		start;
 
-	while (line = get_next_line(data->infile_fd))
+	while ((line = get_next_line(data->infile_fd)) != NULL)
 	{
 		i = 0;
-		while (i <= (int) ft_strlen(line))
+		while (i < (int) ft_strlen(line))
 		{
-			while (ft_isspace(line[i]))
+			while (ft_isspace(line[i])) // this cannot be here for map tokens - [TODO: move it inside ft_add_token]
 				i++;
-			ft_add_token(&i, line, data);
+			if (i < (int) ft_strlen(line))
+				ft_add_token(&i, line, data);
 		}
 		free(line);
 	}
@@ -52,11 +53,16 @@ void	ft_tokenize(t_cub3d *data)
 void	ft_add_token(int *i, char *line, t_cub3d *data)
 {
 	bool	is_id;
+	t_token	*last;
 
 	is_id = ft_is_data_identifier(i, line, data);
 	if (is_id)
 		return ;
-	ft_add_word(i, line, data);
+	last = (t_token *) ft_lstlast(data->tokens)->content;
+	if (!last->value)
+		ft_add_data_id_value(i, line, data);
+	else
+		ft_add_map_line(i, line, data);
 }
 
 /**
@@ -69,25 +75,26 @@ void	ft_add_token(int *i, char *line, t_cub3d *data)
  */
 bool	ft_is_data_identifier(int *i, char *line, t_cub3d *data)
 {
-	char	**data_ids;
 	t_token	*new_token;
+	char	*data_id;
 	int		j;
 
-	data_ids = ft_get_data_identifiers();
 	j = -1;
 	while (++j < DATA_ID_NB)
 	{
-		if (ft_strncmp(line[*i], data_ids[j], ft_strlen(data_ids[j])) == 0) // the id is found
+		if (ft_strncmp((const char *)&line[*i], ft_get_data_identifiers()[j],
+			ft_strlen(ft_get_data_identifiers()[j])) == 0)
 		{
 			new_token = ft_calloc(sizeof(t_token), 1);
 			if (new_token == NULL)
 				ft_error(MEM_ERROR, "ft_is_data_identifier", data);
-			new_token->data_id = ft_strdup(data_ids[j]);
+			data_id = (char *) ft_get_data_identifiers()[j];
+			new_token->data_id = ft_strdup(data_id);
 			if (data->tokens == NULL)
 				data->tokens = ft_lstnew((void *) new_token);
 			else
 				ft_lstadd_back(&data->tokens, ft_lstnew((void *) new_token));
-			*i += ft_strlen(data_ids[j]);
+			*i += ft_strlen(ft_get_data_identifiers()[j]);
 			return (true);
 		}
 	}
@@ -100,7 +107,7 @@ bool	ft_is_data_identifier(int *i, char *line, t_cub3d *data)
  * If not, it checks if it's already the map content and then
  * add it as map content - line by line.
  */
-void	ft_add_word(int *i, char *line, t_cub3d *data)
+void	ft_add_data_id_value(int *i, char *line, t_cub3d *data)
 {
 	t_token	*content;
 	t_list	*last;
@@ -108,22 +115,22 @@ void	ft_add_word(int *i, char *line, t_cub3d *data)
 	int		char_count;
 
 	if (data->tokens == NULL)
-		ft_error(INVALID_MAP, "ft_add_word", data);
+		ft_error(INVALID_MAP, "ft_add_data_id_value", data);
 	last = ft_lstlast(data->tokens);
 	content = (t_token *) last->content;
-	if (content->data_id == NULL
-		|| (content->data_id == NULL && content->value != NULL)
-		|| (content->data_id == NULL && content->value == NULL))
-		ft_error(INVALID_MAP, "ft_add_word", data);
-	ptr = line[*i];
+	if (!content->data_id
+		|| (!content->data_id && content->value != NULL)
+		|| (!content->data_id && content->value == NULL))
+		ft_error(INVALID_MAP, "ft_add_data_id_value", data);
+	ptr = &line[*i];
 	char_count = 0;
-	while (ft_isspace(line[*ptr]) == 0)
+	while (ft_isspace(*ptr) == 0)
 	{
 		char_count++;
 		ptr++;
 	}
 	content->value = ft_calloc(sizeof(char), char_count + 1);
-	ft_strlcpy(content->value, line[*i], char_count);
+	ft_strlcpy(content->value, &line[*i], char_count);
 	*i += char_count;
 }
 
@@ -131,7 +138,7 @@ static const char	**ft_get_data_identifiers(void)
 {
 	static const char	*data_identifiers[DATA_ID_NB];
 
-	data_identifiers[0] = "NO"
+	data_identifiers[0] = "NO";
 	data_identifiers[1] = "SO";
 	data_identifiers[2] = "WE";
 	data_identifiers[3] = "EA";

@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/06/14 13:35:28 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/06/15 18:51:27 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef enum e_cub3d_token_types
 	F,
 	C,
 	DATA_ID_NB,
-	MAP
+	MAP,
 	TOKEN_TYPE_NB,
 } t_cub3d_token_types;
 
@@ -79,8 +79,8 @@ typedef struct s_cub3d
 
 typedef struct s_token
 {
-	t_cub3d_token_types	data_id;
-	char				*value;
+	char	*data_id;
+	char	*value;
 } t_token;
 
 // INITIALIZATION
@@ -88,11 +88,15 @@ void	ft_init(char *file_name, t_cub3d *data);
 
 // TOKEN CREATION
 void	ft_tokenize(t_cub3d *data);
+void	ft_add_map_line(int *i, char *line, t_cub3d *data);
 
 // ERROR HANDLING
 void	ft_error(t_cub3d_errors nb, char *ft_name, t_cub3d *data);
 
 // CLEAN-UP
 void	ft_clean(t_cub3d *data);
+
+// DEBUGGING
+void	ft_print_token_list(t_cub3d *data);
 
 #endif
