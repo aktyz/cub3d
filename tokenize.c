@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:10:04 by zslowian          #+#    #+#             */
-/*   Updated: 2025/06/15 18:46:23 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/06/16 11:47:22 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,9 @@ void	ft_tokenize(t_cub3d *data)
 		i = 0;
 		while (i < (int) ft_strlen(line))
 		{
-			while (ft_isspace(line[i])) // this cannot be here for map tokens - [TODO: move it inside ft_add_token]
-				i++;
 			if (i < (int) ft_strlen(line))
 				ft_add_token(&i, line, data);
+			ft_print_token_list(data); // DEBUG
 		}
 		free(line);
 	}
@@ -78,11 +77,15 @@ bool	ft_is_data_identifier(int *i, char *line, t_cub3d *data)
 	t_token	*new_token;
 	char	*data_id;
 	int		j;
+	int		k;
 
 	j = -1;
+	k = *i;
+	while (ft_isspace(line[k]))
+		k++;
 	while (++j < DATA_ID_NB)
 	{
-		if (ft_strncmp((const char *)&line[*i], ft_get_data_identifiers()[j],
+		if (ft_strncmp((const char *)&line[k], ft_get_data_identifiers()[j],
 			ft_strlen(ft_get_data_identifiers()[j])) == 0)
 		{
 			new_token = ft_calloc(sizeof(t_token), 1);
@@ -94,7 +97,7 @@ bool	ft_is_data_identifier(int *i, char *line, t_cub3d *data)
 				data->tokens = ft_lstnew((void *) new_token);
 			else
 				ft_lstadd_back(&data->tokens, ft_lstnew((void *) new_token));
-			*i += ft_strlen(ft_get_data_identifiers()[j]);
+			*i = k + ft_strlen(ft_get_data_identifiers()[j]);
 			return (true);
 		}
 	}
@@ -113,6 +116,7 @@ void	ft_add_data_id_value(int *i, char *line, t_cub3d *data)
 	t_list	*last;
 	char	*ptr;
 	int		char_count;
+	int		k;
 
 	if (data->tokens == NULL)
 		ft_error(INVALID_MAP, "ft_add_data_id_value", data);
@@ -124,14 +128,20 @@ void	ft_add_data_id_value(int *i, char *line, t_cub3d *data)
 		ft_error(INVALID_MAP, "ft_add_data_id_value", data);
 	ptr = &line[*i];
 	char_count = 0;
+	k = *i;
+	while (ft_isspace(*ptr))
+	{
+		ptr++;
+		k++;
+	}
 	while (ft_isspace(*ptr) == 0)
 	{
 		char_count++;
 		ptr++;
 	}
 	content->value = ft_calloc(sizeof(char), char_count + 1);
-	ft_strlcpy(content->value, &line[*i], char_count);
-	*i += char_count;
+	ft_strlcpy(content->value, &line[k], char_count);
+	*i = k + char_count;
 }
 
 static const char	**ft_get_data_identifiers(void)
