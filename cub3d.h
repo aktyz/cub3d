@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/06/15 18:51:27 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/06/17 19:34:23 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,9 @@ void	ft_init(char *file_name, t_cub3d *data);
 // TOKEN CREATION
 void	ft_tokenize(t_cub3d *data);
 void	ft_add_map_line(int *i, char *line, t_cub3d *data);
+
+// MAP VALIDATION
+bool	ft_is_alphanumeric(char *token);
 
 // ERROR HANDLING
 void	ft_error(t_cub3d_errors nb, char *ft_name, t_cub3d *data);
