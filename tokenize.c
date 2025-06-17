@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:10:04 by zslowian          #+#    #+#             */
-/*   Updated: 2025/06/17 19:37:13 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/06/17 20:30:14 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,7 @@ void	ft_tokenize(t_cub3d *data)
 	{
 		i = 0;
 		while (i < (int) ft_strlen(line))
-		{
-			if (i < (int) ft_strlen(line))
-				ft_add_token(&i, line, data);
-			ft_print_token_list(data); // DEBUG
-		}
+			ft_add_token(&i, line, data);
 		free(line);
 	}
 }
@@ -106,7 +102,7 @@ bool	ft_is_data_identifier(int *i, char *line, t_cub3d *data)
 }
 
 /**
- * Function add's the data value to the token list if there's
+ * Function adds the data value to the token list if there's
  * list node with data_id type created.
  * If not, it checks if it's already the map content and then
  * add it as map content - line by line.
