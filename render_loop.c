@@ -32,6 +32,8 @@ So, find a point where ray crosses the wall, calculate this distance and write i
 
 //check if the grid at this intersection point - intersection_x and intersection_y
 //is a wall. If so - stop and calculate the distance
+//map_x_grid, map_y_grid - integer indices of the map grid cell I want to check
+//updated values t be passed
 int is_wall_on_grid(int map_x_grid, int map_y_grid, t_game_data *data)
 {
     //check if the grid's within the map
@@ -48,20 +50,103 @@ int is_wall_on_grid(int map_x_grid, int map_y_grid, t_game_data *data)
     return (0); //no wall or it's an empty space character
 }
 
+//if there's a wall on the intersectiom, calculate the distance (to the horizontal intersection)
+float distance_to_the_wall_horizontal(t_player player, float horizontal_x, int column, float player_angle_rad)
+{
+    float distance_horizontal;
+    void(player_angle_rad); //in the future it will account fot the moving player
+
+    //distance = (x2 - xp)/sin(alpha) or (yp - y2)/cos(alpha)
+    distance_horizontal = (horizontal_x - player.p_x)/cosf(get_ray_angle(column, player_angle_rad));
+
+    return (distance_horizontal);
+}
+//if there's a wall on the intersectiom, calculate the distance (to the vertical intersection)
+float distance_to_the_wall_vertical(t_player player, float vertical_x, int column, float player_angle_rad)
+{
+    float distance_vertical;
+    //void(player_angle_rad); //in the future it will account fot the moving player
+
+    //distance = (x2 - xp)/sin(alpha) or (yp - y2)/cos(alpha)
+    distance_vertical = (horizontal_x - player.p_x)/cosf(get_ray_angle(column, player_angle_rad));
+
+    return (distance_vertical);
+}
+
 //a helper function to use in the render_loop
-void cast_single_ray()
+void cast_single_ray(t_game_data *data, float ray_angle)
+{
+    int current_map_x;
+    int current_map_y;
+    float 
+
+    current_map_x = floor(data->player.p_x / GRID_SIZE);
+    current_map_y = floor(data->player.p_y / GRID_SIZE);
+
+}
 
 //the loop for finding intersection and calculating distance to
 //the wall at each column
 
-void render_loop(int column_number, t_player player)
+/*
+1. cast a ray
+2. trace it until it hits a wall
+    a. check horizontal - if there is a wall stop and compare 
+        distances to both intersections, choose the closest one
+    b. check vertical - if there is a wall stop and compare 
+        distances to both intersections, choose the closest one
+3. record the distance to the wall
+4. add the angle increment and repeat 2 and 3
+*/
+void render_loop(int column, t_player player, t_game_data data)
 {
+
+    float ray_angle;
     int i = 0;
 
+    
     while (i < 319)
     {
-        find_horizontal_intersection_y(column_number, player);
-        find_horizontal_intersection_x(column_number, player);
+        ray_angle = get_ray_angle(i, player_angle_rad); //i or column
+        cast_single_ray(data, ray_angle); //cast a single ray
 
+        i++;
     }
+}
+
+
+/*
+1. Find ya and xa based on ya
+2. check the grid at the intersection point
+    if theres a wall - stop and calculate the distance
+    if theres NO wall - go to the next intersection point. 
+    (new intersection point)
+*/
+
+
+/*my idea (not sure if correct - to discuss)
+I look for walls on both horizontal and vertical separately
+AND I LOOK FOR THE WALL AS LONG AS I DONT FIND ONE (not sure about this part)
+only then I compare the distances and choose the closer intersection
+*/
+
+//a function for finding the coordinates of intersections, checking for the wall on the grid
+//if there is a wall - return the distance
+//if theres NO wall - go to the next intersection point.
+//new intersection point: Xnew = Xold + Xa and Ynew = Yold + Ya
+
+//not finished - probably will be placed inside cast_single_ray
+float *horizontal_wall(int column, t_player player, float player_angle_rad)
+{
+    find_horizontal_intersection_y(column, player);
+    find_horizontal_intersection_x(column, player);
+    is_wall_on_grid(map_x_grind, map_y_grid, data);
+    distance_to_the_wall_horizontal(player, horizontal_x, column, player_angle_rad);
+
+}
+
+
+float *vertical_wall()
+{
+
 }
