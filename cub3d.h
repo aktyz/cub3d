@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/05/21 22:19:56 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/06/17 19:34:23 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,19 @@
 # include "libft/headers/libft.h"
 # include "minilibx-linux/mlx.h"
 # include <fcntl.h>
+
+typedef enum e_cub3d_token_types
+{
+	NO,
+	SO,
+	WE,
+	EA,
+	F,
+	C,
+	DATA_ID_NB,
+	MAP,
+	TOKEN_TYPE_NB,
+} t_cub3d_token_types;
 
 /**
  * Structure (enumeration) of our cub3d possible errors.
@@ -35,6 +48,7 @@ typedef enum e_cub3d_errors
 	MEM_ERROR,
 	FF_ERROR,
 	OPEN_ERROR,
+	INVALID_MAP,
 	ERROR_NB,
 }	t_cub3d_errors;
 /**
@@ -58,18 +72,34 @@ typedef struct s_color
 typedef struct s_cub3d
 {
 	int		infile_fd;
-	t_list	*textures;
+	t_list	*tokens;
 	t_color	*floor_color;
 	t_color	*ceiling_color;
 }	t_cub3d;
 
+typedef struct s_token
+{
+	char	*data_id;
+	char	*value;
+} t_token;
+
 // INITIALIZATION
 void	ft_init(char *file_name, t_cub3d *data);
+
+// TOKEN CREATION
+void	ft_tokenize(t_cub3d *data);
+void	ft_add_map_line(int *i, char *line, t_cub3d *data);
+
+// MAP VALIDATION
+bool	ft_is_alphanumeric(char *token);
 
 // ERROR HANDLING
 void	ft_error(t_cub3d_errors nb, char *ft_name, t_cub3d *data);
 
 // CLEAN-UP
 void	ft_clean(t_cub3d *data);
+
+// DEBUGGING
+void	ft_print_token_list(t_cub3d *data);
 
 #endif
