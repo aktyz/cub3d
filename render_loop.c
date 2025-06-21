@@ -68,7 +68,7 @@ float distance_to_the_wall_vertical(t_player player, float vertical_x, int colum
     //void(player_angle_rad); //in the future it will account fot the moving player
 
     //distance = (x2 - xp)/sin(alpha) or (yp - y2)/cos(alpha)
-    distance_vertical = (horizontal_x - player.p_x)/cosf(get_ray_angle(column, player_angle_rad));
+    distance_vertical = (vertical_x - player.p_x)/cosf(get_ray_angle(column, player_angle_rad));
 
     return (distance_vertical);
 }
