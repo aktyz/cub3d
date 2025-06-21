@@ -34,10 +34,10 @@ float find_horizontal_intersection_x(float player_x, float player_y, float ray_a
     first_y_intersection_line = find_horizontal_intersection_y(player_y, is_ray_facing_up);
 
     //handle horizontal rays ----
-    if (sinf(ray_angle_rad) == 0.0f)
+    if (sinf(ray_angle) == 0.0f)
         return (INFINITY); //it will not cross any next horizontal lines ever
     
-    intersection_x = player_x + (first_y_intersection_line - player_y) / tanf(ray_angle_rad);
+    intersection_x = player_x + (first_y_intersection_line - player_y) / tanf(ray_angle);
 
     return (intersection_x);
 }
