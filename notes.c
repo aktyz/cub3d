@@ -9,7 +9,7 @@ player's height - best half the size of walls
 
 POV of the player - x coordinate, y coordinate and the angle the player is facing to
 
-Resolution - 320 units wide, 200 unts high (resolution of most VGA video cards) -  1 pixel = 1 unit
+Resolution - 320 units wide, 200 units high (resolution of most VGA video cards) -  1 pixel = 1 unit
 one grid - 64x64 units, height = 32
 
 
