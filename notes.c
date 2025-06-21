@@ -1,5 +1,5 @@
 /*
-we needd to now several attributes: 
+we need to know several attributes: 
 1. player's height, FOV and player's position
 2. Projection plane's dimension
 3. Relationhip between player and projection plane
