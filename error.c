@@ -55,6 +55,7 @@ void	ft_error(t_cub3d_errors nb, char *ft_name, t_cub3d *data)
 	else
 		msg = ft_strjoin(ft_name, ": Unknown error\n");
 	write(2, msg, ft_strlen(msg));
+	(void) data;
 	ft_clean(data);
 	free(msg);
 	exit(EXIT_FAILURE);
