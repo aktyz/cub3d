@@ -113,6 +113,7 @@ void render_loop(int column, t_player player, t_game_data data)
         i++;
     }
 }
+<<<<<<< HEAD
 //check which way the ray is facing
 //if up - return 1
 int is_facin_up(int column_number)
@@ -163,6 +164,8 @@ void render_loop(int column_number, t_player player)
 
     }
 }
+=======
+>>>>>>> 62dce4e (Normalize files according to .gitattributes)
 
 
 /*

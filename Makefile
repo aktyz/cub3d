@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+         #
+#    By: hhurnik <hhurnik@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/16 21:43:31 by zslowian          #+#    #+#              #
-#    Updated: 2025/06/30 18:53:03 by zslowian         ###   ########.fr        #
+#    Updated: 2025/07/24 20:23:17 by hhurnik          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,14 @@ SRC = main.c \
 	parse.c \
 	tokenize.c \
 	validate.c
+	tokenize.c \
+	validate.c \
+  check_horizontal.c \
+  check_vertical.c \
+  distance_to_pp.c \
+  init_window.c \
+  render_loop.c \
+  
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@

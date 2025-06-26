@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hhurnik <hhurnik@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 13:49:46 by zslowian          #+#    #+#             */
-/*   Updated: 2025/07/03 13:17:46 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/07/24 20:22:22 by hhurnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	ft_error(t_cub3d_errors nb, char *ft_name, t_cub3d *data)
 	else
 		msg = ft_strjoin(ft_name, ": Unknown error\n");
 	write(2, msg, ft_strlen(msg));
+	(void) data;
 	ft_clean(data);
 	free(msg);
 	exit(EXIT_FAILURE);
