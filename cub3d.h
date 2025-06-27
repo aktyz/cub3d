@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/07/01 13:44:36 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/07/03 13:11:22 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,20 @@ typedef struct s_color
 	unsigned int	b;
 }	t_color;
 
+typedef struct s_file_names
+{
+	char *no_texture;
+	char *so_texture;
+	char *we_texture;
+	char *ea_texture;
+}	t_file_names;
+
+typedef struct s_colors
+{
+	t_color	*floor_color;
+	t_color	*ceiling_color;
+}	t_colors;
+
 /**
  * Global cub3d data representation.
  * First part is representing static information passed from the infile
@@ -72,10 +86,10 @@ typedef struct s_color
  */
 typedef struct s_cub3d
 {
-	int		infile_fd;
-	t_list	*tokens;
-	t_color	*floor_color;
-	t_color	*ceiling_color;
+	int				infile_fd;
+	t_list			*tokens;
+	t_file_names	textures;
+	t_colors		colors;
 }	t_cub3d;
 
 typedef struct s_token
@@ -90,6 +104,9 @@ void	ft_init(char *file_name, t_cub3d *data);
 // TOKEN CREATION
 void	ft_tokenize(t_cub3d *data);
 void	ft_add_map_line(int *i, char *line, t_cub3d *data);
+
+// PARSING
+void	ft_parse(t_cub3d *data);
 
 // MAP VALIDATION
 bool	ft_is_alphanumeric(char *token);
