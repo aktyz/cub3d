@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/07/03 13:11:22 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/07/03 13:17:23 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ typedef enum e_cub3d_errors
 	MEM_ERROR,
 	FF_ERROR,
 	OPEN_ERROR,
-	INVALID_MAP,
+	TOKENIZING_ERROR,
+	ERROR_WHEN_PARSING,
 	FILE_CLOSE,
 	ERROR_NB,
 }	t_cub3d_errors;
@@ -88,8 +89,8 @@ typedef struct s_cub3d
 {
 	int				infile_fd;
 	t_list			*tokens;
-	t_file_names	textures;
-	t_colors		colors;
+	t_file_names	*textures;
+	t_colors		*colors;
 }	t_cub3d;
 
 typedef struct s_token

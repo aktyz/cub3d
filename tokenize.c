@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:10:04 by zslowian          #+#    #+#             */
-/*   Updated: 2025/07/03 13:04:26 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/07/03 13:18:40 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,13 +122,13 @@ void	ft_add_data_id_value(int *i, char *line, t_cub3d *data)
 	int		k;
 
 	if (data->tokens == NULL)
-		ft_error(INVALID_MAP, "ft_add_data_id_value", data);
+		ft_error(TOKENIZING_ERROR, "ft_add_data_id_value", data);
 	last = ft_lstlast(data->tokens);
 	content = (t_token *) last->content;
 	if (!content->data_id
 		|| (!content->data_id && content->value != NULL)
 		|| (!content->data_id && content->value == NULL))
-		ft_error(INVALID_MAP, "ft_add_data_id_value", data);
+		ft_error(TOKENIZING_ERROR, "ft_add_data_id_value", data);
 	ptr = &line[*i];
 	char_count = 0;
 	k = *i;
