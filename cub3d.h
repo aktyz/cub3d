@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/07/03 13:17:23 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/07/03 13:19:19 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,6 @@ typedef enum e_cub3d_errors
 	FILE_CLOSE,
 	ERROR_NB,
 }	t_cub3d_errors;
-/**
- * Structure to represent a color in our program
- *
- */
-typedef struct s_color
-{
-	unsigned int	r;
-	unsigned int	g;
-	unsigned int	b;
-}	t_color;
 
 typedef struct s_file_names
 {
@@ -74,8 +64,8 @@ typedef struct s_file_names
 
 typedef struct s_colors
 {
-	t_color	*floor_color;
-	t_color	*ceiling_color;
+	unsigned int	floor_color[3];
+	unsigned int	ceiling_color[3];
 }	t_colors;
 
 /**
@@ -95,8 +85,8 @@ typedef struct s_cub3d
 
 typedef struct s_token
 {
-	char	*data_id;
-	char	*value;
+	t_cub3d_token_types	data_id;
+	char				*value;
 } t_token;
 
 // INITIALIZATION
@@ -108,6 +98,7 @@ void	ft_add_map_line(int *i, char *line, t_cub3d *data);
 
 // PARSING
 void	ft_parse(t_cub3d *data);
+void	ft_store_rgb(unsigned int color_storage[3], char **color_values);
 
 // MAP VALIDATION
 bool	ft_is_alphanumeric(char *token);

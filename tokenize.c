@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:10:04 by zslowian          #+#    #+#             */
-/*   Updated: 2025/07/03 13:18:40 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/07/03 13:19:02 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ void	ft_add_token(int *i, char *line, t_cub3d *data)
 bool	ft_is_data_identifier(int *i, char *line, t_cub3d *data)
 {
 	t_token	*new_token;
-	char	*data_id;
 	int		j;
 	int		k;
 
@@ -94,8 +93,7 @@ bool	ft_is_data_identifier(int *i, char *line, t_cub3d *data)
 			new_token = ft_calloc(sizeof(t_token), 1);
 			if (new_token == NULL)
 				ft_error(MEM_ERROR, "ft_is_data_identifier", data);
-			data_id = (char *) ft_get_data_identifiers()[j];
-			new_token->data_id = ft_strdup(data_id);
+			new_token->data_id = (t_cub3d_token_types) j;
 			if (data->tokens == NULL)
 				data->tokens = ft_lstnew((void *) new_token);
 			else
@@ -125,9 +123,9 @@ void	ft_add_data_id_value(int *i, char *line, t_cub3d *data)
 		ft_error(TOKENIZING_ERROR, "ft_add_data_id_value", data);
 	last = ft_lstlast(data->tokens);
 	content = (t_token *) last->content;
-	if (!content->data_id
-		|| (!content->data_id && content->value != NULL)
-		|| (!content->data_id && content->value == NULL))
+	if ((content->data_id < NO || content->data_id > MAP)
+		|| ((content->data_id < NO || content->data_id > MAP) && content->value != NULL)
+		|| (content->data_id && content->value != NULL))
 		ft_error(TOKENIZING_ERROR, "ft_add_data_id_value", data);
 	ptr = &line[*i];
 	char_count = 0;

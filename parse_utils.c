@@ -1,35 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug.c                                            :+:      :+:    :+:   */
+/*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/15 18:27:04 by zslowian          #+#    #+#             */
-/*   Updated: 2025/06/30 16:06:09 by zslowian         ###   ########.fr       */
+/*   Created: 2025/06/30 18:40:48 by zslowian          #+#    #+#             */
+/*   Updated: 2025/06/30 19:00:36 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	ft_print_token_list(t_cub3d *data);
+void	ft_store_rgb(unsigned int color_storage[3], char **color_values);
 
-void	ft_print_token_list(t_cub3d *data)
+void	ft_store_rgb(unsigned int color_storage[3], char **color_values)
 {
-	t_list	*ptr;
 	int		i;
-	t_token	*token;
 
-	if (data && data->tokens)
-		ptr = data->tokens;
-	i = 0;
-	while (ptr && ptr->content)
-	{
-		token = (t_token *) ptr->content;
-		ft_printf("token nb: %d\n", i);
-		ft_printf("\tdata type:\t%d\n", token->data_id);
-		ft_printf("\tdata value:\t%s\n", token->value);
-		ptr = ptr->next;
-		i++;
-	}
+	i = -1;
+	while (++i < 3)
+		color_storage[i] = ft_atoi((const char *)color_values[i]);
 }
