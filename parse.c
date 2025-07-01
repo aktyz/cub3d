@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 17:50:18 by zslowian          #+#    #+#             */
-/*   Updated: 2025/06/30 18:43:57 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/07/01 19:57:59 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,28 +54,28 @@ static void	ft_save_info(t_cub3d *data, t_token *token)
 		data->textures->no_texture = ft_calloc(ft_strlen(token->value) + 1, sizeof(char));
 		if (!data->textures->no_texture)
 			ft_error(MEM_ERROR, "ft_save_info - no_texture", data);
-		ft_strlcpy(data->textures->no_texture, token->value, ft_strlen(token->value));
+		ft_strlcpy(data->textures->no_texture, token->value, ft_strlen(token->value) + 1);
 	}
 	else if (token->data_id == SO)
 	{
 		data->textures->so_texture = ft_calloc(ft_strlen(token->value) + 1, sizeof(char));
 		if (!data->textures->so_texture)
 			ft_error(MEM_ERROR, "ft_save_info - so_texture", data);
-		ft_strlcpy(data->textures->so_texture, token->value, ft_strlen(token->value));
+		ft_strlcpy(data->textures->so_texture, token->value, ft_strlen(token->value) + 1);
 	}
 	else if (token->data_id == WE)
 	{
 		data->textures->we_texture = ft_calloc(ft_strlen(token->value) + 1, sizeof(char));
 		if (!data->textures->we_texture)
 			ft_error(MEM_ERROR, "ft_save_info - we_texture", data);
-		ft_strlcpy(data->textures->we_texture, token->value, ft_strlen(token->value));
+		ft_strlcpy(data->textures->we_texture, token->value, ft_strlen(token->value) + 1);
 	}
 	else if (token->data_id == EA)
 	{
 		data->textures->ea_texture = ft_calloc(ft_strlen(token->value) + 1, sizeof(char));
 		if (!data->textures->ea_texture)
 			ft_error(MEM_ERROR, "ft_save_info - ea_texture", data);
-		ft_strlcpy(data->textures->ea_texture, token->value, ft_strlen(token->value));
+		ft_strlcpy(data->textures->ea_texture, token->value, ft_strlen(token->value) + 1);
 	}
 	else
 		ft_save_color(data, token);
