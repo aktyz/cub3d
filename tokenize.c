@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:10:04 by zslowian          #+#    #+#             */
-/*   Updated: 2025/06/17 20:30:14 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/07/01 13:46:16 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,10 @@ void	ft_tokenize(t_cub3d *data)
 			ft_add_token(&i, line, data);
 		free(line);
 	}
+	if (close(data->infile_fd) == 0)
+		data->infile_fd = -1;
+	else
+		ft_error(FILE_CLOSE, "ft_tokenize", data);
 }
 
 /**

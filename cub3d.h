@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/06/17 19:34:23 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/07/01 13:44:36 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef enum e_cub3d_errors
 	FF_ERROR,
 	OPEN_ERROR,
 	INVALID_MAP,
+	FILE_CLOSE,
 	ERROR_NB,
 }	t_cub3d_errors;
 /**

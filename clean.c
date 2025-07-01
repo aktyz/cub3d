@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:18:52 by zslowian          #+#    #+#             */
-/*   Updated: 2025/05/21 22:20:13 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/07/01 13:43:06 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,6 @@ void	ft_clean(t_cub3d *data)
 	if (!data)
 		return ;
 	if (data->infile_fd >= 0)
-	{
 		close(data->infile_fd);
-		data->infile_fd = -1;
-	}
 	free(data);
 }
