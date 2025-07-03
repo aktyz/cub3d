@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:10:04 by zslowian          #+#    #+#             */
-/*   Updated: 2025/06/17 20:30:14 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/07/03 13:04:26 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,20 @@ void	ft_tokenize(t_cub3d *data)
 {
 	char	*line;
 	int		i;
+	int		line_len;
 
 	while ((line = get_next_line(data->infile_fd)) != NULL)
 	{
 		i = 0;
-		while (i < (int) ft_strlen(line))
+		line_len = ft_strlen(line);
+		while (i < line_len)
 			ft_add_token(&i, line, data);
 		free(line);
 	}
+	if (close(data->infile_fd) == 0)
+		data->infile_fd = -1;
+	else
+		ft_error(FILE_CLOSE, "ft_tokenize", data);
 }
 
 /**
