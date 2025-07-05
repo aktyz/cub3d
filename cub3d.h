@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/07/03 13:19:19 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/07/03 13:34:40 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,14 @@ typedef struct s_file_names
 	char *ea_texture;
 }	t_file_names;
 
+/**
+ * To simplyfy the allocation and freeing the memory, we store
+ * rgb color values in an unsigned int array where:
+ * _color[0] - is r value
+ * _color[1] - is g value
+ * _color[2] - is b value
+ *
+ */
 typedef struct s_colors
 {
 	unsigned int	floor_color[3];
