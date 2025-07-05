@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 13:55:26 by zslowian          #+#    #+#             */
-/*   Updated: 2025/07/01 13:23:06 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/07/05 14:44:34 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,11 @@ static void	ft_validate_input_file(char *file_name, t_cub3d *data);
  */
 void	ft_init(char *file_name, t_cub3d *data)
 {
-	//t_list	*tokens;
-
 	data->infile_fd = -1;
 	ft_validate_input_file(file_name, data);
 	ft_tokenize(data);
-	ft_print_token_list(data);
 	ft_parse(data);
+	ft_print_map_player(data);
 }
 
 /**

@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/07/03 13:34:40 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/07/05 14:18:51 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef enum e_cub3d_errors
 	TOKENIZING_ERROR,
 	ERROR_WHEN_PARSING,
 	FILE_CLOSE,
+	WRONG_MAP,
 	ERROR_NB,
 }	t_cub3d_errors;
 
@@ -76,6 +77,12 @@ typedef struct s_colors
 	unsigned int	ceiling_color[3];
 }	t_colors;
 
+typedef struct s_player
+{
+	int		start_row;
+	int		start_col;
+	char	orientation;
+}	t_player;
 /**
  * Global cub3d data representation.
  * First part is representing static information passed from the infile
@@ -89,6 +96,9 @@ typedef struct s_cub3d
 	t_list			*tokens;
 	t_file_names	*textures;
 	t_colors		*colors;
+	char			**map;
+	t_player		player;
+	int				map_rows;
 }	t_cub3d;
 
 typedef struct s_token
@@ -102,14 +112,17 @@ void	ft_init(char *file_name, t_cub3d *data);
 
 // TOKEN CREATION
 void	ft_tokenize(t_cub3d *data);
-void	ft_add_map_line(int *i, char *line, t_cub3d *data);
+void	ft_add_map_token(int *i, char *line, t_cub3d *data);
 
 // PARSING
 void	ft_parse(t_cub3d *data);
 void	ft_store_rgb(unsigned int color_storage[3], char **color_values);
+void	ft_copy_map_token_to_struct(char *map_line, int *map_row,
+			t_cub3d *data);
 
 // MAP VALIDATION
 bool	ft_is_alphanumeric(char *token);
+bool	ft_validate_map_line_len(int *map_len, t_token *map_token);
 
 // ERROR HANDLING
 void	ft_error(t_cub3d_errors nb, char *ft_name, t_cub3d *data);
@@ -119,5 +132,6 @@ void	ft_clean(t_cub3d *data);
 
 // DEBUGGING
 void	ft_print_token_list(t_cub3d *data);
+void	ft_print_map_player(t_cub3d *data);
 
 #endif
