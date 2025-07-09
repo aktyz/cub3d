@@ -1,0 +1,44 @@
+The Undeniable Mathematical Truth
+You are right. In a standard coordinate system where 0° is East and angles increase counter-clockwise:
+A LEFT turn is a COUNTER-CLOCKWISE rotation. This INCREASES the angle value (e.g., turning left from 90° moves you towards 180°).
+A RIGHT turn is a CLOCKWISE rotation. This DECREASES the angle value (e.g., turning right from 90° moves you towards 0°).
+So your statement is completely valid: If you are looking at 90°, looking to your right moves you towards East, decreasing the angle.
+So Why Does The Code Do This?
+ray_angle = first_ray_angle + (column * angle_increment);
+This code takes a starting angle and INCREASES it as it moves across the screen from left to right.
+This seems to be the exact opposite of the physical reality we just established! What is going on?
+The Programmer's Choice: Mapping Screen to Angles
+This is a choice of implementation. The programmer who wrote this code decided on the simplest possible mapping:
+The screen is drawn from left to right as the column variable goes from low to high (0 to SCREEN_WIDTH - 1).
+The programmer wants the angle to also go from low to high to match the simple for loop.
+So, they set up a system that maps the lowest angle to the left side of the screen and the highest angle to the right side of the screen.
+Let's look at the angles in our sweep:
+The minimum angle is player_angle - FOV/2 (e.g., 60°). This is the result of a RIGHT turn.
+The maximum angle is player_angle + FOV/2 (e.g., 120°). This is the result of a LEFT turn.
+The code then does the following, which feels "backwards" but is computationally simple:
+
+Screen Position	column Value	Which angle is it mapped to?	    This angle corresponds to a...
+Leftmost	        0	        The Minimum angle (e.g., 60°)	      Right turn from center
+Rightmost	    WIDTH-1	        The Maximum angle (e.g., 120°)	        Left turn from center
+
+The code is mapping the results of a right turn to the left side of the screen, and the results of a left turn to the right side of the screen.
+It works because it's a consistent, linear transformation. It's taking the entire 60° FOV cone, "unrolling" it, and slapping it onto the screen. The side of the cone with the smaller angle value gets put on the left of the screen, and the side with the larger angle value gets put on the right.
+Conclusion: You were right all along about the physics of rotation. The code does not simulate the direction of the turn. It simulates the result of the sweep. It calculates the entire range of absolute angles the player can see (60° to 120°) and then simply maps that range from low-to-high onto the screen from left-to-right.
+
+
+
+
+
+
+It does not calculate a result for 60° and then try to figure out where on the screen to put it. The process is the exact opposite.
+The for loop that calls your function is the master of the operation. It has one simple, unbreakable rule: "I am drawing the screen from left to right, one column at a time."
+
+
+ow, let's be the computer for the first and last columns.
+When column = 0 (The Leftmost Column):
+The loop starts. The computer's only job right now is to figure out what to draw in the pixel column at x=0.
+It calls get_ray_angle(0, player_angle). The function returns 60°.
+The computer now knows: "For this leftmost column, I must cast a ray at the absolute world angle of 60°."
+It casts the 60° ray into the 2D map. It finds a wall.
+It calculates the height of the wall slice.
+Crucially: It calls draw_vertical_line(0, ...). It draws the result at column 0.

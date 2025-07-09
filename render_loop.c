@@ -49,8 +49,8 @@ int is_wall_on_grid(int map_x_grid, int map_y_grid, t_game_data *data)
 
     return (0); //no wall or it's an empty space character
 }
-
 //if there's a wall on the intersectiom, calculate the distance (to the horizontal intersection)
+
 float distance_to_the_wall_horizontal(t_player player, float horizontal_x, int column, float player_angle_rad)
 {
     float distance_horizontal;
@@ -62,16 +62,39 @@ float distance_to_the_wall_horizontal(t_player player, float horizontal_x, int c
     return (distance_horizontal);
 }
 //if there's a wall on the intersectiom, calculate the distance (to the vertical intersection)
-float distance_to_the_wall_vertical(t_player player, float vertical_x, int column, float player_angle_rad)
+//correction for fishbowl effect will be added after choosing the shorter distance
+float distance_to_the_wall_vertical(t_player player, float vertical_x, int column, float ray_angle)
 {
     float distance_vertical;
-    //void(player_angle_rad); //in the future it will account fot the moving player
 
     //distance = (x2 - xp)/sin(alpha) or (yp - y2)/cos(alpha)
-    distance_vertical = (vertical_x - player.p_x)/cosf(get_ray_angle(column, player_angle_rad));
-
+    distance_vertical = (vertical_x - player.p_x)/cosf(get_ray_angle(column, ray_angle));
+    
+    //correct distance = distorted distance * cos(beta) will be calculated after choosing shorter distance (vertical/horizontal)
     return (distance_vertical);
 }
+
+
+//this is the new idea - but for the future, whith player_angle present
+// //find the distance to the wall (both horizontal and vertical intersections) and prevent fish-bowl effect
+// float get_projected_distance(t_player player, float wall_hit_x, float wall_hit_y, float ray_angle)
+// {
+//     float true_distance;
+//     float projected_distance;
+//     float correction_angle;
+
+//     //true distance
+//     true_distance = sqrt(pow(wall_hit_x - player.p_x, 2) + pow(wall_hit_y - player.p_y, 2));
+
+//     //calculate the correction angle
+//     // 'player.angle' should be the direction the player is facing.
+//     correction_angle = ray_angle - player.angle; 
+
+//     //apply the correction
+//     projected_distance = true_distance * cos(correction_angle);
+
+//     return (projected_distance);
+// }
 
 //a helper function to use in the render_loop
 void cast_single_ray(t_game_data *data, float ray_angle)
