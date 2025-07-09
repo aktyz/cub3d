@@ -136,7 +136,8 @@ typedef struct s_player
 {
 	float p_x; //worls coordinates of a player
 	float p_y;
-	float angle_in_rad; //player's viewing angle in radians
+	float angle_in_rad; //player's viewing angle in radians, which direction he is looking at
+	//0 degrees - east, 90 degrees or M-PI / 2.0 radians - North
 }	t_player
 
 typedef struct s_img

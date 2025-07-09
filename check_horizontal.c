@@ -11,7 +11,7 @@ int is_ray_facing_up(float ray_angle_rad)
     else
         return (0);
 }
-//A.y
+//A.y - first intersection
 float find_horizontal_intersection_y(float player_y, int is_ray_facing_up)
 {
     //find y-coordinate of the horizontal grid line at or above the player
@@ -24,7 +24,7 @@ float find_horizontal_intersection_y(float player_y, int is_ray_facing_up)
 
     return (intersection_y);
 }
-//A.x
+//A.x - first intersection
 //based on closest grid y, get the x-value of the point of the intersection
 float find_horizontal_intersection_x(float player_x, float player_y, float ray_angle, int is_ray_facing_up_val)
 {
@@ -40,4 +40,29 @@ float find_horizontal_intersection_x(float player_x, float player_y, float ray_a
     intersection_x = player_x + (first_y_intersection_line - player_y) / tanf(ray_angle);
 
     return (intersection_x);
+}
+
+//find the step to move each intersection by (in case there's no wall on the current one)
+float find_horizontal_step_y(float ray_angle)
+{
+    if (is_ray_facing_up(ray_angle) == 1)
+        return (GRID_SIZE * (-1));
+    else
+        return (GRID_SIZE);
+}
+
+float find_horizontal_step_x(float ray_angle)
+{
+    if (tanf(ray_angle) == 0)
+        return (INFINITY); //the ray is perfectly horizontal
+
+    //we can't return just GRID_SIZE/tamf(ray_angle) because in the fourth quarter
+    //when fay is facing down and to the right, tan is negative, but the step has to move to the right
+
+    //if the ray is facing down
+    else if (is_ray_facing_up == 0)
+        return ((-1) * GRID_SIZE / tanf(ray_angle));
+
+    else
+        return (GRID_SIZE / tanf(ray_angle));
 }
