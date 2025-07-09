@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 18:42:30 by zslowian          #+#    #+#             */
-/*   Updated: 2025/07/09 12:42:11 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/07/09 15:25:59 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	ft_add_map_token(int *i, char *line, t_cub3d *data)
 		char_count++;
 		ptr++;
 	}
+	if (char_count > data->map_cols)
+		data->map_cols = char_count;
 	if (char_count && ft_is_alphanumeric(&line[*i]))
 	{
 		new = ft_calloc(sizeof(t_token), 1);
@@ -64,14 +66,23 @@ void	ft_copy_map_token_to_struct(char *map_line, int *map_row,
 	is_player = false;
 	ptr = map_line;
 	char_pos = 0;
-	data->map[*map_row] = ft_calloc(ft_strlen(map_line), sizeof(char));
+	data->map[*map_row] = ft_calloc(data->map_cols + 1, sizeof(char));
 	if (!data->map[*map_row])
 		ft_error(MEM_ERROR, "ft_copy_map_token_to_struct", data);
-	while (*ptr)
+	while (char_pos < data->map_cols)
 	{
 		if (!ft_validate_map_char(*ptr, &is_player))
 			ft_error(WRONG_MAP, "ft_save_map - map contains wrong chars", data);
-		data->map[*map_row][char_pos] = *ptr;
+		if (*ptr == '\n')
+		{
+			while (char_pos < data->map_cols)
+			{
+				data->map[*map_row][char_pos] = ' ';
+				char_pos++;
+			}
+		}
+		else
+			data->map[*map_row][char_pos] = *ptr;
 		if (is_player)
 		{
 			if (data->player.orientation)
@@ -84,6 +95,7 @@ void	ft_copy_map_token_to_struct(char *map_line, int *map_row,
 		ptr++;
 		char_pos++;
 	}
+	data->map[*map_row][char_pos - 1] = '\0';
 	*map_row = *map_row + 1;
 }
 
@@ -95,9 +107,12 @@ void	ft_copy_map_token_to_struct(char *map_line, int *map_row,
  */
 static bool	ft_validate_map_char(char map_char, bool *is_player)
 {
-	if (map_char == ' ' || map_char == '0' || map_char == '1')
-		return (true);
-	if (map_char == '\n')
+	bool	is_map;
+	bool	is_white;
+
+	is_map = (map_char == ' ' || map_char == '0');
+	is_white = (map_char == '\n' || map_char == '1' || map_char == '\0');
+	if (is_map || is_white)
 		return (true);
 	if (map_char == 'N' || map_char == 'S')
 	{

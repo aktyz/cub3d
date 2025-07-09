@@ -10,11 +10,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/cub3d",
-<<<<<<< HEAD
             "args": ["./resources/maps/subject.cub"],
-=======
-            "args": ["./resources/maps/simplest.cub"],
->>>>>>> main
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

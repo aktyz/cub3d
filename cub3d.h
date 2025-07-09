@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/07/09 12:42:43 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/07/09 12:55:53 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ typedef struct s_cub3d
 	char			**map;
 	t_player		player;
 	int				map_rows;
+	int				map_cols;
 }	t_cub3d;
 
 typedef struct s_token
@@ -126,7 +127,6 @@ void	ft_store_rgb(unsigned int color_storage[3], char **color_values);
 
 // MAP VALIDATION
 bool	ft_is_alphanumeric(char *token);
-bool	ft_validate_map_line_len(int *map_len, t_token *map_token);
 
 // ERROR HANDLING
 void	ft_error(t_cub3d_errors nb, char *ft_name, t_cub3d *data);
