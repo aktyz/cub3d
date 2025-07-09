@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:10:04 by zslowian          #+#    #+#             */
-/*   Updated: 2025/07/03 13:04:26 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/07/05 10:43:59 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 void				ft_tokenize(t_cub3d *data);
 void				ft_add_token(int *i, char *line, t_cub3d *data);
 bool				ft_is_data_identifier(int *i, char *line, t_cub3d *data);
-void				ft_add_data_id_value(int *i, char *line, t_cub3d *data);
+void				ft_add_data_id_value(int *i, char *line, t_token *last,
+						 t_cub3d *data);
 static const char	**ft_get_data_identifiers(void);
 
 /**
@@ -58,9 +59,11 @@ void	ft_add_token(int *i, char *line, t_cub3d *data)
 	is_id = ft_is_data_identifier(i, line, data);
 	if (is_id)
 		return ;
+	if (!data->tokens)
+		ft_error(TOKENIZING_ERROR, "ft_add_token", data);
 	last = (t_token *) ft_lstlast(data->tokens)->content;
 	if (!last->value)
-		ft_add_data_id_value(i, line, data);
+		ft_add_data_id_value(i, line, last, data);
 	else if (line[*i] != '\n')
 		ft_add_map_line(i, line, data);
 	else
@@ -78,7 +81,6 @@ void	ft_add_token(int *i, char *line, t_cub3d *data)
 bool	ft_is_data_identifier(int *i, char *line, t_cub3d *data)
 {
 	t_token	*new_token;
-	char	*data_id;
 	int		j;
 	int		k;
 
@@ -94,8 +96,7 @@ bool	ft_is_data_identifier(int *i, char *line, t_cub3d *data)
 			new_token = ft_calloc(sizeof(t_token), 1);
 			if (new_token == NULL)
 				ft_error(MEM_ERROR, "ft_is_data_identifier", data);
-			data_id = (char *) ft_get_data_identifiers()[j];
-			new_token->data_id = ft_strdup(data_id);
+			new_token->data_id = (t_cub3d_token_types) j;
 			if (data->tokens == NULL)
 				data->tokens = ft_lstnew((void *) new_token);
 			else
@@ -108,27 +109,23 @@ bool	ft_is_data_identifier(int *i, char *line, t_cub3d *data)
 }
 
 /**
- * Function adds the data value to the token list if there's
+ * Function adds the data value to the last token from the list if there's
  * list node with data_id type created.
- * If not, it checks if it's already the map content and then
- * add it as map content - line by line.
+ *
  */
-void	ft_add_data_id_value(int *i, char *line, t_cub3d *data)
+void	ft_add_data_id_value(int *i, char *line, t_token *last, t_cub3d *data)
 {
-	t_token	*content;
-	t_list	*last;
 	char	*ptr;
 	int		char_count;
 	int		k;
 
 	if (data->tokens == NULL)
-		ft_error(INVALID_MAP, "ft_add_data_id_value", data);
-	last = ft_lstlast(data->tokens);
-	content = (t_token *) last->content;
-	if (!content->data_id
-		|| (!content->data_id && content->value != NULL)
-		|| (!content->data_id && content->value == NULL))
-		ft_error(INVALID_MAP, "ft_add_data_id_value", data);
+		ft_error(TOKENIZING_ERROR, "ft_add_data_id_value", data);
+	if ((last->data_id < NO || last->data_id > C) // only for tokens with the data_id to be enriched
+		|| ((last->data_id >= NO && last->data_id <= C) && last->value != NULL) // make sure you don't overwrite
+		|| (last->data_id && last->value != NULL)) // make sure you don't overwrite a different type data_id token
+		ft_error(TOKENIZING_ERROR,
+			"ft_add_data_id_value - data value is being added on wrong token", data);
 	ptr = &line[*i];
 	char_count = 0;
 	k = *i;
@@ -142,8 +139,8 @@ void	ft_add_data_id_value(int *i, char *line, t_cub3d *data)
 		char_count++;
 		ptr++;
 	}
-	content->value = ft_calloc(sizeof(char), char_count + 1);
-	ft_strlcpy(content->value, &line[k], char_count);
+	last->value = ft_calloc(sizeof(char), char_count + 1);
+	ft_strlcpy(last->value, &line[k], char_count);
 	*i = k + char_count;
 }
 

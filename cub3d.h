@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/07/01 13:44:36 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/07/03 13:34:40 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,20 +48,33 @@ typedef enum e_cub3d_errors
 	MEM_ERROR,
 	FF_ERROR,
 	OPEN_ERROR,
-	INVALID_MAP,
+	TOKENIZING_ERROR,
+	ERROR_WHEN_PARSING,
 	FILE_CLOSE,
 	ERROR_NB,
 }	t_cub3d_errors;
+
+typedef struct s_file_names
+{
+	char *no_texture;
+	char *so_texture;
+	char *we_texture;
+	char *ea_texture;
+}	t_file_names;
+
 /**
- * Structure to represent a color in our program
+ * To simplyfy the allocation and freeing the memory, we store
+ * rgb color values in an unsigned int array where:
+ * _color[0] - is r value
+ * _color[1] - is g value
+ * _color[2] - is b value
  *
  */
-typedef struct s_color
+typedef struct s_colors
 {
-	unsigned int	r;
-	unsigned int	g;
-	unsigned int	b;
-}	t_color;
+	unsigned int	floor_color[3];
+	unsigned int	ceiling_color[3];
+}	t_colors;
 
 /**
  * Global cub3d data representation.
@@ -72,16 +85,16 @@ typedef struct s_color
  */
 typedef struct s_cub3d
 {
-	int		infile_fd;
-	t_list	*tokens;
-	t_color	*floor_color;
-	t_color	*ceiling_color;
+	int				infile_fd;
+	t_list			*tokens;
+	t_file_names	*textures;
+	t_colors		*colors;
 }	t_cub3d;
 
 typedef struct s_token
 {
-	char	*data_id;
-	char	*value;
+	t_cub3d_token_types	data_id;
+	char				*value;
 } t_token;
 
 // INITIALIZATION
@@ -90,6 +103,10 @@ void	ft_init(char *file_name, t_cub3d *data);
 // TOKEN CREATION
 void	ft_tokenize(t_cub3d *data);
 void	ft_add_map_line(int *i, char *line, t_cub3d *data);
+
+// PARSING
+void	ft_parse(t_cub3d *data);
+void	ft_store_rgb(unsigned int color_storage[3], char **color_values);
 
 // MAP VALIDATION
 bool	ft_is_alphanumeric(char *token);

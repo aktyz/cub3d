@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 18:27:04 by zslowian          #+#    #+#             */
-/*   Updated: 2025/06/15 18:33:36 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/06/30 16:06:09 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_print_token_list(t_cub3d *data)
 	{
 		token = (t_token *) ptr->content;
 		ft_printf("token nb: %d\n", i);
-		ft_printf("\tdata type:\t%s\n", token->data_id);
+		ft_printf("\tdata type:\t%d\n", token->data_id);
 		ft_printf("\tdata value:\t%s\n", token->value);
 		ptr = ptr->next;
 		i++;
