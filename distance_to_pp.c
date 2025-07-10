@@ -10,52 +10,7 @@ float degrees_to_radians(float degrees)
 the distance between the player and the projection plane at this exact moment
 
 
-/* degrees between the player looking directly in front of them 
-and the given column. There are 320 columns total.
- */
-//this is the angle from the player's direct line of sight - maybe useful for the future when 
-//the pov will be moving? Below a function with absolute wworld angle
-// float get_angle_from_center(int column_number) 
-// {
-//     float angle_per_column;
-//     float center_column;
-//     int columns_from_center;
-//     float angle;
-
-//     center_column = (float)SCREEN_WIDTH / 2.0f;
-//     angle_per_column = FOV_DEGREES / (float)SCREEN_WIDTH; //in our case 60/320
-
-//     //number of column steps from the center reference
-//     columns_from_center = fabsf(center_column - column_number);
-
-//     angle = angle_per_column * column_offset;
-//     return (angle);
-// }
-
-//from the player's viewpoint
-//player_angle_rad is our baseline for this particular image
-//this function is responsible for calculating the absolute world angle for a single ray that will be cast out from the player
-// float get_ray_angle(int column, float player_angle_rad)
-// {
-//     float first_ray_angle; //angle of the first ray
-//     float angle_increment; //increment per 1 columnt
-//     float ray_angle; //angle for the current column
-
-//     first_ray_angle = player_angle_rad - (FOV_RAD / 2.0f);
-//     angle_increment = FOV_RAD / (float)SCREEN_WIDTH;
-
-//     //calculate the angle for the current column
-//     ray_angle = first_ray_angle + (column * angle_increment);
-
-//     //normalize angle to be between 0 and 2*PI, because it may be problematic to add
-//     //player's angle and the rey's offset angle and may exceed 360/2PI
-//     ray_angle = fmod(ray_angle, 2.0f * M_PI);
-//     if (ray_angle < 0)
-//         ray_angle += 2.0f * M_PI;
-//     return (ray_angle);
-// }
-
-//more understandable way to write get_ray_angle - it gets the angle from the center to the ray
+//it calculates the absolute value of an angle of a single ray (if player is looking North, the leftmost ray is 120 degrees)
 float get_ray_angle(int column, float player_angle_rad)
 {
     float ray_angle;
@@ -63,14 +18,22 @@ float get_ray_angle(int column, float player_angle_rad)
     
     //clculate how far the current column is from the center of the screen
     //a negative value means the ray is on the left
-    float column_from_center = (float)column - (SCREEN_WIDTH / 2.0f);
+    float column_from_center = (float)column - (159.5f);
 
+    //floorf and ceilf because we don't have the real "center ray"
+    if (column_from_center < 159.5)
+        column_from_center = floorf(column_from_center);
+    else
+        column_from_center = ceilf(column_from_center);
+   
     //calculate the angle offset for this column based on the FOV
     //(the angle between the player's direction and the current ray's direction)
-    angle_offset_from_center = column_from_center * (FOV_RAD / (float)SCREEN_WIDTH);
+    //it's -30 degrees for the leftmost ray
+    angle_offset_from_center = degrees_to_radians(column_from_center * (60 / (float)320));
 
     //the absolute ray angle is the player's angle plus this offset.
-    ray_angle = player_angle_rad + angle_offset_from_center;
+    //for leftmost- 1.0472 radians = 60 degrees
+    ray_angle = player_angle_rad - angle_offset_from_center;
 
     //normalize angle to be between 0 and 2*PI, because it may be problematic to add
     //player's angle and the rey's offset angle and may exceed 360/2PI
