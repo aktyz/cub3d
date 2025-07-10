@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/12 10:23:57 by marvin           ###   ########.fr       */
+/*   Updated: 2025/08/12 10:24:42 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,6 +200,9 @@ void	ft_init(char *file_name, t_cub3d *data);
 // TOKEN CREATION
 void	ft_tokenize(t_cub3d *data);
 void	ft_add_map_token(int *i, char *line, t_cub3d *data);
+
+
+
 
 // PARSING
 void	ft_parse(t_cub3d *data);

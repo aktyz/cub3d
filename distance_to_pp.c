@@ -11,7 +11,7 @@ the distance between the player and the projection plane at this exact moment
 
 
 //it calculates the absolute value of an angle of a single ray (if player is looking North, the leftmost ray is 120 degrees)
-float get_ray_angle(int column, float player_angle_rad)
+float get_ray_angle(int column, float player_angle)
 {
     float ray_angle;
     float angle_offset_from_center;
@@ -33,7 +33,7 @@ float get_ray_angle(int column, float player_angle_rad)
 
     //the absolute ray angle is the player's angle plus this offset.
     //for leftmost- 1.0472 radians = 60 degrees
-    ray_angle = player_angle_rad - angle_offset_from_center;
+    ray_angle = player_angle - angle_offset_from_center;
 
     //normalize angle to be between 0 and 2*PI, because it may be problematic to add
     //player's angle and the rey's offset angle and may exceed 360/2PI

@@ -29,6 +29,21 @@ float find_first_horizontal_intersection_y(t_player *player, float ray_angle)
         intersection_y = floorf(player->player_y / GRID_SIZE) * GRID_SIZE + GRID_SIZE;
 
     return (intersection_y);
+}*/
+
+
+//A.y - first intersection
+float find_horizontal_intersection_y(t_player player, float ray_angle)
+{
+    //find y-coordinate of the horizontal grid line at or above the player
+    float intersection_y;
+
+    if (is_ray_facing_up(ray_angle) == 1)
+        intersection_y = floorf(player.player_y / GRID_SIZE) * GRID_SIZE - 0.0001f;
+    else
+        intersection_y = floorf(player.player_y / GRID_SIZE) * GRID_SIZE + GRID_SIZE;
+
+    return (intersection_y);
 }
 
 
