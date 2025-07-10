@@ -49,26 +49,24 @@ int is_wall_on_grid(int map_x_grid, int map_y_grid, t_game_data *data)
 
     return (0); //no wall or it's an empty space character
 }
-//if there's a wall on the intersectiom, calculate the distance (to the horizontal intersection)
-
-float distance_to_the_wall_horizontal(t_player player, float horizontal_x, int column, float player_angle_rad)
+//if there's a wall on the intersection, calculate the distance (to the horizontal intersection)
+float distance_to_the_wall_horizontal(t_player player, float horizontal_x, int column, float player_angle)
 {
     float distance_horizontal;
-    void(player_angle_rad); //in the future it will account fot the moving player
 
     //distance = (x2 - xp)/sin(alpha) or (yp - y2)/cos(alpha)
-    distance_horizontal = (horizontal_x - player.p_x)/cosf(get_ray_angle(column, player_angle_rad));
+    distance_horizontal = (horizontal_x - player.player_x)/cosf(get_ray_angle(column, player_angle));
 
     return (distance_horizontal);
 }
-//if there's a wall on the intersectiom, calculate the distance (to the vertical intersection)
+//if there's a wall on the intersection, calculate the distance (to the vertical intersection)
 //correction for fishbowl effect will be added after choosing the shorter distance
-float distance_to_the_wall_vertical(t_player player, float vertical_x, int column, float ray_angle)
+float distance_to_the_wall_vertical(t_player player, float vertical_x, int column, float player_angle)
 {
     float distance_vertical;
 
     //distance = (x2 - xp)/sin(alpha) or (yp - y2)/cos(alpha)
-    distance_vertical = (vertical_x - player.p_x)/cosf(get_ray_angle(column, ray_angle));
+    distance_vertical = (vertical_x - player.player_x)/cosf(get_ray_angle(column, player_angle));
     
     //correct distance = distorted distance * cos(beta) will be calculated after choosing shorter distance (vertical/horizontal)
     return (distance_vertical);
@@ -212,12 +210,12 @@ only then I compare the distances and choose the closer intersection
 //new intersection point: Xnew = Xold + Xa and Ynew = Yold + Ya
 
 //not finished - probably will be placed inside cast_single_ray
-float *horizontal_wall(int column, t_player player, float player_angle_rad)
+float *horizontal_wall(int column, t_player player, float player_angle)
 {
     find_horizontal_intersection_y(column, player);
     find_horizontal_intersection_x(column, player);
     is_wall_on_grid(map_x_grind, map_y_grid, data);
-    distance_to_the_wall_horizontal(player, horizontal_x, column, player_angle_rad);
+    distance_to_the_wall_horizontal(player, horizontal_x, column, player_angle);
 
 }
 

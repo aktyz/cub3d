@@ -6,7 +6,7 @@
 /*   By: hhurnik <hhurnik@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/07/24 20:20:24 by hhurnik          ###   ########.fr       */
+/*   Updated: 2025/07/24 20:27:13 by hhurnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,11 @@ typedef struct s_player_position
 	char				*value;
 } t_token;
 
+typedef struct s_token
+{
+	char	*data_id;
+	char	*value;
+} t_token;
 
 
 typedef struct s_window
@@ -134,9 +139,11 @@ typedef struct s_window
 
 typedef struct s_player
 {
-	float p_x; //worls coordinates of a player
-	float p_y;
-	float angle_in_rad; //player's viewing angle in radians, which direction he is looking at
+	int height; //half of grid size = 32 (looks good on the screen)
+	int fov; //how many degrees - 60 
+	float player_x; //worls coordinates of a player
+	float player_y;
+	float player_angle; //player's viewing angle in radians, which direction he is looking at
 	//0 degrees - east, 90 degrees or M-PI / 2.0 radians - North
 }	t_player
 
@@ -178,6 +185,9 @@ void	ft_init(char *file_name, t_cub3d *data);
 void	ft_tokenize(t_cub3d *data);
 void	ft_add_map_token(int *i, char *line, t_cub3d *data);
 
+
+
+
 // PARSING
 void	ft_parse(t_cub3d *data);
 void	ft_store_rgb(unsigned int color_storage[3], char **color_values);
@@ -202,7 +212,6 @@ void window_init(t_projection_plane *projection_plane);
 float degrees_to_radians(float degrees);
 float get_angle_from_center(int column_number);
 float distance_to_pp(int degree);
-
 
 
 #endif
