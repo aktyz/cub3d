@@ -19,6 +19,7 @@
 # include "minilibx-linux/mlx.h"
 # include <fcntl.h>
 # include <float.h>
+#include <stdbool.h>
 
 
 #define SCREEN_HEIGHT 200 //dimensions of the window/screen in pixels
@@ -26,7 +27,6 @@
 #define FOV_DEGREES 60.0f  //a float literal
 #define FOV_RAD (FOV_DEGREES * M_PI / 180.0f)  //fov in radians
 #define GRID_SIZE 64
-#define EXIT_FAILURE 
 #define INFINITY FLT_MAX
 #define EPSILON 0.0001f //a small value for float comparisons
 
