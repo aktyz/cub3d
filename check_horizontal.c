@@ -28,7 +28,7 @@ int is_ray_facing_up(float ray_angle)
 
 
 //A.y - first intersection
-float find_horizontal_intersection_y(t_player player, float ray_angle)
+float find_first_horizontal_intersection_y(t_player player, float ray_angle)
 {
     //find y-coordinate of the horizontal grid line at or above the player
     float intersection_y;
@@ -43,7 +43,7 @@ float find_horizontal_intersection_y(t_player player, float ray_angle)
 
 //A.x - first intersection
 //based on closest grid y, get the x-value of the point of the intersection
-float find_horizontal_intersection_x(t_player player, float ray_angle)
+float find_first_horizontal_intersection_x(t_player player, float ray_angle)
 {
     float first_y_intersection_line; // The Y of the actual grid line
     float intersection_x;
