@@ -6,7 +6,7 @@
 /*   By: hhurnik <hhurnik@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/07/24 20:27:13 by hhurnik          ###   ########.fr       */
+/*   Updated: 2025/07/24 20:28:57 by hhurnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,6 @@ typedef struct s_token
 	char	*data_id;
 	char	*value;
 } t_token;
-
 
 typedef struct s_window
 {
