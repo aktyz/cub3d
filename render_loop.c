@@ -1,6 +1,5 @@
 #include "cub3d.h"
 
-
 /*We trace 320 rays starting from left to right in a loop
 1. Based on the viewing angle, subtract 30 degrees (half of the FOV).
 2. Starting from column 0:
@@ -18,16 +17,6 @@ In step 2A - we only need to check each grid (instead of pixels)
 /*
 So, find a point where ray crosses the wall, calculate this distance and write it to an array
 */
-
-//Find a place where the ray hits the wall - horizontal grid lines
-
-//find coordinate of the first intersection (A)
-//grid coordinates are integers
-
-
-
-
-
 
 
 //check if the grid at this intersection point - intersection_x and intersection_y
@@ -49,27 +38,49 @@ int is_wall_on_grid(int map_x_grid, int map_y_grid, t_game_data *data)
 
     return (0); //no wall or it's an empty space character
 }
-//if there's a wall on the intersection, calculate the distance (to the horizontal intersection)
-float distance_to_the_wall_horizontal(t_player player, float horizontal_x, int column, float player_angle)
+
+//if there's a wall on the intersection, calculate the distance (both for horizontal and vertical)
+//distance = (x2 - xp)/cos(alpha) or (yp - y2)/sin(alpha)
+float distance_to_the_wall(t_player player, int column, float intersection_x, float intersection_y)
 {
-    float distance_horizontal;
+    float distance;
+    float ray_angle;
 
-    //distance = (x2 - xp)/sin(alpha) or (yp - y2)/cos(alpha)
-    distance_horizontal = (horizontal_x - player.player_x)/cosf(get_ray_angle(column, player_angle));
+    ray_angle = get_ray_angle(column, player.player_angle)
 
-    return (distance_horizontal);
-}
-//if there's a wall on the intersection, calculate the distance (to the vertical intersection)
-//correction for fishbowl effect will be added after choosing the shorter distance
-float distance_to_the_wall_vertical(t_player player, float vertical_x, int column, float player_angle)
-{
-    float distance_vertical;
+    //exact North
+    if (ray_angle == M_PI / 2) //or should i do ray_angle - M_PI/2 < some small epsilon?
+        distance = player.player_y - intersection_y;
 
-    //distance = (x2 - xp)/sin(alpha) or (yp - y2)/cos(alpha)
-    distance_vertical = (vertical_x - player.player_x)/cosf(get_ray_angle(column, player_angle));
+    //exact South
+    else if (ray_angle == (3 / 2) * M_PI)
+        distance = intersection_y - player.player_y;
+
+    //exact East
+    else if (ray_angle == 0)
+        distance = intersection_x - player.player_x;
     
-    //correct distance = distorted distance * cos(beta) will be calculated after choosing shorter distance (vertical/horizontal)
-    return (distance_vertical);
+    //exact West
+    else if (ray_angle == M_PI)
+        distance = player.player_x - intersection_x;
+
+    //first quarter
+    else if (ray_angle > 0 && ray_angle < M_PI / 2)
+        distance = (player.player_x - intersection_x) / cosf(ray_angle);
+    
+    //second quarter
+    else if (ray_angle > M_PI / 2 && ray_angle < M_PI)
+        distance = (player.player_x - intersection_x) / sinf(ray_angle - (M_PI / 2));
+    
+    //third quarter
+    else if (ray_angle > M_PI && ray_angle < (3 / 2) * M_PI)
+        distance = (player.player_x - intersection_x) / cosf(ray_angle - M_PI);
+
+    //fourth quarter
+    else if (ray_angle > (3 / 2) * M_PI && ray_angle < 2 * M_PI)
+        distance = (player.player_x - intersection_x) / sinf(ray_angle - (3 / 2) * M_PI);
+
+    return (distance);
 }
 
 
@@ -128,7 +139,7 @@ void render_loop(int column, t_player player, t_game_data data)
     
     while (i < 319)
     {
-        ray_angle = get_ray_angle(i, player_angle_rad); //i or column
+        ray_angle = get_ray_angle(i, player_angle); //i or column
         cast_single_ray(data, ray_angle); //cast a single ray
 
         i++;
