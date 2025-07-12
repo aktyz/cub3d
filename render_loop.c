@@ -83,37 +83,16 @@ float distance_to_the_wall(t_player player, int column, float intersection_x, fl
     return (distance);
 }
 
-
-//this is the new idea - but for the future, whith player_angle present
-// //find the distance to the wall (both horizontal and vertical intersections) and prevent fish-bowl effect
-// float get_projected_distance(t_player player, float wall_hit_x, float wall_hit_y, float ray_angle)
-// {
-//     float true_distance;
-//     float projected_distance;
-//     float correction_angle;
-
-//     //true distance
-//     true_distance = sqrt(pow(wall_hit_x - player.p_x, 2) + pow(wall_hit_y - player.p_y, 2));
-
-//     //calculate the correction angle
-//     // 'player.angle' should be the direction the player is facing.
-//     correction_angle = ray_angle - player.angle; 
-
-//     //apply the correction
-//     projected_distance = true_distance * cos(correction_angle);
-
-//     return (projected_distance);
-// }
-
 //a helper function to use in the render_loop
+//for now zakladam that the player starts at the very center
 void cast_single_ray(t_game_data *data, float ray_angle)
 {
     int current_map_x;
     int current_map_y;
-    float 
+    data->player.player_x = 
 
-    current_map_x = floor(data->player.p_x / GRID_SIZE);
-    current_map_y = floor(data->player.p_y / GRID_SIZE);
+    current_map_x = floor(data->player.player_x / GRID_SIZE); //which grid the player stands on
+    current_map_y = floor(data->player.player_y / GRID_SIZE);
 
 }
 
@@ -130,6 +109,7 @@ void cast_single_ray(t_game_data *data, float ray_angle)
 3. record the distance to the wall
 4. add the angle increment and repeat 2 and 3
 */
+
 void render_loop(int column, t_player player, t_game_data data)
 {
 
