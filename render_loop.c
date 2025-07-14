@@ -23,78 +23,187 @@ So, find a point where ray crosses the wall, calculate this distance and write i
 //is a wall. If so - stop and calculate the distance
 //map_x_grid, map_y_grid - integer indices of the map grid cell I want to check
 //updated values t be passed
-int is_wall_on_grid(int map_x_grid, int map_y_grid, t_game_data *data)
+// int is_wall_on_grid(int map_x_grid, int map_y_grid, t_game_data *data)
+// {
+//     //check if the grid's within the map
+//     if (map_x_grid < 0 || map_x_grid >= data->map_width_grid ||
+//         map_y_grid < 0 || map_y_grid >= data->map_height_grid)
+//     {
+//         return (1); //outside of the boundaries are treated as a wall to stop rays
+//     }
+
+//     //check the map content
+//     if (data->map[map_y_grid][map_x_grid] == '1')
+//         return (1);
+
+//     return (0); //no wall or it's an empty space character
+// }
+
+
+int is_wall_on_grid(float intersection_x, float intersection_y, t_game_data *data)
 {
-    //check if the grid's within the map
+    int map_x_grid = (int)(intersection_x / GRID_SIZE);
+    int map_y_grid = (int)(intersection_y / GRID_SIZE);
+
     if (map_x_grid < 0 || map_x_grid >= data->map_width_grid ||
         map_y_grid < 0 || map_y_grid >= data->map_height_grid)
-    {
-        return (1); //outside of the boundaries are treated as a wall to stop rays
-    }
+        return 1; //out of bounds = treat as wall
 
-    //check the map content
     if (data->map[map_y_grid][map_x_grid] == '1')
-        return (1);
+        return (1); //found a wall
 
-    return (0); //no wall or it's an empty space character
+    return (0); //no wall
 }
 
 //if there's a wall on the intersection, calculate the distance (both for horizontal and vertical)
 //distance = (x2 - xp)/cos(alpha) or (yp - y2)/sin(alpha)
-float distance_to_the_wall(t_player player, int column, float intersection_x, float intersection_y)
+float distance_to_the_wall(t_player *player, int column, float intersection_x, float intersection_y)
 {
     float distance;
     float ray_angle;
 
-    ray_angle = get_ray_angle(column, player.player_angle)
+    ray_angle = get_ray_angle(column, player);
 
     //exact North
-    if (ray_angle == M_PI / 2) //or should i do ray_angle - M_PI/2 < some small epsilon?
-        distance = player.player_y - intersection_y;
+    if (fabsf(ray_angle - (M_PI / 2.0f)) < EPSILON)
+        distance = player->player_y - intersection_y;
 
     //exact South
-    else if (ray_angle == (3 / 2) * M_PI)
-        distance = intersection_y - player.player_y;
+    else if (fabsf(ray_angle - (3.0f / 2.0f) * M_PI) < EPSILON)
+        distance = intersection_y - player->player_y;
 
     //exact East
-    else if (ray_angle == 0)
-        distance = intersection_x - player.player_x;
+    else if (fabsf(ray_angle - 0.0f) < EPSILON)
+        distance = intersection_x - player->player_x;
     
     //exact West
-    else if (ray_angle == M_PI)
-        distance = player.player_x - intersection_x;
+    else if (fabsf(ray_angle - M_PI) < EPSILON)
+        distance = player->player_x - intersection_x;
 
     //first quarter
-    else if (ray_angle > 0 && ray_angle < M_PI / 2)
-        distance = (player.player_x - intersection_x) / cosf(ray_angle);
+    else if (ray_angle > 0.0f && ray_angle < M_PI / 2.0f)
+        distance = (player->player_x - intersection_x) / cosf(ray_angle);
     
     //second quarter
-    else if (ray_angle > M_PI / 2 && ray_angle < M_PI)
-        distance = (player.player_x - intersection_x) / sinf(ray_angle - (M_PI / 2));
+    else if (ray_angle > M_PI / 2.0f && ray_angle < M_PI)
+        distance = (player->player_x - intersection_x) / sinf(ray_angle - (M_PI / 2.0f));
     
     //third quarter
-    else if (ray_angle > M_PI && ray_angle < (3 / 2) * M_PI)
-        distance = (player.player_x - intersection_x) / cosf(ray_angle - M_PI);
+    else if (ray_angle > M_PI && ray_angle < (3.0f / 2.0f) * M_PI)
+        distance = (player->player_x - intersection_x) / cosf(ray_angle - M_PI);
 
     //fourth quarter
-    else if (ray_angle > (3 / 2) * M_PI && ray_angle < 2 * M_PI)
-        distance = (player.player_x - intersection_x) / sinf(ray_angle - (3 / 2) * M_PI);
+    else if (ray_angle > (3.0f / 2.0f) * M_PI && ray_angle < 2.0f * M_PI)
+        distance = (player->player_x - intersection_x) / sinf(ray_angle - (3.0f / 2.0f) * M_PI);
 
     return (distance);
 }
 
 //a helper function to use in the render_loop
 //for now zakladam that the player starts at the very center
-void cast_single_ray(t_game_data *data, float ray_angle)
+void find_wall(t_player player, t_game_data *data, float ray_angle, t_intersection *intersection)
 {
-    int current_map_x;
-    int current_map_y;
-    data->player.player_x = 
+    //1. Find first intersection horizontal
+    //2. is there a wall?
+        // - yes - write it into the intersection structure
+        // - no - find new intersection horizontal by adding the horizontal step
+    // ...
+    // is there a wall? and loop again
+    float horizontal_step_x = find_horizontal_step_x(ray_angle);
+    float horizontal_step_y = find_horizontal_step_y(ray_angle);
 
-    current_map_x = floor(data->player.player_x / GRID_SIZE); //which grid the player stands on
-    current_map_y = floor(data->player.player_y / GRID_SIZE);
+    float vertical_step_x = find_vertical_step_x(ray_angle);
+    float vertical_step_y = find_vertical_step_y(ray_angle);
+
+    //horizontal
+    intersection->intersection_hor_y = find_first_horizontal_intersection_y(player, ray_angle);
+    intersection->intersection_hor_x = find_first_horizontal_intersection_x(player, ray_angle);
+    while (is_wall_on_grid(intersection->intersection_hor_x, intersection->intersection_hor_y, data) != 1)
+    {
+        intersection->intersection_hor_y += horizontal_step_y;
+        intersection->intersection_hor_x += horizontal_step_x;
+    }
+
+    //vertical
+    intersection->intersection_ver_y = find_first_vertical_intersection_y(player, ray_angle);
+    intersection->intersection_ver_x = find_first_vertical_intersection_x(player, ray_angle);
+    while (is_wall_on_grid(intersection->intersection_ver_x, intersection->intersection_ver_y, data) != 1)
+    {
+        intersection->intersection_ver_y += vertical_step_y;
+        intersection->intersection_ver_x += vertical_step_x;
+    }
+}
+
+float smaller_distance_wall(t_player player, int column, t_intersection *intersection)
+{
+    float distance_hor;
+    float distance_ver;
+
+    distance_hor = distance_to_the_wall(player, column, intersection->intersection_hor_x, intersection->intersection_hor_y);
+    distance_ver = distance_to_the_wall(player, column, intersection->intersection_ver_x, intersection->intersection_ver_y);
+
+    if (distance_hor <= distance_ver)
+        return (distance_hor);
+    else
+        return (distance_ver);
+}
+
+
+
+
+void cast_all_rays(t_player player, t_game_data *data, t_intersection *intersection)
+{
+    int column;
+    //correct_distance = distorted_distance * cos(beta)
+    float correct_distance;
+    float distorted_distance;
+    float ray_angle;
+
+    
+    column = 0;
+    while (column < SCREEN_WIDTH)
+    {
+        ray_angle = get_ray_angle(column, &player);
+        find_wall(player, data, ray_angle, intersection);
+        distorted_distance = smaller_distance_wall(player, column, intersection);
+        correct_distance = distorted_distance * cosf(get_ray_angle_from_center(column));
+        data->distances[column] = correct_distance;
+        column++;
+    }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //the loop for finding intersection and calculating distance to
 //the wall at each column
@@ -112,20 +221,18 @@ void cast_single_ray(t_game_data *data, float ray_angle)
 
 void render_loop(int column, t_player player, t_game_data data)
 {
-
     float ray_angle;
     int i = 0;
 
     
     while (i < 319)
     {
-        ray_angle = get_ray_angle(i, player_angle); //i or column
+        ray_angle = get_ray_angle(i, player); //i or column
         cast_single_ray(data, ray_angle); //cast a single ray
 
         i++;
     }
 }
-<<<<<<< HEAD
 //check which way the ray is facing
 //if up - return 1
 int is_facin_up(int column_number)
@@ -176,8 +283,6 @@ void render_loop(int column_number, t_player player)
 
     }
 }
-=======
->>>>>>> 62dce4e (Normalize files according to .gitattributes)
 
 
 /*

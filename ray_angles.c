@@ -11,17 +11,17 @@ the distance between the player and the projection plane at this exact moment
 
 
 //it calculates the absolute value of an angle of a single ray (if player is looking North, the leftmost ray is 120 degrees)
-float get_ray_angle(int column, float player_angle)
+float get_ray_angle(int column, t_player *player)
 {
     float ray_angle;
-    float angle_offset_from_center;
+    float angle_from_center;
     
     //clculate how far the current column is from the center of the screen
     //a negative value means the ray is on the left
     float column_from_center = (float)column - (159.5f);
 
     //floorf and ceilf because we don't have the real "center ray"
-    if (column_from_center < 159.5)
+    if (column_from_center < 0)
         column_from_center = floorf(column_from_center);
     else
         column_from_center = ceilf(column_from_center);
@@ -29,11 +29,11 @@ float get_ray_angle(int column, float player_angle)
     //calculate the angle offset for this column based on the FOV
     //(the angle between the player's direction and the current ray's direction)
     //it's -30 degrees for the leftmost ray
-    angle_offset_from_center = degrees_to_radians(column_from_center * (60 / (float)320));
+    angle_from_center = degrees_to_radians(column_from_center * (FOV / SCREEN_WIDTH));
 
-    //the absolute ray angle is the player's angle plus this offset.
+    //the absolute ray angle is the player's angle plus this offset
     //for leftmost- 1.0472 radians = 60 degrees
-    ray_angle = player_angle - angle_offset_from_center;
+    ray_angle = player->player_angle - angle_from_center;
 
     //normalize angle to be between 0 and 2*PI, because it may be problematic to add
     //player's angle and the rey's offset angle and may exceed 360/2PI
@@ -45,6 +45,27 @@ float get_ray_angle(int column, float player_angle)
     return (ray_angle);
 }
 
+
+float get_ray_angle_from_center(int column)
+{
+    float column_from_center;
+    float angle_from_center; 
+
+    column_from_center = (float)column - 159.5f;
+
+    //floor/ceil for non-exact center ray
+    if (column_from_center < 0)
+        column_from_center = floorf(column_from_center);
+    else
+        column_from_center = ceilf(column_from_center);
+    
+    //convert the angle between ray and the center
+    angle_from_center = fabs(degrees_to_radians(column_from_center * (FOV / SCREEN_WIDTH)));
+
+    
+    return (angle_from_center);
+}
+
 //distance to projection plane is fixed
 float distance_to_pp(int degree)
 {
@@ -53,7 +74,7 @@ float distance_to_pp(int degree)
     float half_screen_width;
     float distance;
 
-    half_fov_degrees = FOV_DEGREES / 2.0f;
+    half_fov_degrees = FOV / 2.0f;
     half_fov_radians = degrees_to_radians(half_fov_degrees);
     half_screen_width = (float)SCREEN_WIDTH / 2.0f; //160
 

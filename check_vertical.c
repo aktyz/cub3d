@@ -62,6 +62,9 @@ float find_vertical_step_x(float ray_angle)
 
 float find_vertical_step_y(float ray_angle)
 {
+    if (is_ray_vertical(ray_angle))
+        return (0);
+        
     if (is_ray_facing_right(ray_angle) == 1)
         return ((-1) * GRID_SIZE * tanf(ray_angle));
     else

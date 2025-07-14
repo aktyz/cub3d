@@ -2,15 +2,6 @@
 
 //i should add a function to check whether a ray is perfectly horiontal, for the loop later
 
-//check which way the ray is facing
-//if up - return 1
-int is_ray_facing_up(float ray_angle)
-{
-    if (ray_angle > M_PI && ray_angle < (2.0f * M_PI))
-        return (1);
-    else
-        return (0);
-}
 //A.y - first intersection
 //function with seperate player_y and player_x - below i use the one from the structure t_player instead
 /*float find_horizontal_intersection_y(float player_y, int is_ray_facing_up)
@@ -26,6 +17,24 @@ int is_ray_facing_up(float ray_angle)
     return (intersection_y);
 }*/
 
+//check which way the ray is facing
+//if up - return 1
+int is_ray_facing_up(float ray_angle)
+{
+    if (ray_angle > M_PI && ray_angle < (2.0f * M_PI))
+        return (1);
+    else
+        return (0);
+}
+
+
+int is_ray_horizontal(float ray_angle) 
+{
+    if (fabsf(sinf(ray_angle)) < EPSILON) 
+        return (1);
+    return (0);
+}
+
 
 //A.y - first intersection
 float find_first_horizontal_intersection_y(t_player player, float ray_angle)
@@ -34,7 +43,7 @@ float find_first_horizontal_intersection_y(t_player player, float ray_angle)
     float intersection_y;
 
     if (is_ray_facing_up(ray_angle) == 1)
-        intersection_y = floorf(player.player_y / GRID_SIZE) * GRID_SIZE - 0.0001f;
+        intersection_y = floorf(player.player_y / GRID_SIZE) * GRID_SIZE - EPSILON;
     else
         intersection_y = floorf(player.player_y / GRID_SIZE) * GRID_SIZE + GRID_SIZE;
 
@@ -48,14 +57,14 @@ float find_first_horizontal_intersection_x(t_player player, float ray_angle)
     float first_y_intersection_line; // The Y of the actual grid line
     float intersection_x;
 
-    first_y_intersection_line = find_horizontal_intersection_y(player, ray_angle);
+    first_intersection_y = find_first_horizontal_intersection_y(player, ray_angle);
 
     //handle horizontal rays ----
     //if (sinf(ray_angle) == 0.0f), , but I try to avoid comparison of float with exact values
-    if (fabsf(sinf(ray_angle)) < 0.0001f)
+    if (is_ray_horizontal(ray_angle))
         return (INFINITY); //it will not cross any next horizontal lines ever
     
-    intersection_x = player.player_x + (first_y_intersection_line - player.player_y) / tanf(ray_angle);
+    intersection_x = player.player_x + (first_intersection_y - player.player_y) / tanf(ray_angle);
 
     return (intersection_x);
 }
@@ -72,8 +81,7 @@ float find_horizontal_step_y(float ray_angle)
 float find_horizontal_step_x(float ray_angle)
 {
     //if (tanf(ray_angle) == 0), but I try to avoid comparison of float with exact values
-    if (fabsf(tanf(ray_angle)) < 0.0001f)
-
+    if (is_ray_horizontal(ray_angle) == 1)
         return (INFINITY); //the ray is perfectly horizontal
 
     //we can't return just GRID_SIZE/tamf(ray_angle) because in the fourth quarter
