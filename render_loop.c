@@ -57,6 +57,7 @@ int is_wall_on_grid(float intersection_x, float intersection_y, t_game_data *dat
 
 //if there's a wall on the intersection, calculate the distance (both for horizontal and vertical)
 //distance = (x2 - xp)/cos(alpha) or (yp - y2)/sin(alpha)
+//maybe it would be better to take absolute values? and do something like delta_x and delta_y? for the exact N/S/E/W
 float distance_to_the_wall(t_player *player, int column, float intersection_x, float intersection_y)
 {
     float distance;
