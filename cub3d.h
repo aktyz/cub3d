@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/12 10:26:27 by marvin           ###   ########.fr       */
+/*   Updated: 2025/08/12 10:28:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,10 +199,18 @@ typedef struct s_player_position
 {
 	int height; //half of grid size = 32 (looks good on the screen)
 	int fov; //how many degrees - 60 
+<<<<<<< HEAD
 	int position_x;
     int position_y;
 	int distance_to_projection_plane; // calculated after each movement
 }	t_player_position;
+=======
+	float player_x; //worls coordinates of a player
+	float player_y;
+	float player_angle; //player's viewing angle in radians, which direction he is looking at
+	//0 degrees - east, 90 degrees or M-PI / 2.0 radians - North
+}	t_player;
+>>>>>>> 139fbf4 (full render logic for the raycaster, without the player's movement)
 
 
 typedef struct s_projection_plane
@@ -215,6 +223,25 @@ typedef struct s_projection_plane
 	
 } t_projection_plane;
 
+<<<<<<< HEAD
+=======
+typedef struct s_intersection
+{
+    float intersection_hor_x;
+    float intersection_hor_y;
+    float intersection_ver_x;
+    float intersection_ver_y;
+    float distance_to_wall_hor;
+    float distance_to_wall_ver;
+} t_intersection;
+
+
+
+
+// DEBUGGING
+void	ft_print_token_list(t_cub3d *data);
+void	ft_print_map_player(t_cub3d *data);
+>>>>>>> 139fbf4 (full render logic for the raycaster, without the player's movement)
 
 // INITIALIZATION
 void	ft_init(char *file_name, t_cub3d *data);
@@ -222,9 +249,6 @@ void	ft_init(char *file_name, t_cub3d *data);
 // TOKEN CREATION
 void	ft_tokenize(t_cub3d *data);
 void	ft_add_map_token(int *i, char *line, t_cub3d *data);
-
-
-
 
 // PARSING
 void	ft_parse(t_cub3d *data);
@@ -299,6 +323,34 @@ void move_forward(t_cub3d *data);
 void move_backward(t_cub3d *data);
 
 
+
+//ray_angles.c
+float	degrees_to_radians(float degrees);
+float	get_ray_angle(int column, t_player *player);
+float	get_ray_angle_from_center(int column);
+float	distance_to_pp(int degree);
+
+//check_horizontal.c
+int		is_ray_facing_up(float ray_angle);
+float	find_first_horizontal_intersection_y(t_player player, float ray_angle);
+float	find_first_horizontal_intersection_x(t_player player, float ray_angle);
+float	find_horizontal_step_y(float ray_angle);
+float	find_horizontal_step_x(float ray_angle);
+
+//check_vertical.c
+int		is_ray_facing_right(float ray_angle);
+int		is_ray_vertical(float ray_angle);
+float	find_first_vertical_intersection_x(t_player player, float ray_angle);
+float	find_first_vertical_intersection_y(t_player player, float ray_angle, float first_intersection_x);
+float	find_vertical_step_x(float ray_angle);
+float	find_vertical_step_y(float ray_angle);
+
+//render_loop.c
+int		is_wall_on_grid(float intersection_x, float intersection_y, t_game_data *data);
+float	distance_to_the_wall(t_player *player, int column, float intersection_x, float intersection_y);
+void	find_wall(t_player player, t_game_data *data, float ray_angle, t_intersection *intersection);
+float	smaller_distance_wall(t_player player, int columm, t_intersection *intersection);
+void	cast_all_rays(t_player player, t_game_data *data, float ray_angle, t_intersection *intersection);
 
 
 #endif
