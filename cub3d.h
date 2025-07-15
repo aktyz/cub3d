@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/07/09 12:55:53 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/07/15 18:23:16 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,10 +120,6 @@ void	ft_parse(t_cub3d *data);
 void	ft_store_rgb(unsigned int color_storage[3], char **color_values);
 void	ft_copy_map_token_to_struct(char *map_line, int *map_row,
 			t_cub3d *data);
-
-// PARSING
-void	ft_parse(t_cub3d *data);
-void	ft_store_rgb(unsigned int color_storage[3], char **color_values);
 
 // MAP VALIDATION
 bool	ft_is_alphanumeric(char *token);
