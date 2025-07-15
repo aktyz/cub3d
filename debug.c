@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 18:27:04 by zslowian          #+#    #+#             */
-/*   Updated: 2025/07/09 15:31:21 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/07/15 18:09:29 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	ft_print_map_player(t_cub3d *data)
 		{
 			ptr = map[i];
 			ft_printf("\"");
-			while (*ptr < data->map_cols)
+			while (*ptr != '\0')
 			{
 				ft_printf("%c", *ptr);
 				ptr++;

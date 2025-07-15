@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 18:42:30 by zslowian          #+#    #+#             */
-/*   Updated: 2025/07/09 15:25:59 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/07/15 17:38:47 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	ft_copy_map_token_to_struct(char *map_line, int *map_row,
 			ft_error(WRONG_MAP, "ft_save_map - map contains wrong chars", data);
 		if (*ptr == '\n')
 		{
-			while (char_pos < data->map_cols)
+			while (char_pos < data->map_cols - 1)
 			{
 				data->map[*map_row][char_pos] = ' ';
 				char_pos++;
