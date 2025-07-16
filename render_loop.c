@@ -195,7 +195,17 @@ void calculate_wall_height(t_game_data *data)
         i++;
     }
 }
+//NOT SURE ABOUT THIS IDEA YET
+//bottom position of the wall that should be drawn
+int bottom_of_wall(t_game_data *data)
+{
+    while (i < SCREEN_WIDTH)
+    {
+        SCREEN_HEIGHT - (data->wall_height[i] / 2)
+        i++;
+    }
 
+}
 
 
 
