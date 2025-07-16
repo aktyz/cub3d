@@ -24,6 +24,8 @@
 
 #define SCREEN_HEIGHT 200.0f //dimensions of the window/screen in pixels
 #define SCREEN_WIDTH 320.0f //the number of columns to be rendered - how many rays will be cast
+#define CENTER_OF_PP_HEIGHT 100.0f //used for placing the wall - the center of each wall will be on this horizontal line
+#define CENTER_OF_PP_WIDTH 170.0f //not sure whether it will be used yet
 #define FOV 60.0f  //a float literal
 #define FOV_RAD (FOV * M_PI / 180.0f)  //fov in radians
 #define GRID_SIZE 64
