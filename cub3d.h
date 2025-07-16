@@ -166,6 +166,7 @@ typedef struct s_game_data
 	void	*mlx_window;     //fromt_window
 	t_img	image;          //from t_window
     float	distances[SCREEN_WIDTH]; //distances for each ray
+	int	wall_height[SCREEN_WIDTH];
 } t_game_data;
 
 typedef struct s_intersection
@@ -221,7 +222,7 @@ float distance_to_pp(int degree);
 float	degrees_to_radians(float degrees);
 float	get_ray_angle(int column, t_player *player);
 float	get_ray_angle_from_center(int column);
-float	distance_to_pp(int degree);
+float	distance_to_projection_plane(void);
 
 //check_horizontal.c
 int		is_ray_facing_up(float ray_angle);

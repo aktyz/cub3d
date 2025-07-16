@@ -67,7 +67,7 @@ float get_ray_angle_from_center(int column)
 }
 
 //distance to projection plane is fixed
-float distance_to_pp(int degree)
+float distance_to_projection_plane(void)
 {
     float half_fov_degrees;
     float half_fov_radians;

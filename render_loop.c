@@ -149,9 +149,8 @@ float smaller_distance_wall(t_player player, int column, t_intersection *interse
         return (distance_ver);
 }
 
-
-
-
+//function that calculates the correct distances for each ray and keeps them in the
+//structure field distances
 void cast_all_rays(t_player player, t_game_data *data, t_intersection *intersection)
 {
     int column;
@@ -171,7 +170,30 @@ void cast_all_rays(t_player player, t_game_data *data, t_intersection *intersect
         data->distances[column] = correct_distance;
         column++;
     }
+}
 
+//wall slice will be projected onto the projection plane in next steps
+
+//function to calculate the heights of a wall for each ray
+//i cast wall height to an integer because screen space is discrete-
+//pixel coordinates are integers
+void calculate_wall_height(t_game_data *data)
+{
+    //projected_slice_height = (actual_slice_height / distance_to_the_slice) * distance_to_projection_plane;
+    float distance_to_pp = distance_to_projection_plane(); 
+    int i;
+
+    i = 0;
+
+    while (i < SCREEN_WIDTH)
+    {
+        //not to divide by 0 when our player is exactly next to the wall
+        if (data->distances[i] != 0)
+            data->wall_height[i] = (int)((GRID_SIZE / data->distances[i]) * distance_to_pp);
+        else
+            data->wall_height[i] = SCREEN_HEIGHT;
+        i++;
+    }
 }
 
 
