@@ -26,7 +26,7 @@
 #define SCREEN_WIDTH 320.0f //the number of columns to be rendered - how many rays will be cast
 #define CENTER_OF_PP_HEIGHT 100.0f //used for placing the wall - the center of each wall will be on this horizontal line
 #define CENTER_OF_PP_WIDTH 170.0f //not sure whether it will be used yet
-#define FOV 60.0f  //a float literal
+#define FOV 60.0f  //field of view - a float literal
 #define FOV_RAD (FOV * M_PI / 180.0f)  //fov in radians
 #define GRID_SIZE 64
 #define INFINITY FLT_MAX
@@ -167,8 +167,9 @@ typedef struct s_game_data
     void	*mlx_connection; //taken from t_window
 	void	*mlx_window;     //fromt_window
 	t_img	image;          //from t_window
-    float	distances[SCREEN_WIDTH]; //distances for each ray
-	int	wall_height[SCREEN_WIDTH];
+    //float	distances[SCREEN_WIDTH]; //distances for each ray
+	//int		wall_height[SCREEN_WIDTH]; //this is in t_wall from now on - to be removed
+	t_wall	*wall;
 } t_game_data;
 
 typedef struct s_intersection
@@ -180,6 +181,14 @@ typedef struct s_intersection
     float distance_to_wall_hor;
     float distance_to_wall_ver;
 } t_intersection;
+
+typedef struct t_wall
+{
+	float	distances[SCREEN_WIDTH]; //distances for each ray
+	int		wall_height[SCREEN_WIDTH];
+	int		top[SCREEN_WIDTH];
+	int		bottom[SCREEN_WIDTH];
+}	t_wall;
 
 
 
@@ -222,7 +231,7 @@ float distance_to_pp(int degree);
 
 //ray_angles.c
 float	degrees_to_radians(float degrees);
-float	get_ray_angle(int column, t_player *player);
+float	get_absolute_ray_angle(int column, t_player *player);
 float	get_ray_angle_from_center(int column);
 float	distance_to_projection_plane(void);
 
