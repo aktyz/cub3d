@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/12 10:30:01 by marvin           ###   ########.fr       */
+/*   Updated: 2025/08/12 10:30:16 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -299,7 +299,7 @@ void move_backward(t_cub3d *data);
 
 //ray_angles.c
 float	degrees_to_radians(float degrees);
-float	get_ray_angle(int column, t_player *player);
+float	get_absolute_ray_angle(int column, t_player *player);
 float	get_ray_angle_from_center(int column);
 float	distance_to_projection_plane(void);
 

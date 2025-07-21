@@ -63,7 +63,7 @@ float distance_to_the_wall(t_player *player, int column, float intersection_x, f
     float distance;
     float ray_angle;
 
-    ray_angle = get_ray_angle(column, player);
+    ray_angle = get_absolute_ray_angle(column, player);
 
     //exact North
     if (fabsf(ray_angle - (M_PI / 2.0f)) < EPSILON)
@@ -163,11 +163,12 @@ void cast_all_rays(t_player player, t_game_data *data, t_intersection *intersect
     column = 0;
     while (column < SCREEN_WIDTH)
     {
-        ray_angle = get_ray_angle(column, &player);
+        ray_angle = get_absolute_ray_angle(column, &player);
         find_wall(player, data, ray_angle, intersection);
         distorted_distance = smaller_distance_wall(player, column, intersection);
         correct_distance = distorted_distance * cosf(get_ray_angle_from_center(column));
-        data->distances[column] = correct_distance;
+        //data->distances[column] = correct_distance;
+        data->wall->distances[column] = correct_distance;
         column++;
     }
 }
@@ -177,23 +178,61 @@ void cast_all_rays(t_player player, t_game_data *data, t_intersection *intersect
 //function to calculate the heights of a wall for each ray
 //i cast wall height to an integer because screen space is discrete-
 //pixel coordinates are integers
-void calculate_wall_height(t_game_data *data)
+//old version - when wall_height was still in the t_game_data
+// void calculate_wall_height(t_game_data *data)
+// {
+//     //projected_slice_height = (actual_slice_height / distance_to_the_slice) * distance_to_projection_plane;
+//     float distance_to_pp = distance_to_projection_plane(); 
+//     int i;
+
+//     i = 0;
+
+//     while (i < SCREEN_WIDTH)
+//     {
+//         //not to divide by 0 when our player is exactly next to the wall
+//         if (data->distances[i] != 0)
+//             data->wall_height[i] = (int)((GRID_SIZE / data->distances[i]) * distance_to_pp);
+//         else
+//             data->wall.wall_height[i] = PP_HEIGHT;
+//         i++;
+//     }
+// }
+
+void	calculate_wall_height(t_game_data *data)
 {
-    //projected_slice_height = (actual_slice_height / distance_to_the_slice) * distance_to_projection_plane;
-    float distance_to_pp = distance_to_projection_plane(); 
-    int i;
+	int		i; // Represents the current screen column (from 0 to SCREEN_WIDTH-1)
+	float	dist_to_wall;
+	int		projected_wall_height;
+	int		wall_top_pixel;
+	int		wall_bottom_pixel;
 
-    i = 0;
+	i = 0;
+	while (i < SCREEN_WIDTH)
+	{
+		//get the distance for the current column from t_game_data.
+		dist_to_wall = data->wall->distances[i];
 
-    while (i < SCREEN_WIDTH)
-    {
-        //not to divide by 0 when our player is exactly next to the wall
-        if (data->distances[i] != 0)
-            data->wall_height[i] = (int)((GRID_SIZE / data->distances[i]) * distance_to_pp);
-        else
-            data->wall_height[i] = SCREEN_HEIGHT;
-        i++;
-    }
+		//screen_height / distance.
+		projected_wall_height = (int)(SCREEN_HEIGHT / dist_to_wall);
+
+		data->wall->wall_height[i] = projected_wall_height;
+
+		wall_top_pixel = (SCREEN_HEIGHT / 2) - (projected_wall_height / 2);
+		wall_bottom_pixel = (SCREEN_HEIGHT / 2) + (projected_wall_height / 2);
+
+		//ensure the values don't go off-screen
+		//important for very close walls that would be "taller" than the screen
+		if (wall_top_pixel < 0)
+			wall_top_pixel = 0;
+		if (wall_bottom_pixel >= SCREEN_HEIGHT)
+			wall_bottom_pixel = SCREEN_HEIGHT - 1;
+
+		//store the final top and bottom values in the t_wall struct
+		data->wall->top[i] = wall_top_pixel;
+		data->wall->bottom[i] = wall_bottom_pixel;
+
+		i++;
+	}
 }
 //NOT SURE ABOUT THIS IDEA YET
 //bottom position of the wall that should be drawn
