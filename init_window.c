@@ -1,39 +1,69 @@
 #include "cub3d.h"
 
-void window_init(t_projection_plane *projection_plane)
-{
-    projection_plane->mlx_connection = mlx_init();
-    if (projection_plane->mlx_connection == NULL)
-        ft_malloc_error();
 
-    projection_plane->mlx_window = mlx_new_window(projection_plane->mlx_connection, WIDTH, HEIGHT, "Cub3d");
-    if (projection_plane->mlx_window == NULL)
+void init_mlx(t_cub3d *data)
+{
+	data->mlx = mlx_init();
+    if (!data->mlx)
+        ft_error(MEM_ERROR, "init_mlx", data);
+        
+    //create the window with bigger, scaled dimensions
+	data->win = mlx_new_window(data->mlx, WIN_WIDTH, WIN_HEIGHT, "cub3D");
+    if (!data->win)
+        ft_error(MEM_ERROR, "init_mlx", data);
+        
+    //create the image buffer with small, rendering dimensions
+	data->image.img_ptr = mlx_new_image(data->mlx, PP_WIDTH, PP_HEIGHT);
+    if (!data->image.img_ptr)
     {
-        mlx_destroy_display(projection_plane->mlx_connection);
-        free(projection_plane->mlx_connection);
-        ft_malloc_error();
+
+        ft_error(MEM_ERROR, "init_mlx", data);
     }
-    projection_plane->image.img_ptr = mlx_new_image(projection_plane->mlx_connection, 320, 200);
-    if (projection_plane->image.img_ptr == NULL)
-    {
-		mlx_destroy_window(projection_plane->mlx_connection, projection_plane->mlx_window);
-		mlx_destroy_display(projection_plane->mlx_connection);
-		free(projection_plane->mlx_connection);
-		ft_malloc_error();
-    }
-    projection_plane->image.pix_ptr = mlx_get_data_addr(projection_plane->image.img_ptr, 
-    &projection_plane->image.bpp, &projection_plane->image.line_len, &projection_plane->image.endian);
-    
-    //init events and data here later:
-    // events_init(projection_plane);
-    // data_init(projection_plane);
+
+	data->image.pix_ptr = mlx_get_data_addr(data->image.img_ptr, &data->image.bpp,
+			&data->image.line_len, &data->image.endian);
 }
 
-
-// handling failure to allocate mlx structures
-void	ft_malloc_error(void)
+//get pixel color from the smaller image
+unsigned int get_pixel_color(t_img *image, int x, int y)
 {
-	ft_putstr_fd("Encountered problems with mlx variables initialization\n",
-		2);
-	exit(EXIT_FAILURE);
+	char *pixel_address;
+
+	pixel_address = image->pix_ptr + (y * image->line_len + x * (image->bpp / 8));
+	return (*(unsigned int *)pixel_address);
+}
+
+void render_scaled_frame(t_cub3d *data)
+{
+    int src_x;
+    int src_y;
+    int dest_x;
+    int dest_y;
+    int color;
+
+    src_y = 0;
+    while (src_y < PP_HEIGHT)
+    {
+        src_x = 0;
+        while (src_x < PP_WIDTH)
+        {
+            //gGet the color of one pixel from small image
+            color = get_pixel_color(&data->image, src_x, src_y);
+
+            //draw a larger block of this colour onto the bigger window
+            dest_y = src_y * SCALE;
+            while (dest_y < (src_y * SCALE) + SCALE)
+            {
+                dest_x = src_x * SCALE;
+                while (dest_x < (src_x * SCALE) + SCALE)
+                {
+                    mlx_pixel_put(data->mlx, data->win, dest_x, dest_y, color);
+                    dest_x++;
+                }
+                dest_y++;
+            }
+            src_x++;
+        }
+        src_y++;
+    }
 }

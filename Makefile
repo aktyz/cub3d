@@ -6,7 +6,7 @@
 #    By: hhurnik <hhurnik@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/16 21:43:31 by zslowian          #+#    #+#              #
-#    Updated: 2025/07/24 20:23:17 by hhurnik          ###   ########.fr        #
+#    Updated: 2025/07/24 20:41:51 by hhurnik          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 MLX_FLAGS = -lmlx -lX11 -lXext
 LIBFT_FLAGS = -lft
+MATH_FLAGS = -lm
 MLX = minilibx-linux
 MLX_SRC = git@github.com:42paris/minilibx-linux.git
 LIBFT = libft
@@ -30,15 +31,15 @@ SRC = main.c \
 	parse_utils.c \
 	parse.c \
 	tokenize.c \
-	validate.c
-	tokenize.c \
 	validate.c \
-  check_horizontal.c \
-  check_vertical.c \
-  distance_to_pp.c \
-  init_window.c \
-  render_loop.c \
-  
+	check_horizontal.c \
+	check_vertical.c \
+	game_loop.c \
+	init_window.c \
+	ray_angles.c \
+	cast_rays.c \
+	hooks.c
+	
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -47,7 +48,8 @@ $(NAME): $(MLX) $(LIBFT)
 	$(CC) $(CFLAGS) -o $(NAME) $(SRC) \
 	-L $(MLX) $(MLX_FLAGS) \
 	-L $(LIBFT) $(LIBFT_FLAGS) \
-	-no-pie
+	-no-pie \
+	$(MATH_FLAGS)
 
 $(MLX):
 	@git clone $(MLX_SRC)
