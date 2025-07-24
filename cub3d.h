@@ -120,7 +120,7 @@ typedef struct s_wall
 	float	distances[PP_WIDTH]; //actual distances from player to the wall hit for each ray
 	int		wall_height[PP_WIDTH]; //the projected wall height for each ray
 	int		top[PP_WIDTH]; //y coordinate of a place, where the top of the wall should be drawn
-	int		bottom[PP_WIDTH]; //y coordinate of a place, where the bottow of the wall should be drawn
+	int		bottom[PP_WIDTH]; //y coordinate of a place, where the bottom of the wall should be drawn
 }	t_wall;
 
 typedef struct s_intersection
