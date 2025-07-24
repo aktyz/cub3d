@@ -49,8 +49,6 @@ int is_ray_horizontal(float ray_angle)
     return (0);
 }
 
-
-//A.y - first intersection
 float find_first_horizontal_intersection_y(t_player player, float ray_angle)
 {
     //find y-coordinate of the horizontal grid line at or above the player
