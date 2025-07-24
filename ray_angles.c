@@ -1,7 +1,7 @@
 
 #include "cub3d.h"
 
-//convert degrees to raidans (for math functions)
+//convert degrees to radians (for math functions)
 float degrees_to_radians(float degrees) 
 {
     return (degrees * (M_PI / 180.0f));
