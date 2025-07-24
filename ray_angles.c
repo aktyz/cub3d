@@ -13,7 +13,7 @@ float get_absolute_ray_angle(int column, t_player *player)
     float ray_angle;
     float angle_from_center;
     
-    //clculate how far the current column is from the center of the screen - a negative value means the ray is on the left
+    //calculate how far the current column is from the center of the screen - a negative value means the ray is on the left
     float column_from_center = column - (PP_WIDTH / 2.0f);
 
    
