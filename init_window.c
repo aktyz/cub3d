@@ -47,7 +47,7 @@ void render_scaled_frame(t_cub3d *data)
         src_x = 0;
         while (src_x < PP_WIDTH)
         {
-            //gGet the color of one pixel from small image
+            //Get the color of one pixel from small image
             color = get_pixel_color(&data->image, src_x, src_y);
 
             //draw a larger block of this colour onto the bigger window
