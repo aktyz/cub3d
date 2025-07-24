@@ -39,7 +39,7 @@ float find_first_vertical_intersection_y(t_player player, float ray_angle)
     float first_intersection_x = find_first_vertical_intersection_x(player, ray_angle);
 
     //vertical rays (cos(angle) == 0 for PI/2 or 3PI/2 radians)
-    //ay perfectly vertical ray will not cross any other of the vertical lines
+    //A perfectly vertical ray will not cross any other of the vertical lines
     if (is_ray_vertical(ray_angle))
         return (INFINITY);
 
