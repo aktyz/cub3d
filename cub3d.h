@@ -6,7 +6,7 @@
 /*   By: hhurnik <hhurnik@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/07/24 20:40:55 by hhurnik          ###   ########.fr       */
+/*   Updated: 2025/07/25 18:50:49 by hhurnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ typedef struct s_intersection
     float distance_to_wall_ver;
 } t_intersection;
 
+
 /**
  * Global cub3d data representation.
  * First part is representing static information passed from the infile
@@ -173,6 +174,7 @@ typedef struct s_token
 	t_cub3d_token_types	data_id;
 	char				*value;
 } t_token;
+
 
 
 
@@ -246,6 +248,9 @@ unsigned int get_pixel_color(t_img *image, int x, int y);
 //hooks.c
 int	handle_keypress(int keycode, t_cub3d *data);
 int	close_game(t_cub3d *data);
+void look_left(t_cub3d *data);
+void look_right(t_cub3d *data);
+
 
 
 #endif

@@ -6,7 +6,7 @@
 #    By: hhurnik <hhurnik@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/16 21:43:31 by zslowian          #+#    #+#              #
-#    Updated: 2025/07/24 20:41:51 by hhurnik          ###   ########.fr        #
+#    Updated: 2025/07/25 18:48:33 by hhurnik          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,6 +73,7 @@ debug:
 	$(CC) $(CFLAGS) -o $(NAME) $(SRC) \
 	-L $(MLX) $(MLX_FLAGS) \
 	-L $(LIBFT) $(LIBFT_FLAGS) \
-	-no-pie -g
+	-no-pie -g \
+	$(MATH_FLAGS)
 
 re: fclean all

@@ -6,7 +6,7 @@
 /*   By: hhurnik <hhurnik@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:00:34 by zslowian          #+#    #+#             */
-/*   Updated: 2025/07/24 20:41:35 by hhurnik          ###   ########.fr       */
+/*   Updated: 2025/07/25 18:55:22 by hhurnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,10 @@ int main(int argc, char **argv)
 	
 		//initialize mlx
 		init_mlx(data);
+
+		//KONIEC NOWE
 		mlx_hook(data->win, 17, 0, close_game, data);
-		mlx_key_hook(data->win, handle_keypress, data);
+		mlx_hook(data->win, 2, 1ll > 0, handle_keypress, data); //dolozone //inne
 		
 		//add the other keys later
 		mlx_loop_hook(data->mlx, game_loop, data);

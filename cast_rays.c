@@ -97,7 +97,7 @@ void find_wall(t_player player, t_cub3d *data, float ray_angle, t_intersection *
         intersection->intersection_ver_x += vertical_step_x;
     }
 }
-
+//moje
 //calculate where wall was hit first (the closer intersection)
 float smaller_distance_wall(t_player *player, int column, t_intersection *intersection)
 {
@@ -115,6 +115,7 @@ float smaller_distance_wall(t_player *player, int column, t_intersection *inters
 
 
 
+//MOJE DOBRE
 //calculate the correct distances for each ray 
 void cast_all_rays(t_player player, t_cub3d *data)
 {
@@ -141,6 +142,7 @@ void cast_all_rays(t_player player, t_cub3d *data)
         column++;
     }
 }
+
 //calculate the projected wall height based on the actual wall height and distance to it
 void	calculate_wall_height(t_cub3d *data)
 {

@@ -1,4 +1,4 @@
-NO ./resources/textures/Bricks007_2K-JPG_Color.jpg
+NO ./resources/textures/Bricks007_2K-JPG_Color.xpm
 SO ./resources/textures/Plaster001_2K-JPG_Color.jpg
 WE ./resources/textures/Tiles045_2K-JPG_Color.jpg
 EA ./resources/textures/Wood003_2K-JPG_Color.jpg
@@ -11,7 +11,7 @@ C 225,30,0
 111000001111
 110000000011
 100000000011
-11110000W111
+11111110W111
 110000001111
 100000000111
 100000000001
