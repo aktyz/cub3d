@@ -33,11 +33,11 @@ void look_left(t_cub3d *data)
 	player_angle = data->player.player_angle;
 
 	//case for when the player is facing S
-	if (player_angle == ((3.0f / 2.0f) * M_PI))
+	if (player_angle == ((29.0f / 30.0f) * M_PI))
 		player_angle = 0.0f;
 
 	else
-		player_angle += M_PI / 2.0f;
+		player_angle += M_PI / 30.0f;
 
 	data->player.player_angle = player_angle;
 }
@@ -49,11 +49,11 @@ void look_right(t_cub3d *data)
 	player_angle = data->player.player_angle;
 	
 	//case for when the player is facing N
-	if (player_angle == (M_PI / 2.0f))
+	if (player_angle == (M_PI / 30.0f))
 		player_angle = 0.0f;
 
 	else
-		player_angle -= M_PI / 2.0f;
+		player_angle -= M_PI / 30.0f;
 
 	data->player.player_angle = player_angle;
 }
@@ -66,3 +66,4 @@ What if 2 keys are pressed at the same time? will the system "choose"one?
 
 
 */
+
