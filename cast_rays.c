@@ -44,19 +44,19 @@ float distance_to_the_wall(t_player *player, int column, float intersection_x, f
 
     //first quarter
     else if (ray_angle > 0.0f && ray_angle < M_PI / 2.0f)
-        distance = fabsf((player->player_x - intersection_x) / cosf(ray_angle));
+        distance = fabsf((delta_x) / cosf(ray_angle));
     
     //second quarter
     else if (ray_angle > M_PI / 2.0f && ray_angle < M_PI)
-        distance = fabsf((player->player_x - intersection_x) / sinf(ray_angle - (M_PI / 2.0f)));
+        distance = fabsf((delta_x) / sinf(ray_angle - (M_PI / 2.0f)));
     
     //third quarter
     else if (ray_angle > M_PI && ray_angle < (3.0f / 2.0f) * M_PI)
-        distance = fabsf((player->player_x - intersection_x) / cosf(ray_angle - M_PI));
+        distance = fabsf((delta_x) / cosf(ray_angle - M_PI));
 
     //fourth quarter
     else if (ray_angle > (3.0f / 2.0f) * M_PI && ray_angle < 2.0f * M_PI)
-        distance = fabsf((player->player_x - intersection_x) / sinf(ray_angle - (3.0f / 2.0f) * M_PI));
+        distance = fabsf((delta_x) / sinf(ray_angle - (3.0f / 2.0f) * M_PI));
 
     return (distance);
 }
