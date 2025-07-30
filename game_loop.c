@@ -20,8 +20,27 @@ void setup_player_and_map(t_cub3d *data)
 int game_loop(t_cub3d *data)
 {
     //player movement logic will be here
+	 if (data->input.move_right)
+        move_right(data);
+    if (data->input.move_left)
+        move_left(data);
+    if (data->input.move_forward)
+        move_forward(data);
+    if (data->input.move_backward)
+        move_backward(data);
+    if (data->input.turn_left)
+	{
+
+        look_left(data);
+	}
+    if (data->input.turn_right)
+	{
+        look_right(data);
+
+	}
+
     
-	cast_all_rays(data->player, data);
+	cast_all_rays(&data->player, data);
 
     //calculate wall heights, tops, bottoms
     calculate_wall_height(data);
