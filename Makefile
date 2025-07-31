@@ -6,13 +6,13 @@
 #    By: hhurnik <hhurnik@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/16 21:43:31 by zslowian          #+#    #+#              #
-#    Updated: 2025/07/25 18:48:33 by hhurnik          ###   ########.fr        #
+#    Updated: 2025/07/31 17:51:48 by hhurnik          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = cub3d
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 MLX_FLAGS = -lmlx -lX11 -lXext
 LIBFT_FLAGS = -lft
 MATH_FLAGS = -lm
