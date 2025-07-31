@@ -6,7 +6,7 @@
 /*   By: hhurnik <hhurnik@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/07/30 18:01:29 by hhurnik          ###   ########.fr       */
+/*   Updated: 2025/07/31 18:27:39 by hhurnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,12 @@
 #define WIN_WIDTH (PP_WIDTH * SCALE) //width of the scaled window
 #define WIN_HEIGHT (PP_HEIGHT * SCALE) //height of the scaled window
 #define SCALE 3 //scale (3 * dimensions of projection plane)
-#define MOVE_SPEED 5.0f //how fast a player moves (ASWD keys)
+#define MOVE_SPEED 2.0f //how fast a player moves (ASWD keys)
+#define ROTATION_SPEED (M_PI / 90.0f) //how fast a player rotates (left/right arrow keys)
+#define KEY_W 119
+#define KEY_A 97
+#define KEY_S 115
+#define KEY_D 100
 
 typedef enum e_cub3d_token_types
 {
