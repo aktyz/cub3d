@@ -20,7 +20,7 @@ void setup_player_and_map(t_cub3d *data)
 int game_loop(t_cub3d *data)
 {
     //player movement logic will be here
-	 if (data->input.move_right)
+	if (data->input.move_right)
         move_right(data);
     if (data->input.move_left)
         move_left(data);

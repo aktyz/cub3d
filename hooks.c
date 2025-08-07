@@ -64,6 +64,74 @@ void look_left(t_cub3d *data)
 	if (data->player.player_angle < 0)
 		data->player.player_angle += 2.0f * M_PI;
 }
+void move_forward(t_cub3d *data)
+{
+	float dx = cosf(data->player.player_angle) * MOVE_SPEED;
+	float dy = sinf(data->player.player_angle) * MOVE_SPEED;
+	float new_x = data->player.player_x + dx;
+	float new_y = data->player.player_y + dy;
+	int map_grid_x = (int)(new_x / GRID_SIZE);
+	int map_grid_y = (int)(new_y / GRID_SIZE);
+
+	// collision check, update player's position
+	if (data->map[map_grid_y][map_grid_x] != '1')
+	{
+		data->player.player_x = new_x;
+		data->player.player_y = new_y;
+	}
+}
+
+//moves the player backward by subtracting the forward movement components
+void move_backward(t_cub3d *data)
+{
+	float dx = cosf(data->player.player_angle) * MOVE_SPEED;
+	float dy = sinf(data->player.player_angle) * MOVE_SPEED; // Correct: NO negative sign
+	float new_x = data->player.player_x - dx;
+	float new_y = data->player.player_y - dy;
+	int map_grid_x = (int)(new_x / GRID_SIZE);
+	int map_grid_y = (int)(new_y / GRID_SIZE);
+
+	if (data->map[map_grid_y][map_grid_x] != '1')
+	{
+		data->player.player_x = new_x;
+		data->player.player_y = new_y;
+	}
+}
+
+//moves the player left
+void move_left(t_cub3d *data)
+{
+	float move_angle = data->player.player_angle - (M_PI / 2.0f);
+	float dx = cosf(move_angle) * MOVE_SPEED;
+	float dy = sinf(move_angle) * MOVE_SPEED;
+	float new_x = data->player.player_x + dx;
+	float new_y = data->player.player_y + dy;
+	int map_grid_x = (int)(new_x / GRID_SIZE);
+	int map_grid_y = (int)(new_y / GRID_SIZE);
+
+	if (data->map[map_grid_y][map_grid_x] != '1')
+	{
+		data->player.player_x = new_x;
+		data->player.player_y = new_y;
+	}
+}
+
+void move_right(t_cub3d *data)
+{
+	float move_angle = data->player.player_angle + (M_PI / 2.0f);
+	float dx = cosf(move_angle) * MOVE_SPEED;
+	float dy = sinf(move_angle) * MOVE_SPEED;
+	float new_x = data->player.player_x + dx;
+	float new_y = data->player.player_y + dy;
+	int map_grid_x = (int)(new_x / GRID_SIZE);
+	int map_grid_y = (int)(new_y / GRID_SIZE);
+
+	if (data->map[map_grid_y][map_grid_x] != '1')
+	{
+		data->player.player_x = new_x;
+		data->player.player_y = new_y;
+	}
+}
 
 // //stare
 // void look_right(t_cub3d *data)
@@ -101,161 +169,226 @@ void look_left(t_cub3d *data)
 // }
 
 
-void move_right(t_cub3d *data)
-{
-    float   move_angle;
-    float   new_x;//for now the view will change by PI/2 with the key pressed once
-    float   new_y;
 
-	//direction in which the player will move
-    move_angle = data->player.player_angle - (M_PI / 2.0f);
 
-    move_angle = fmod(move_angle, 2.0f * M_PI);
-    if (move_angle < 0)
-        move_angle += 2.0f * M_PI;
 
-    //first quarter
-	if (data->player.player_angle >= 0 && data->player.player_angle < M_PI / 2.0f)
-	{
-		new_x = data->player.player_x + fabsf(cosf(move_angle) * MOVE_SPEED);
-    	new_y = data->player.player_y + fabsf(sinf(move_angle) * MOVE_SPEED);
-	}
 
-	//second quarter
-	else if (data->player.player_angle >= M_PI / 2.0f && data->player.player_angle < M_PI)
-	{
-		new_x = data->player.player_x + fabsf(cosf(move_angle) * MOVE_SPEED);
-		new_y = data->player.player_y - fabsf(sinf(move_angle) * MOVE_SPEED);
-	}
 
-	//third quarter
-	else if (data->player.player_angle >= M_PI && data->player.player_angle < (3.0f * M_PI / 2.0f))
-	{
-		new_x = data->player.player_x - fabsf(cosf(move_angle) * MOVE_SPEED);
-		new_y = data->player.player_y - fabsf(sinf(move_angle) * MOVE_SPEED);
-	}
 
-	//fourth quarter
-	else if (data->player.player_angle >= (3.0f * M_PI / 2.0f))
-	{
-		new_x = data->player.player_x - fabsf(cosf(move_angle) * MOVE_SPEED);
-		new_y = data->player.player_y + fabsf(sinf(move_angle) * MOVE_SPEED);
-	}
 
-	//collision detection
-    int map_grid_x = (int)(new_x / GRID_SIZE);
-    int map_grid_y = (int)(new_y / GRID_SIZE);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// //moje poniej
+// void move_right(t_cub3d *data)
+// {
+//     float   move_angle;
+//     float   new_x;//for now the view will change by PI/2 with the key pressed once
+//     float   new_y;
+
+// 	//direction in which the player will move
+//     move_angle = data->player.player_angle - (M_PI / 2.0f);
+
+//     move_angle = fmod(move_angle, 2.0f * M_PI);
+//     if (move_angle < 0)
+//         move_angle += 2.0f * M_PI;
+
+//     //first quarter
+// 	if (data->player.player_angle >= 0 && data->player.player_angle < M_PI / 2.0f)
+// 	{
+// 		new_x = data->player.player_x + fabsf(cosf(move_angle) * MOVE_SPEED);
+//     	new_y = data->player.player_y + fabsf(sinf(move_angle) * MOVE_SPEED);
+// 	}
+
+// 	//second quarter
+// 	else if (data->player.player_angle >= M_PI / 2.0f && data->player.player_angle < M_PI)
+// 	{
+// 		new_x = data->player.player_x + fabsf(cosf(move_angle) * MOVE_SPEED);
+// 		new_y = data->player.player_y - fabsf(sinf(move_angle) * MOVE_SPEED);
+// 	}
+
+// 	//third quarter
+// 	else if (data->player.player_angle >= M_PI && data->player.player_angle < (3.0f * M_PI / 2.0f))
+// 	{
+// 		new_x = data->player.player_x - fabsf(cosf(move_angle) * MOVE_SPEED);
+// 		new_y = data->player.player_y - fabsf(sinf(move_angle) * MOVE_SPEED);
+// 	}
+
+// 	//fourth quarter
+// 	else if (data->player.player_angle >= (3.0f * M_PI / 2.0f))
+// 	{
+// 		new_x = data->player.player_x - fabsf(cosf(move_angle) * MOVE_SPEED);
+// 		new_y = data->player.player_y + fabsf(sinf(move_angle) * MOVE_SPEED);
+// 	}
+
+	
+
+
+
+	
+// 	// //fourth quarter -> first
+// 	// else if (data->player.player_angle >= 0 && data->player.player_angle < M_PI / 2.0f)
+// 	// {
+// 	// 	new_x = data->player.player_x - fabsf(cosf(move_angle) * MOVE_SPEED);
+// 	// 	new_y = data->player.player_y + fabsf(sinf(move_angle) * MOVE_SPEED);
+// 	// }
+
+// 	// //third quarter -> second
+// 	// else if (data->player.player_angle >= M_PI / 2.0f && data->player.player_angle < M_PI)
+// 	// {
+// 	// 	new_x = data->player.player_x - fabsf(cosf(move_angle) * MOVE_SPEED);
+// 	// 	new_y = data->player.player_y - fabsf(sinf(move_angle) * MOVE_SPEED);
+// 	// }
+
+// 	// //second quarter -> thirf
+// 	// else if (data->player.player_angle >= M_PI && data->player.player_angle < (3.0f * M_PI / 2.0f))
+// 	// {
+// 	// 	new_x = data->player.player_x + fabsf(cosf(move_angle) * MOVE_SPEED);
+// 	// 	new_y = data->player.player_y - fabsf(sinf(move_angle) * MOVE_SPEED);
+// 	// }
+
+// 	// //first quarter -> fourth
+// 	// if (data->player.player_angle >= (3.0f * M_PI / 2.0f))
+// 	// {
+// 	// 	new_x = data->player.player_x + fabsf(cosf(move_angle) * MOVE_SPEED);
+//     // 	new_y = data->player.player_y + fabsf(sinf(move_angle) * MOVE_SPEED);
+// 	// }
+
+
+
+
+// 	//collision detection
+//     int map_grid_x = (int)(new_x / GRID_SIZE);
+//     int map_grid_y = (int)(new_y / GRID_SIZE);
     
-	//map boundaries
-    if (map_grid_y >= 0 && map_grid_y < data->map_rows &&
-        map_grid_x >= 0 && map_grid_x < data->map_cols &&
-        data->map[map_grid_y][map_grid_x] != '1')
-    {
-        data->player.player_x = new_x;
-        data->player.player_y = new_y;
-    }
-}
-void move_left(t_cub3d *data)
-{
-	float move_angle;
-	float new_x;
-	float new_y;
+// 	//map boundaries
+//     if (map_grid_y >= 0 && map_grid_y < data->map_rows &&
+//         map_grid_x >= 0 && map_grid_x < data->map_cols &&
+//         data->map[map_grid_y][map_grid_x] != '1')
+//     {
+//         data->player.player_x = new_x;
+//         data->player.player_y = new_y;
+//     }
+// }
+// void move_left(t_cub3d *data)
+// {
+// 	float move_angle;
+// 	float new_x;
+// 	float new_y;
 	
 	
-	move_angle = data->player.player_angle + (M_PI / 2.0f);
+// 	move_angle = data->player.player_angle + (M_PI / 2.0f);
 	
-	move_angle = fmod(move_angle, 2.0f * M_PI);
-    if (move_angle > M_PI * 2.0f)
-	{
-        move_angle -= 2.0f * M_PI;
-	}
+// 	move_angle = fmod(move_angle, 2.0f * M_PI);
+//     if (move_angle > M_PI * 2.0f)
+// 	{
+//         move_angle -= 2.0f * M_PI;
+// 	}
 	
-	//first quarter
-	if (data->player.player_angle >= 0 && data->player.player_angle < M_PI / 2.0f)
-	{
-		new_x = data->player.player_x - fabsf(cosf(move_angle) * MOVE_SPEED);
-    	new_y = data->player.player_y - fabsf(sinf(move_angle) * MOVE_SPEED);
-	}
+// 	//first quarter
+// 	if (data->player.player_angle >= 0 && data->player.player_angle < M_PI / 2.0f)
+// 	{
+// 		new_x = data->player.player_x - fabsf(cosf(move_angle) * MOVE_SPEED);
+//     	new_y = data->player.player_y - fabsf(sinf(move_angle) * MOVE_SPEED);
+// 	}
 
-	//second quarter
-	else if (data->player.player_angle >= M_PI / 2.0f && data->player.player_angle < M_PI)
-	{
-		new_x = data->player.player_x - fabsf(cosf(move_angle) * MOVE_SPEED);
-		new_y = data->player.player_y + fabsf(sinf(move_angle) * MOVE_SPEED);
-	}
+// 	//second quarter
+// 	else if (data->player.player_angle >= M_PI / 2.0f && data->player.player_angle < M_PI)
+// 	{
+// 		new_x = data->player.player_x - fabsf(cosf(move_angle) * MOVE_SPEED);
+// 		new_y = data->player.player_y + fabsf(sinf(move_angle) * MOVE_SPEED);
+// 	}
 
-	//third quarter
-	else if (data->player.player_angle >= M_PI && data->player.player_angle < (3.0f * M_PI / 2.0f))
-	{
-		new_x = data->player.player_x + fabsf(cosf(move_angle) * MOVE_SPEED);
-		new_y = data->player.player_y + fabsf(sinf(move_angle) * MOVE_SPEED);
-	}
+// 	//third quarter
+// 	else if (data->player.player_angle >= M_PI && data->player.player_angle < (3.0f * M_PI / 2.0f))
+// 	{
+// 		new_x = data->player.player_x + fabsf(cosf(move_angle) * MOVE_SPEED);
+// 		new_y = data->player.player_y + fabsf(sinf(move_angle) * MOVE_SPEED);
+// 	}
 
-	//fourth quarter
-	else if (data->player.player_angle >= (3.0f * M_PI / 2.0f))
-	{
-		new_x = data->player.player_x + fabsf(cosf(move_angle) * MOVE_SPEED);
-		new_y = data->player.player_y - fabsf(sinf(move_angle) * MOVE_SPEED);
-	}
+// 	//fourth quarter
+// 	else if (data->player.player_angle >= (3.0f * M_PI / 2.0f))
+// 	{
+// 		new_x = data->player.player_x + fabsf(cosf(move_angle) * MOVE_SPEED);
+// 		new_y = data->player.player_y - fabsf(sinf(move_angle) * MOVE_SPEED);
+// 	}
 
-	//collision detection
-    int map_grid_x = (int)(new_x / GRID_SIZE);
-    int map_grid_y = (int)(new_y / GRID_SIZE);
+// 	//collision detection
+//     int map_grid_x = (int)(new_x / GRID_SIZE);
+//     int map_grid_y = (int)(new_y / GRID_SIZE);
     
-	//map boundaries
-    if (map_grid_y >= 0 && map_grid_y < data->map_rows &&
-        map_grid_x >= 0 && map_grid_x < data->map_cols &&
-        data->map[map_grid_y][map_grid_x] != '1')
-    {
-        data->player.player_x = new_x;
-        data->player.player_y = new_y;
-    }
+// 	//map boundaries
+//     if (map_grid_y >= 0 && map_grid_y < data->map_rows &&
+//         map_grid_x >= 0 && map_grid_x < data->map_cols &&
+//         data->map[map_grid_y][map_grid_x] != '1')
+//     {
+//         data->player.player_x = new_x;
+//         data->player.player_y = new_y;
+//     }
 
-}
+// }
 
 
-//new idea - doesnt work still
-void move_forward(t_cub3d *data)
-{
-	float dx = cosf(data->player.player_angle) * MOVE_SPEED;
-	float dy = -sinf(data->player.player_angle) * MOVE_SPEED;
+// //new idea - doesnt work still
+// void move_forward(t_cub3d *data)
+// {
+// 	float dx = cosf(data->player.player_angle) * MOVE_SPEED;
+// 	float dy = -sinf(data->player.player_angle) * MOVE_SPEED;
 
-	float new_x = data->player.player_x + dx;
-	float new_y = data->player.player_y + dy;
+// 	float new_x = data->player.player_x + dx;
+// 	float new_y = data->player.player_y + dy;
 
-    int map_grid_x = (int)(new_x / GRID_SIZE);
-    int map_grid_y = (int)(new_y / GRID_SIZE);
+//     int map_grid_x = (int)(new_x / GRID_SIZE);
+//     int map_grid_y = (int)(new_y / GRID_SIZE);
     
-    if (map_grid_y >= 0 && map_grid_y < data->map_rows &&
-        map_grid_x >= 0 && map_grid_x < data->map_cols &&
-        data->map[map_grid_y][map_grid_x] != '1')
-    {
-        data->player.player_x = new_x;
-        data->player.player_y = new_y;
-    }
-}
+//     if (map_grid_y >= 0 && map_grid_y < data->map_rows &&
+//         map_grid_x >= 0 && map_grid_x < data->map_cols &&
+//         data->map[map_grid_y][map_grid_x] != '1')
+//     {
+//         data->player.player_x = new_x;
+//         data->player.player_y = new_y;
+//     }
+// }
 
-void move_backward(t_cub3d *data)
-{
-	float dx = -cosf(data->player.player_angle) * MOVE_SPEED;
-	float dy = sinf(data->player.player_angle) * MOVE_SPEED;
+// void move_backward(t_cub3d *data)
+// {
+// 	float dx = -cosf(data->player.player_angle) * MOVE_SPEED;
+// 	float dy = sinf(data->player.player_angle) * MOVE_SPEED;
 
-	float new_x = data->player.player_x + dx;
-	float new_y = data->player.player_y + dy;
+// 	float new_x = data->player.player_x + dx;
+// 	float new_y = data->player.player_y + dy;
 
-    int map_grid_x = (int)(new_x / GRID_SIZE);
-    int map_grid_y = (int)(new_y / GRID_SIZE);
+//     int map_grid_x = (int)(new_x / GRID_SIZE);
+//     int map_grid_y = (int)(new_y / GRID_SIZE);
     
-    if (map_grid_y >= 0 && map_grid_y < data->map_rows &&
-        map_grid_x >= 0 && map_grid_x < data->map_cols &&
-        data->map[map_grid_y][map_grid_x] != '1')
-    {
-        data->player.player_x = new_x;
-        data->player.player_y = new_y;
-    }
-}
+//     if (map_grid_y >= 0 && map_grid_y < data->map_rows &&
+//         map_grid_x >= 0 && map_grid_x < data->map_cols &&
+//         data->map[map_grid_y][map_grid_x] != '1')
+//     {
+//         data->player.player_x = new_x;
+//         data->player.player_y = new_y;
+//     }
+// }
 
-
+//jakies starse
 // void move_forward(t_cub3d *data)
 // {
 // 	float move_angle;
