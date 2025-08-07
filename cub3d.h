@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/12 10:31:31 by marvin           ###   ########.fr       */
+/*   Updated: 2025/08/12 10:33:56 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,28 +194,6 @@ typedef struct s_token
 	char				*value;
 } t_token;
 
-
-typedef struct s_player_position
-{
-	int height; //half of grid size = 32 (looks good on the screen)
-	int fov; //how many degrees - 60 
-	int position_x;
-    int position_y;
-	int distance_to_projection_plane; // calculated after each movement
-}	t_player_position;
-
-
-typedef struct s_projection_plane
-{
-	//dimensions of the projection plane = 320 x 200 (resolution of most VGA video cards)
-	//grid_height = 64
-
-	int x;
-	int y;
-	
-} t_projection_plane;
-
-
 // INITIALIZATION
 void	ft_init(char *file_name, t_cub3d *data);
 
@@ -241,6 +219,27 @@ void	ft_clean(t_cub3d *data);
 // DEBUGGING
 void	ft_print_token_list(t_cub3d *data);
 void	ft_print_map_player(t_cub3d *data);
+
+
+typedef struct s_player_position
+{
+	int height; //half of grid size = 32 (looks good on the screen)
+	int fov; //how many degrees - 60 
+	int position_x;
+    int position_y;
+	int distance_to_projection_plane; // calculated after each movement
+}	t_player_position;
+
+
+typedef struct s_projection_plane
+{
+	//dimensions of the projection plane = 320 x 200 (resolution of most VGA video cards)
+	//grid_height = 64
+
+	int x;
+	int y;
+
+} t_projection_plane;
 
 //ray_angles.c
 float	degrees_to_radians(float degrees);
@@ -296,50 +295,6 @@ void move_forward(t_cub3d *data);
 void move_backward(t_cub3d *data);
 
 
-
-//ray_angles.c
-float	degrees_to_radians(float degrees);
-float	get_absolute_ray_angle(int column, t_player *player);
-float	get_ray_angle_from_center(int column);
-float	distance_to_projection_plane(void);
-
-//check_horizontal.c
-int		is_ray_facing_up(float ray_angle);
-float	find_first_horizontal_intersection_y(t_player player, float ray_angle);
-float	find_first_horizontal_intersection_x(t_player player, float ray_angle);
-float	find_horizontal_step_y(float ray_angle);
-float	find_horizontal_step_x(float ray_angle);
-
-//check_vertical.c
-int		is_ray_facing_right(float ray_angle);
-int		is_ray_vertical(float ray_angle);
-float	find_first_vertical_intersection_x(t_player player, float ray_angle);
-float	find_first_vertical_intersection_y(t_player player, float ray_angle);
-float	find_vertical_step_x(float ray_angle);
-float	find_vertical_step_y(float ray_angle);
-
-//cast_rays.c
-int		is_wall_on_grid(float intersection_x, float intersection_y, t_cub3d *data);
-float	distance_to_the_wall(t_player *player, int column, float intersection_x, float intersection_y);
-void	find_wall(t_player player, t_cub3d *data, float ray_angle, t_intersection *intersection);
-float	smaller_distance_wall(t_player *player, int column, t_intersection *intersection);
-void	cast_all_rays(t_player player, t_cub3d *data);
-void	calculate_wall_height(t_cub3d *data);
-
-//game_loop.c
-void	setup_player_and_map(t_cub3d *game);
-int		game_loop(t_cub3d *game);
-void	ft_pixel_put(t_img *image, int x, int y, int color);
-void	draw_frame(t_cub3d *data);
-
-//init_mlx.c
-void init_mlx(t_cub3d *data);
-void render_scaled_frame(t_cub3d *data);
-unsigned int get_pixel_color(t_img *image, int x, int y);
-
-//hooks.c
-int	handle_keypress(int keycode, t_cub3d *data);
-int	close_game(t_cub3d *data);
 
 
 #endif

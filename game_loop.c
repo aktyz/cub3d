@@ -61,33 +61,96 @@ void	ft_pixel_put(t_img *image, int x, int y, int color)
 	pxl = image->pix_ptr + (y * image->line_len + x * (image->bpp / 8));
 	*(unsigned int *)pxl = color;
 }
-
+//old - without tetures
 //draw the entire scene based on the pre-calculated wall data
+// void	draw_frame(t_cub3d *data)
+// {
+// 	int	x;
+// 	int	y;
+
+// 	x = 0;
+// 	while (x < PP_WIDTH)
+// 	{
+// 		//draw ceiling for this column
+// 		y = 0;
+// 		while (y < data->wall.top[x])
+// 		{
+// 			ft_pixel_put(&data->image, x, y, 0x87CEEB);
+// 			y++;
+// 		}
+// 		//draw wall for this column
+// 		while (y <= data->wall.bottom[x])
+// 		{
+// 			ft_pixel_put(&data->image, x, y, 0x964B00);
+// 			y++;
+// 		}
+// 		//draw floor for this column
+// 		while (y < PP_HEIGHT)
+// 		{
+// 			ft_pixel_put(&data->image, x, y, 0x556B2F);
+// 			y++;
+// 		}
+// 		x++;
+// 	}
+// }
+
+
+
+
+
+//nowe dla textures
+
 void	draw_frame(t_cub3d *data)
 {
 	int	x;
 	int	y;
-
+	
 	x = 0;
 	while (x < PP_WIDTH)
 	{
-		//draw ceiling for this column
+		// Draw ceiling
 		y = 0;
 		while (y < data->wall.top[x])
 		{
-			ft_pixel_put(&data->image, x, y, 0x87CEEB);
+			ft_pixel_put(&data->image, x, y, 0x87CEEB); // Your ceiling color
 			y++;
 		}
-		//draw wall for this column
-		while (y <= data->wall.bottom[x])
+		
+		// ** NEW: Draw TEXTURED wall for this column **
+		t_texture_data *texture = &data->textures_data[data->wall.wall_face[x]];
+		
+        // 1. Calculate texture_x (which vertical line of the texture to use)
+        // We use fmod to get the fractional part of the hit coordinate within a grid cell.
+        double wall_x_offset = fmod(data->wall.wall_hit_offset[x], GRID_SIZE);
+        int texture_x = (int)((wall_x_offset / GRID_SIZE) * texture->width);
+
+        // Optional: Flip texture for opposite-facing walls for correct mapping
+        if ((data->wall.wall_face[x] == SO) || (data->wall.wall_face[x] == WE))
+             texture_x = texture->width - 1 - texture_x;
+
+		// 2. Draw the vertical slice of the wall pixel by pixel
+		y = data->wall.top[x];
+		while (y < data->wall.bottom[x])
 		{
-			ft_pixel_put(&data->image, x, y, 0x964B00);
+			// Calculate texture_y (which horizontal line of the texture)
+			int		projected_height = data->wall.wall_height[x];
+            // The distance of the current pixel from the top of the *drawn* wall slice
+			int		dist_from_top = y + (projected_height / 2) - (PP_HEIGHT / 2);
+            // Scale this distance to the texture's height to get the texture_y coordinate
+			int		texture_y = (int)(((double)dist_from_top / projected_height) * texture->height);
+			
+			// Get the color from the texture
+			unsigned int color = get_texture_pixel_color(texture, texture_x, texture_y);
+			
+			// Draw the pixel
+			ft_pixel_put(&data->image, x, y, color);
 			y++;
 		}
-		//draw floor for this column
+
+		// Draw floor
 		while (y < PP_HEIGHT)
 		{
-			ft_pixel_put(&data->image, x, y, 0x556B2F);
+			ft_pixel_put(&data->image, x, y, 0x556B2F); // Your floor color
 			y++;
 		}
 		x++;
