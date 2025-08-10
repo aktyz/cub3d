@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 19:24:41 by zslowian          #+#    #+#             */
-/*   Updated: 2025/06/17 20:28:40 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/10 16:25:39 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,9 @@ bool	ft_is_alphanumeric(char *token)
 		ptr++;
 	}
 	return (false);
+}
+
+bool	ft_has_walls_all_around(char **map)
+{
+	return(true);
 }
