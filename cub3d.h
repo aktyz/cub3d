@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhurnik <hhurnik@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/08 15:19:10 by hhurnik          ###   ########.fr       */
+/*   Updated: 2025/08/10 15:47:40 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,9 +183,6 @@ typedef struct s_cub3d
 	t_player		player;
 	t_wall			wall;
 	t_intersection	intersection;
-
-	
-
 }	t_cub3d;
 
 
@@ -196,8 +193,6 @@ typedef struct s_token
 	t_cub3d_token_types	data_id;
 	char				*value;
 } t_token;
-
-
 
 // INITIALIZATION
 void	ft_init(char *file_name, t_cub3d *data);

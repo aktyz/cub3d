@@ -21,19 +21,19 @@ int is_ray_vertical(float ray_angle)
     return (0);
 }
 
-float find_first_vertical_intersection_x(t_player *player, float ray_angle)
+float find_first_vertical_intersection_x(t_player player, float ray_angle)
 {
     float first_intersection_x;
 
     if (is_ray_facing_right(ray_angle) == 0) // Facing left
-        first_intersection_x = floorf(player->player_x / GRID_SIZE) * GRID_SIZE - EPSILON;
+        first_intersection_x = floorf(player.player_x / GRID_SIZE) * GRID_SIZE - EPSILON;
     else // Facing right
-        first_intersection_x = floorf(player->player_x / GRID_SIZE) * GRID_SIZE + GRID_SIZE;
+        first_intersection_x = floorf(player.player_x / GRID_SIZE) * GRID_SIZE + GRID_SIZE;
 
     return (first_intersection_x);
 }
 
-float find_first_vertical_intersection_y(t_player *player, float ray_angle)
+float find_first_vertical_intersection_y(t_player player, float ray_angle)
 {
     float first_intersection_y;
     float first_intersection_x = find_first_vertical_intersection_x(player, ray_angle);
@@ -43,7 +43,7 @@ float find_first_vertical_intersection_y(t_player *player, float ray_angle)
     if (is_ray_vertical(ray_angle))
         return (INFINITY);
 
-    first_intersection_y = player->player_y + (first_intersection_x - player->player_x) * tanf(ray_angle);
+    first_intersection_y = player.player_y + (first_intersection_x - player.player_x) * tanf(ray_angle);
 
     return (first_intersection_y);
 }

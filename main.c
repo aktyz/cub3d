@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhurnik <hhurnik@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:00:34 by zslowian          #+#    #+#             */
-/*   Updated: 2025/07/30 17:22:57 by hhurnik          ###   ########.fr       */
+/*   Updated: 2025/08/10 15:49:47 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int main(int argc, char **argv)
 
 /*
 int mlx_hook(void *win_ptr, int x_event, int x_mask, int (*funct_ptr)(), void *param);
-
 - win_ptr: the window to apply the hook to
 - x_event: the event code (like key press, mouse click, etc.)
 - x_mask: the mask that specifies which events to catch (bitmask)
