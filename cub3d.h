@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hhurnik <hhurnik@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/07/15 18:23:16 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/07/24 20:40:55 by hhurnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,21 @@
 # include "libft/headers/libft.h"
 # include "minilibx-linux/mlx.h"
 # include <fcntl.h>
+# include "math.h"
+# include <stdlib.h>
+# include <float.h>
+#include <stdbool.h>
+#include <X11/keysym.h>
+
+#define PP_HEIGHT 200 //height of the projection plane in pixels (screen)
+#define PP_WIDTH 320 //width of the projection plane in pixels (screen) - how many rays will be cast
+#define FOV 60.0f  //field of view - a float literal
+#define FOV_RAD (FOV * M_PI / 180.0f)  //fov in radians
+#define GRID_SIZE 64
+#define EPSILON 0.0001f //a small value for float comparisons
+#define WIN_WIDTH (PP_WIDTH * SCALE) //width of the scaled window
+#define WIN_HEIGHT (PP_HEIGHT * SCALE) //height of the scaled window
+#define SCALE 3 //scale (3 * dimensions of projection plane)
 
 typedef enum e_cub3d_token_types
 {
@@ -79,10 +94,45 @@ typedef struct s_colors
 
 typedef struct s_player
 {
+	//map coordinates of a player
 	int		start_row;
 	int		start_col;
 	char	orientation;
+	
+	//world coordinates of a player
+	float player_x;
+	float player_y;
+	float player_angle; //player's absolute viewing angle (0 - East, PI/2 - North)
+
 }	t_player;
+
+typedef struct s_img
+{
+	void	*img_ptr; //pointer to image struct
+	char	*pix_ptr;
+	int		bpp; //bits per pixel
+	int		endian;
+	int		line_len;
+}	t_img;
+
+typedef struct s_wall
+{
+	float	distances[PP_WIDTH]; //actual distances from player to the wall hit for each ray
+	int		wall_height[PP_WIDTH]; //the projected wall height for each ray
+	int		top[PP_WIDTH]; //y coordinate of a place, where the top of the wall should be drawn
+	int		bottom[PP_WIDTH]; //y coordinate of a place, where the bottom of the wall should be drawn
+}	t_wall;
+
+typedef struct s_intersection
+{
+    float intersection_hor_x; //x coordinate of the intersection between the cast ray and horizontal grid line 
+    float intersection_hor_y; //y coordinate of the intersection between the cast ray and horizontal grid line 
+    float intersection_ver_x; //x coordinate of the intersection between the cast ray and vertical grid line 
+    float intersection_ver_y; //y coordinate of the intersection between the cast ray and vertical grid line 
+    float distance_to_wall_hor;
+    float distance_to_wall_ver;
+} t_intersection;
+
 /**
  * Global cub3d data representation.
  * First part is representing static information passed from the infile
@@ -97,16 +147,35 @@ typedef struct s_cub3d
 	t_file_names	*textures;
 	t_colors		*colors;
 	char			**map;
-	t_player		player;
 	int				map_rows;
 	int				map_cols;
+
+	//mlx data
+	void			*mlx;
+	void			*win;
+	t_img			image; //bylo
+	// t_img			render_img;  // <-- RENAMED: Small 320x200 buffer
+	// t_img			display_img; // <-- ADDED: Large buffer for the window
+
+
+	//game_state
+	t_player		player;
+	t_wall			wall;
+	t_intersection	intersection;
+
 }	t_cub3d;
+
+
+
 
 typedef struct s_token
 {
 	t_cub3d_token_types	data_id;
 	char				*value;
 } t_token;
+
+
+
 
 // INITIALIZATION
 void	ft_init(char *file_name, t_cub3d *data);
@@ -133,5 +202,50 @@ void	ft_clean(t_cub3d *data);
 // DEBUGGING
 void	ft_print_token_list(t_cub3d *data);
 void	ft_print_map_player(t_cub3d *data);
+
+//ray_angles.c
+float	degrees_to_radians(float degrees);
+float	get_absolute_ray_angle(int column, t_player *player);
+float	get_ray_angle_from_center(int column);
+float	distance_to_projection_plane(void);
+
+//check_horizontal.c
+int		is_ray_facing_up(float ray_angle);
+float	find_first_horizontal_intersection_y(t_player player, float ray_angle);
+float	find_first_horizontal_intersection_x(t_player player, float ray_angle);
+float	find_horizontal_step_y(float ray_angle);
+float	find_horizontal_step_x(float ray_angle);
+
+//check_vertical.c
+int		is_ray_facing_right(float ray_angle);
+int		is_ray_vertical(float ray_angle);
+float	find_first_vertical_intersection_x(t_player player, float ray_angle);
+float	find_first_vertical_intersection_y(t_player player, float ray_angle);
+float	find_vertical_step_x(float ray_angle);
+float	find_vertical_step_y(float ray_angle);
+
+//cast_rays.c
+int		is_wall_on_grid(float intersection_x, float intersection_y, t_cub3d *data);
+float	distance_to_the_wall(t_player *player, int column, float intersection_x, float intersection_y);
+void	find_wall(t_player player, t_cub3d *data, float ray_angle, t_intersection *intersection);
+float	smaller_distance_wall(t_player *player, int column, t_intersection *intersection);
+void	cast_all_rays(t_player player, t_cub3d *data);
+void	calculate_wall_height(t_cub3d *data);
+
+//game_loop.c
+void	setup_player_and_map(t_cub3d *game);
+int		game_loop(t_cub3d *game);
+void	ft_pixel_put(t_img *image, int x, int y, int color);
+void	draw_frame(t_cub3d *data);
+
+//init_mlx.c
+void init_mlx(t_cub3d *data);
+void render_scaled_frame(t_cub3d *data);
+unsigned int get_pixel_color(t_img *image, int x, int y);
+
+//hooks.c
+int	handle_keypress(int keycode, t_cub3d *data);
+int	close_game(t_cub3d *data);
+
 
 #endif
