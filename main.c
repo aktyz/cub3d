@@ -64,6 +64,6 @@ int mlx_hook(void *win_ptr, int x_event, int x_mask, int (*funct_ptr)(), void *p
 0 - a mask that means "just listen to this specific event, no extra filtering needed"
 
 2 - event code for KeyPress
-1ll > 0 - boolean expression, not a proper mask (?). 1ll is a long integer literal. 1ll > 0 
+1L << 0 - bitmask for KeyPress event (left-shift 1 by 0 positions to create the mask)
 
 */
