@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:00:34 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/10 15:49:47 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/11 14:57:51 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ int mlx_hook(void *win_ptr, int x_event, int x_mask, int (*funct_ptr)(), void *p
 0 - a mask that means "just listen to this specific event, no extra filtering needed"
 
 2 - event code for KeyPress
-1L << 0 - bitmask for KeyPress event (left-shift 1 by 0 positions to create the mask)
+1ll > 0 - boolean expression
+1L << 0 (value 1) = KeyPressMask - enables receiving key press events
+1L << 1 (value 2) = KeyReleaseMask - enables receiving key release events
 
 */
