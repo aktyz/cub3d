@@ -62,7 +62,6 @@ void	ft_pixel_put(t_img *image, int x, int y, int color)
 	*(unsigned int *)pxl = color;
 }
 
-//moje
 //draw the entire scene based on the pre-calculated wall data
 void	draw_frame(t_cub3d *data)
 {
