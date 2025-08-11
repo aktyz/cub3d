@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/12 13:02:42 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/12 13:04:07 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +196,10 @@ typedef struct s_cub3d
 	t_intersection	intersection;
 }	t_cub3d;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9324298 (progress: Start flood-fill)
 typedef struct s_token
 {
 	t_cub3d_token_types	data_id;
@@ -220,7 +223,7 @@ void	ft_copy_map_token_to_struct(char *map_line, int *map_row,
 
 // MAP VALIDATION
 bool	ft_is_alphanumeric(char *token);
-bool	ft_has_walls_all_around(char **map);
+bool	ft_is_map_valid(t_cub3d *data);
 
 // ERROR HANDLING
 void	ft_error(t_cub3d_errors nb, char *ft_name, t_cub3d *data);
