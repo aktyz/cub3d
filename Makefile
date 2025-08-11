@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hhurnik <hhurnik@student.42.fr>            +#+  +:+       +#+         #
+#    By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/16 21:43:31 by zslowian          #+#    #+#              #
-#    Updated: 2025/07/24 20:41:51 by hhurnik          ###   ########.fr        #
+#    Updated: 2025/08/10 15:50:12 by zslowian         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = cub3d
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 MLX_FLAGS = -lmlx -lX11 -lXext
 LIBFT_FLAGS = -lft
 MATH_FLAGS = -lm
@@ -73,6 +73,7 @@ debug:
 	$(CC) $(CFLAGS) -o $(NAME) $(SRC) \
 	-L $(MLX) $(MLX_FLAGS) \
 	-L $(LIBFT) $(LIBFT_FLAGS) \
-	-no-pie -g
+	-no-pie -g \
+	$(MATH_FLAGS)
 
 re: fclean all

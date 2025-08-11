@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhurnik <hhurnik@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/07/24 20:40:55 by hhurnik          ###   ########.fr       */
+/*   Updated: 2025/08/10 15:47:40 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,13 @@
 #define EPSILON 0.0001f //a small value for float comparisons
 #define WIN_WIDTH (PP_WIDTH * SCALE) //width of the scaled window
 #define WIN_HEIGHT (PP_HEIGHT * SCALE) //height of the scaled window
-#define SCALE 3 //scale (3 * dimensions of projection plane)
+#define SCALE 2 //scale (3 * dimensions of projection plane)
+#define MOVE_SPEED 4.0f //how fast a player moves (ASWD keys)
+#define ROTATION_SPEED (M_PI / 90.0f) //how fast a player rotates (left/right arrow keys)
+#define KEY_W 119
+#define KEY_A 97
+#define KEY_S 115
+#define KEY_D 100
 
 typedef enum e_cub3d_token_types
 {
@@ -133,6 +139,18 @@ typedef struct s_intersection
     float distance_to_wall_ver;
 } t_intersection;
 
+
+typedef struct s_input 
+{
+	bool	turn_left;
+	bool	turn_right;
+	bool	move_right;
+	bool	move_left;
+	bool	move_forward;
+	bool	move_backward;
+}	t_input;
+
+
 /**
  * Global cub3d data representation.
  * First part is representing static information passed from the infile
@@ -156,13 +174,15 @@ typedef struct s_cub3d
 	t_img			image; //bylo
 	// t_img			render_img;  // <-- RENAMED: Small 320x200 buffer
 	// t_img			display_img; // <-- ADDED: Large buffer for the window
-
-
+	
+	//NOWE
+	t_input input;
+	//KONIEC NOWE
+	
 	//game_state
 	t_player		player;
 	t_wall			wall;
 	t_intersection	intersection;
-
 }	t_cub3d;
 
 
@@ -173,9 +193,6 @@ typedef struct s_token
 	t_cub3d_token_types	data_id;
 	char				*value;
 } t_token;
-
-
-
 
 // INITIALIZATION
 void	ft_init(char *file_name, t_cub3d *data);
@@ -211,25 +228,25 @@ float	distance_to_projection_plane(void);
 
 //check_horizontal.c
 int		is_ray_facing_up(float ray_angle);
-float	find_first_horizontal_intersection_y(t_player player, float ray_angle);
-float	find_first_horizontal_intersection_x(t_player player, float ray_angle);
+float	find_first_horizontal_intersection_y(t_player *player, float ray_angle);
+float	find_first_horizontal_intersection_x(t_player *player, float ray_angle);
 float	find_horizontal_step_y(float ray_angle);
 float	find_horizontal_step_x(float ray_angle);
 
 //check_vertical.c
 int		is_ray_facing_right(float ray_angle);
 int		is_ray_vertical(float ray_angle);
-float	find_first_vertical_intersection_x(t_player player, float ray_angle);
-float	find_first_vertical_intersection_y(t_player player, float ray_angle);
+float	find_first_vertical_intersection_x(t_player *player, float ray_angle);
+float	find_first_vertical_intersection_y(t_player *player, float ray_angle);
 float	find_vertical_step_x(float ray_angle);
 float	find_vertical_step_y(float ray_angle);
 
 //cast_rays.c
 int		is_wall_on_grid(float intersection_x, float intersection_y, t_cub3d *data);
 float	distance_to_the_wall(t_player *player, int column, float intersection_x, float intersection_y);
-void	find_wall(t_player player, t_cub3d *data, float ray_angle, t_intersection *intersection);
+void	find_wall(t_player *player, t_cub3d *data, float ray_angle, t_intersection *intersection);
 float	smaller_distance_wall(t_player *player, int column, t_intersection *intersection);
-void	cast_all_rays(t_player player, t_cub3d *data);
+void	cast_all_rays(t_player *player, t_cub3d *data);
 void	calculate_wall_height(t_cub3d *data);
 
 //game_loop.c
@@ -244,8 +261,19 @@ void render_scaled_frame(t_cub3d *data);
 unsigned int get_pixel_color(t_img *image, int x, int y);
 
 //hooks.c
+//int	handle_keypress(int keycode, t_cub3d *data);
 int	handle_keypress(int keycode, t_cub3d *data);
+int	handle_keyrelease(int keycode, t_cub3d *data);
+//int handle_keypress_move(int keycode, t_cub3d *data);
 int	close_game(t_cub3d *data);
+void look_left(t_cub3d *data);
+void look_right(t_cub3d *data);
+void move_right(t_cub3d *data);
+void move_left(t_cub3d *data);
+void move_forward(t_cub3d *data);
+void move_backward(t_cub3d *data);
+
+
 
 
 #endif
