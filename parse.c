@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 17:50:18 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/12 18:20:50 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/12 18:23:34 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,9 +112,9 @@ static void	ft_save_color(t_cub3d *data, t_token *token)
 		ft_error(MEM_ERROR, "ft_save_color\n", data);
 	color_values = ft_split(token->value, ',');
 	if (token->data_id == F)
-		ft_store_rgb(data->colors->floor_color, color_values);
+		ft_store_rgb(data->colors->floor_color, color_values, data);
 	else if (token->data_id == C)
-		ft_store_rgb(data->colors->ceiling_color, color_values);
+		ft_store_rgb(data->colors->ceiling_color, color_values, data);
 	else
 		ft_error(ERROR_WHEN_PARSING, "ft_save_info\n", data);
 }

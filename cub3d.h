@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/12 15:27:22 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/12 18:27:58 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef enum e_cub3d_errors
 	ERROR_WHEN_PARSING,
 	FILE_CLOSE,
 	WRONG_MAP,
+	COLOR,
 	ERROR_NB,
 }	t_cub3d_errors;
 
@@ -213,7 +214,8 @@ void	ft_add_map_token(int *i, char *line, t_cub3d *data);
 
 // PARSING
 void	ft_parse(t_cub3d *data);
-void	ft_store_rgb(unsigned int color_storage[3], char **color_values);
+void	ft_store_rgb(unsigned int color_storage[3], char **color_values,
+			t_cub3d *data);
 void	ft_copy_map_token_to_struct(char *map_line, int *map_row,
 			t_cub3d *data);
 
