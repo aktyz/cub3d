@@ -24,7 +24,7 @@ unsigned int get_texture_pixel_color(t_texture_data *texture, int x, int y)
 }
 
 //load one texture
-static void load_single_texture(t_cub3d *data, t_texture_data *tex_data, char *path)
+void load_single_texture(t_cub3d *data, t_texture_data *tex_data, char *path)
 {
 	tex_data->img.img_ptr = mlx_xpm_file_to_image(data->mlx, path,
 			&tex_data->width, &tex_data->height);

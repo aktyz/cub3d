@@ -96,22 +96,7 @@ void find_wall(t_player *player, t_cub3d *data, float ray_angle, t_intersection 
         intersection->intersection_ver_x += vertical_step_x;
     }
 }
-//calculate where wall was hit first (the closer intersection)
-// float smaller_distance_wall(t_player *player, int column, t_intersection *intersection)
-// {
-//     float distance_hor;
-//     float distance_ver;
 
-//     distance_hor = distance_to_the_wall(player, column, intersection->intersection_hor_x, intersection->intersection_hor_y);
-//     distance_ver = distance_to_the_wall(player, column, intersection->intersection_ver_x, intersection->intersection_ver_y);
-
-//     if (distance_hor <= distance_ver)
-//         return (distance_hor);
-//     else
-//         return (distance_ver);
-// }
-
-//nowe dla textury
 float find_and_set_wall_data(t_cub3d *data, int column, float ray_angle, t_intersection *intersection)
 {
     float distance_hor;
@@ -124,7 +109,7 @@ float find_and_set_wall_data(t_cub3d *data, int column, float ray_angle, t_inter
     if (distance_hor <= distance_ver)
     {
         //the ray hit a horiontal wall
-        data->wall.wall_hit_offset[column] = intersection->intersection_hor_x;
+        data->wall.wall_hit[column] = intersection->intersection_hor_x;
         
         //determine if it's a N or S wall based on ray direction
         //a ray facing up (towards increasing Y) hits the bottom of a wall, which is a S
@@ -138,7 +123,7 @@ float find_and_set_wall_data(t_cub3d *data, int column, float ray_angle, t_inter
     else
     {
         //the ray hit a vertical wall
-        data->wall.wall_hit_offset[column] = intersection->intersection_ver_y;
+        data->wall.wall_hit[column] = intersection->intersection_ver_y;
 
         //determine if it's an E or W wall based on ray direction
         //a ray facing right hits the left side of a wall, a W face
@@ -151,8 +136,21 @@ float find_and_set_wall_data(t_cub3d *data, int column, float ray_angle, t_inter
     }
 }
 
+//calculate where wall was hit first (the closer intersection)
+float smaller_distance_wall(t_player *player, int column, t_intersection *intersection)
+{
+    float distance_hor;
+    float distance_ver;
 
-//without texture
+    distance_hor = distance_to_the_wall(player, column, intersection->intersection_hor_x, intersection->intersection_hor_y);
+    distance_ver = distance_to_the_wall(player, column, intersection->intersection_ver_x, intersection->intersection_ver_y);
+
+    if (distance_hor <= distance_ver)
+        return (distance_hor);
+    else
+        return (distance_ver);
+}
+
 //calculate the correct distances for each ray 
 void cast_all_rays(t_player *player, t_cub3d *data)
 {

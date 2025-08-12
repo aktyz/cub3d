@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/12 10:33:56 by marvin           ###   ########.fr       */
+/*   Updated: 2025/08/12 11:02:59 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ typedef struct s_file_names
 	char *ea_texture;
 }	t_file_names;
 
+
+
 /**
  * To simplyfy the allocation and freeing the memory, we store
  * rgb color values in an unsigned int array where:
@@ -121,12 +123,22 @@ typedef struct s_img
 	int		line_len;
 }	t_img;
 
+typedef struct s_texture_data
+{
+	t_img	img;
+	int		width;
+	int		height;
+}	t_texture_data;
+
 typedef struct s_wall
 {
 	float	distances[PP_WIDTH]; //actual distances from player to the wall hit for each ray
 	int		wall_height[PP_WIDTH]; //the projected wall height for each ray
 	int		top[PP_WIDTH]; //y coordinate of a place, where the top of the wall should be drawn
 	int		bottom[PP_WIDTH]; //y coordinate of a place, where the bottom of the wall should be drawn
+	
+	t_cub3d_token_types	wall_face[PP_WIDTH];
+	float			wall_hit[PP_WIDTH];
 }	t_wall;
 
 typedef struct s_intersection
@@ -167,17 +179,16 @@ typedef struct s_cub3d
 	char			**map;
 	int				map_rows;
 	int				map_cols;
+	t_texture_data	textures_data[4];
 
 	//mlx data
 	void			*mlx;
 	void			*win;
-	t_img			image; //bylo
-	// t_img			render_img;  // <-- RENAMED: Small 320x200 buffer
-	// t_img			display_img; // <-- ADDED: Large buffer for the window
+	t_img			image;
 	
-	//NOWE
+	//keys input
 	t_input input;
-	//KONIEC NOWE
+
 	
 	//game_state
 	t_player		player;
@@ -186,13 +197,13 @@ typedef struct s_cub3d
 }	t_cub3d;
 
 
-
-
 typedef struct s_token
 {
 	t_cub3d_token_types	data_id;
 	char				*value;
 } t_token;
+
+
 
 // INITIALIZATION
 void	ft_init(char *file_name, t_cub3d *data);
@@ -219,27 +230,6 @@ void	ft_clean(t_cub3d *data);
 // DEBUGGING
 void	ft_print_token_list(t_cub3d *data);
 void	ft_print_map_player(t_cub3d *data);
-
-
-typedef struct s_player_position
-{
-	int height; //half of grid size = 32 (looks good on the screen)
-	int fov; //how many degrees - 60 
-	int position_x;
-    int position_y;
-	int distance_to_projection_plane; // calculated after each movement
-}	t_player_position;
-
-
-typedef struct s_projection_plane
-{
-	//dimensions of the projection plane = 320 x 200 (resolution of most VGA video cards)
-	//grid_height = 64
-
-	int x;
-	int y;
-
-} t_projection_plane;
 
 //ray_angles.c
 float	degrees_to_radians(float degrees);
@@ -282,10 +272,8 @@ void render_scaled_frame(t_cub3d *data);
 unsigned int get_pixel_color(t_img *image, int x, int y);
 
 //hooks.c
-//int	handle_keypress(int keycode, t_cub3d *data);
 int	handle_keypress(int keycode, t_cub3d *data);
 int	handle_keyrelease(int keycode, t_cub3d *data);
-//int handle_keypress_move(int keycode, t_cub3d *data);
 int	close_game(t_cub3d *data);
 void look_left(t_cub3d *data);
 void look_right(t_cub3d *data);
@@ -294,7 +282,10 @@ void move_left(t_cub3d *data);
 void move_forward(t_cub3d *data);
 void move_backward(t_cub3d *data);
 
-
+//textures.c
+unsigned int get_texture_pixel_color(t_texture_data *texture, int x, int y);
+void load_single_texture(t_cub3d *data, t_texture_data *tex_data, char *path);
+void load_textures(t_cub3d *data);
 
 
 #endif
