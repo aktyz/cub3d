@@ -169,7 +169,6 @@ void cast_all_rays(t_player *player, t_cub3d *data)
         distorted_distance = smaller_distance_wall(player, column, &intersection);
         
         //find the coordinates of the wall hit
-        find_wall(player, data, ray_angle, &intersection);
         
         //calculate distance andset the wall face and hit place
         distorted_distance = find_and_set_wall_data(data, column, ray_angle, &intersection);
