@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/12 13:04:07 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/12 15:27:22 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,10 +196,6 @@ typedef struct s_cub3d
 	t_intersection	intersection;
 }	t_cub3d;
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 9324298 (progress: Start flood-fill)
 typedef struct s_token
 {
 	t_cub3d_token_types	data_id;
@@ -234,6 +230,7 @@ void	ft_clean(t_cub3d *data);
 // DEBUGGING
 void	ft_print_token_list(t_cub3d *data);
 void	ft_print_map_player(t_cub3d *data);
+void	ft_print_map(char **map, int map_rows);
 
 //ray_angles.c
 float	degrees_to_radians(float degrees);

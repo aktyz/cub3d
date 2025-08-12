@@ -118,7 +118,7 @@ static void ft_save_map(t_cub3d *data, t_list **ptr)
 	if (!data->player.orientation)
 		ft_error(WRONG_MAP, "ft_save_map - player pos missing\n", data);
 	if (!ft_is_map_valid(data))
-		ft_error(WRONG_MAP, "not surounded by wals");
+		ft_error(WRONG_MAP, "not surounded by walls", data);
 }
 
 static void ft_save_color(t_cub3d *data, t_token *token)
