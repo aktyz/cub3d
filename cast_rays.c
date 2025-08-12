@@ -136,21 +136,6 @@ float find_and_set_wall_data(t_cub3d *data, int column, float ray_angle, t_inter
     }
 }
 
-//calculate where wall was hit first (the closer intersection)
-float smaller_distance_wall(t_player *player, int column, t_intersection *intersection)
-{
-    float distance_hor;
-    float distance_ver;
-
-    distance_hor = distance_to_the_wall(player, column, intersection->intersection_hor_x, intersection->intersection_hor_y);
-    distance_ver = distance_to_the_wall(player, column, intersection->intersection_ver_x, intersection->intersection_ver_y);
-
-    if (distance_hor <= distance_ver)
-        return (distance_hor);
-    else
-        return (distance_ver);
-}
-
 //calculate the correct distances for each ray 
 void cast_all_rays(t_player *player, t_cub3d *data)
 {
@@ -164,12 +149,8 @@ void cast_all_rays(t_player *player, t_cub3d *data)
     while (column < PP_WIDTH)
     {
         ray_angle = get_absolute_ray_angle(column, player);
-        //printf("Column: %d, Ray Angle: %f\n", column, ray_angle); //debug
         find_wall(player, data, ray_angle, &intersection);
-        distorted_distance = smaller_distance_wall(player, column, &intersection);
-        
-        //find the coordinates of the wall hit
-        
+                
         //calculate distance andset the wall face and hit place
         distorted_distance = find_and_set_wall_data(data, column, ray_angle, &intersection);
         

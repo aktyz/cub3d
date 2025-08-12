@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/12 11:02:59 by marvin           ###   ########.fr       */
+/*   Updated: 2025/08/12 11:45:35 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,7 +256,6 @@ float	find_vertical_step_y(float ray_angle);
 int		is_wall_on_grid(float intersection_x, float intersection_y, t_cub3d *data);
 float	distance_to_the_wall(t_player *player, int column, float intersection_x, float intersection_y);
 void	find_wall(t_player *player, t_cub3d *data, float ray_angle, t_intersection *intersection);
-float	smaller_distance_wall(t_player *player, int column, t_intersection *intersection);
 void	cast_all_rays(t_player *player, t_cub3d *data);
 void	calculate_wall_height(t_cub3d *data);
 
