@@ -92,7 +92,7 @@ void move_forward(t_cub3d *data)
 void move_backward(t_cub3d *data)
 {
 	float dx = cosf(data->player.player_angle) * MOVE_SPEED;
-	float dy = sinf(data->player.player_angle) * MOVE_SPEED; // Assumes y increases downward; no negative sign needed in this coordinate system
+	float dy = sinf(data->player.player_angle) * MOVE_SPEED; //assumes y increases downward; no negative sign needed in this coordinate system
 	float new_x = data->player.player_x - dx;
 	float new_y = data->player.player_y - dy;
 	int map_grid_x = (int)(new_x / GRID_SIZE);

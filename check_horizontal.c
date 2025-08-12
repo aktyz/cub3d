@@ -32,6 +32,7 @@ float find_first_horizontal_intersection_y(t_player *player, float ray_angle)
 }
 
 
+
 //A.x - first intersection
 //based on closest grid y, get the x-value of the point of the intersection
 float find_first_horizontal_intersection_x(t_player *player, float ray_angle)

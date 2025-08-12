@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+         #
+#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/16 21:43:31 by zslowian          #+#    #+#              #
-#    Updated: 2025/08/10 15:50:12 by zslowian         ###   ########.fr        #
+#    Updated: 2025/08/12 10:34:20 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,8 @@ SRC = main.c \
 	init_window.c \
 	ray_angles.c \
 	cast_rays.c \
-	hooks.c
+	hooks.c \
+	textures.c
 	
 
 %.o: %.c

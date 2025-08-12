@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:00:34 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/11 14:57:51 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/12 10:52:16 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int main(int argc, char **argv)
 	
 		//initialize mlx
 		init_mlx(data);
+
+		load_textures(data);
 
 		//handle clicking on red cross
 		mlx_hook(data->win, 17, 0, close_game, data);

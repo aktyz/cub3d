@@ -96,53 +96,76 @@ void find_wall(t_player *player, t_cub3d *data, float ray_angle, t_intersection 
         intersection->intersection_ver_x += vertical_step_x;
     }
 }
-//calculate where wall was hit first (the closer intersection)
-float smaller_distance_wall(t_player *player, int column, t_intersection *intersection)
+
+float find_and_set_wall_data(t_cub3d *data, int column, float ray_angle, t_intersection *intersection)
 {
     float distance_hor;
     float distance_ver;
 
-    distance_hor = distance_to_the_wall(player, column, intersection->intersection_hor_x, intersection->intersection_hor_y);
-    distance_ver = distance_to_the_wall(player, column, intersection->intersection_ver_x, intersection->intersection_ver_y);
+    //calculate distances to both horizontal and vertical intersections
+    distance_hor = distance_to_the_wall(&data->player, column, intersection->intersection_hor_x, intersection->intersection_hor_y);
+    distance_ver = distance_to_the_wall(&data->player, column, intersection->intersection_ver_x, intersection->intersection_ver_y);
 
     if (distance_hor <= distance_ver)
+    {
+        //the ray hit a horizontal wall
+        data->wall.wall_hit[column] = intersection->intersection_hor_x;
+        
+        //determine if it's a N or S wall based on ray direction
+        //a ray facing up (towards increasing Y) hits the bottom of a wall, which is a S
+        if (is_ray_facing_up(ray_angle))
+            data->wall.wall_face[column] = SO;
+        else //a ray facing down hits the top of a wall, a N
+            data->wall.wall_face[column] = NO;
+            
         return (distance_hor);
+    }
     else
+    {
+        //the ray hit a vertical wall
+        data->wall.wall_hit[column] = intersection->intersection_ver_y;
+
+        //determine if it's an E or W wall based on ray direction
+        //a ray facing right hits the left side of a wall, a W face
+        if (is_ray_facing_right(ray_angle))
+             data->wall.wall_face[column] = WE;
+        else //a ray facing left hits the right side of a wall, an E
+             data->wall.wall_face[column] = EA;
+
         return (distance_ver);
+    }
 }
-
-
 
 //calculate the correct distances for each ray 
 void cast_all_rays(t_player *player, t_cub3d *data)
 {
-    int column;
-    float correct_distance;
-    float distorted_distance;
-    float ray_angle;
-    t_intersection intersection;
-    
+    int             column;
+    float           correct_distance;
+    float           distorted_distance;
+    float           ray_angle;
+    t_intersection  intersection;
     
     column = 0;
     while (column < PP_WIDTH)
     {
         ray_angle = get_absolute_ray_angle(column, player);
-        //printf("Column: %d, Ray Angle: %f\n", column, ray_angle); //debug
         find_wall(player, data, ray_angle, &intersection);
-        distorted_distance = smaller_distance_wall(player, column, &intersection);
+                
+        //calculate distance andset the wall face and hit place
+        distorted_distance = find_and_set_wall_data(data, column, ray_angle, &intersection);
         
-        //correct_distance = distorted_distance * cos(beta)
+        //correct for fish-bowl
         correct_distance = distorted_distance * cosf(get_ray_angle_from_center(column));
 
-        //printf("Column: %d, Correct Distance: %f\n", column, correct_distance); //debug printf
         data->wall.distances[column] = correct_distance;
         column++;
     }
 }
+
 //calculate the projected wall height based on the actual wall height and distance to it
 void	calculate_wall_height(t_cub3d *data)
 {
-	int		column; // Represents the current screen column (from 0 to PP_WIDTH-1)
+	int		column; // represents the current screen column (from 0 to PP_WIDTH-1)
 	float	dist_to_wall;
 	int		projected_wall_height;
 	int		wall_top_pixel;
