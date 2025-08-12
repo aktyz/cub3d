@@ -108,7 +108,7 @@ float find_and_set_wall_data(t_cub3d *data, int column, float ray_angle, t_inter
 
     if (distance_hor <= distance_ver)
     {
-        //the ray hit a horiontal wall
+        //the ray hit a horizontal wall
         data->wall.wall_hit[column] = intersection->intersection_hor_x;
         
         //determine if it's a N or S wall based on ray direction
