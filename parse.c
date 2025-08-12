@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 17:50:18 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/12 18:10:11 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/12 18:20:50 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@ void	ft_parse(t_cub3d *data)
 	}
 	if (data->map_cols < 3)
 		ft_error(WRONG_MAP, "ft_parse - map has too few columns\n", data);
+	if (!data->textures->no_texture || !data->textures->so_texture
+		|| !data->textures->we_texture || !data->textures->ea_texture)
+		ft_error(WRONG_MAP, "one or more textures missing", data);
 }
 
 static void	ft_save_info(t_cub3d *data, t_token *token)
