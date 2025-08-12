@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/12 18:27:58 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/12 19:17:18 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,8 @@ typedef struct s_file_names
  */
 typedef struct s_colors
 {
-	unsigned int	floor_color[3];
-	unsigned int	ceiling_color[3];
+	int	floor_color[3];
+	int	ceiling_color[3];
 }	t_colors;
 
 typedef struct s_player
@@ -214,10 +214,14 @@ void	ft_add_map_token(int *i, char *line, t_cub3d *data);
 
 // PARSING
 void	ft_parse(t_cub3d *data);
-void	ft_store_rgb(unsigned int color_storage[3], char **color_values,
-			t_cub3d *data);
 void	ft_copy_map_token_to_struct(char *map_line, int *map_row,
 			t_cub3d *data);
+
+// COLORS
+void	ft_store_rgb(int color_storage[3], char **color_values,
+			t_cub3d *data);
+bool	are_all_colors(t_cub3d *data);
+void	init_colors(t_cub3d *data);
 
 // MAP VALIDATION
 bool	ft_is_alphanumeric(char *token);

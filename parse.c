@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 17:50:18 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/12 18:23:34 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/12 19:17:18 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,10 @@ void	ft_parse(t_cub3d *data)
 	t_token	*token;
 
 	if (data->map_rows < 3)
-		ft_error(WRONG_MAP, "ft_parse - map has too few rows\n", data);
+		ft_error(WRONG_MAP, "ft_parse - map has too few rows", data);
 	if (data->tokens)
 		ptr = data->tokens;
+	init_colors(data);
 	while (ptr)
 	{
 		token = (t_token *) ptr->content;
@@ -46,10 +47,12 @@ void	ft_parse(t_cub3d *data)
 			ptr = ptr->next;
 	}
 	if (data->map_cols < 3)
-		ft_error(WRONG_MAP, "ft_parse - map has too few columns\n", data);
+		ft_error(WRONG_MAP, "ft_parse - map has too few columns", data);
 	if (!data->textures->no_texture || !data->textures->so_texture
 		|| !data->textures->we_texture || !data->textures->ea_texture)
 		ft_error(WRONG_MAP, "one or more textures missing", data);
+	if (!are_all_colors(data))
+		ft_error(WRONG_MAP, "one or two color values missing", data);
 }
 
 static void	ft_save_info(t_cub3d *data, t_token *token)
@@ -57,7 +60,7 @@ static void	ft_save_info(t_cub3d *data, t_token *token)
 	if (data->textures == NULL)
 		data->textures = ft_calloc(1, sizeof(t_file_names));
 	if (data->textures == NULL)
-		ft_error(MEM_ERROR, "ft_save_info - textures\n", data);
+		ft_error(MEM_ERROR, "ft_save_info - textures", data);
 	if (token->data_id == NO || token->data_id == SO || token->data_id == WE
 		|| token->data_id == EA)
 		ft_save_texture_file_name(data, token);
@@ -92,12 +95,12 @@ static void	ft_save_map(t_cub3d *data, t_list **ptr)
 			map_token = (t_token *)(*ptr)->next->content;
 			if (map_token->data_id != MAP)
 				ft_error(WRONG_MAP,
-					"ft_save_map - map token list interrupted\n", data);
+					"ft_save_map - map token list interrupted", data);
 		}
 		*ptr = (*ptr)->next;
 	}
 	if (!data->player.orientation)
-		ft_error(WRONG_MAP, "ft_save_map - player pos missing\n", data);
+		ft_error(WRONG_MAP, "ft_save_map - player pos missing", data);
 	if (!ft_is_map_valid(data))
 		ft_error(WRONG_MAP, "not surounded by walls", data);
 }
@@ -106,17 +109,13 @@ static void	ft_save_color(t_cub3d *data, t_token *token)
 {
 	char	**color_values;
 
-	if (data->colors == NULL)
-		data->colors = ft_calloc(1, sizeof(t_colors));
-	if (data->colors == NULL)
-		ft_error(MEM_ERROR, "ft_save_color\n", data);
 	color_values = ft_split(token->value, ',');
 	if (token->data_id == F)
 		ft_store_rgb(data->colors->floor_color, color_values, data);
 	else if (token->data_id == C)
 		ft_store_rgb(data->colors->ceiling_color, color_values, data);
 	else
-		ft_error(ERROR_WHEN_PARSING, "ft_save_info\n", data);
+		ft_error(ERROR_WHEN_PARSING, "ft_save_info", data);
 }
 
 static void	ft_save_texture_file_name(t_cub3d *data, t_token *token)
