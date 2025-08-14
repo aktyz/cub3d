@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 13:55:26 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/12 10:30:23 by marvin           ###   ########.fr       */
+/*   Updated: 2025/08/14 15:04:06 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	ft_init(char *file_name, t_cub3d *data)
 	ft_validate_input_file(file_name, data);
 	ft_tokenize(data);
 	ft_parse(data);
-	ft_print_map_player(data);
 }
 
 /**

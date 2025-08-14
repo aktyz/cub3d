@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 18:27:04 by zslowian          #+#    #+#             */
-/*   Updated: 2025/07/15 18:09:29 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/12 15:15:06 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	ft_print_token_list(t_cub3d *data);
 void	ft_print_map_player(t_cub3d *data);
+void	ft_print_map(char **map, int map_rows);
 
 void	ft_print_token_list(t_cub3d *data)
 {
@@ -38,13 +39,8 @@ void	ft_print_token_list(t_cub3d *data)
 void	ft_print_map_player(t_cub3d *data)
 {
 	t_player	*player;
-	char		**map;
-	int			i;
-	char		*ptr;
 
 	player = &data->player;
-	map = data->map;
-	i = 0;
 	if (player->orientation)
 	{
 		ft_printf("Player information stored in program structure:\n");
@@ -53,10 +49,19 @@ void	ft_print_map_player(t_cub3d *data)
 		ft_printf("Player column index:\t\t%d\n", player->start_col);
 		ft_printf("Player start orientation:\t%c\n\n", player->orientation);
 	}
+	ft_printf("Map stored in program data structure:\n\n");
+	ft_print_map(data->map, data->map_rows);
+}
+
+void	ft_print_map(char **map, int map_rows)
+{
+	int		i;
+	char	*ptr;
+
+	i = -1;
 	if (map)
 	{
-		ft_printf("Map stored in program data structure:\n\n");
-		while (i < data->map_rows)
+		while (++i < map_rows)
 		{
 			ptr = map[i];
 			ft_printf("\"");
@@ -66,7 +71,6 @@ void	ft_print_map_player(t_cub3d *data)
 				ptr++;
 			}
 			ft_printf("\"\n");
-			i++;
 		}
 		ft_printf("\n\n");
 	}

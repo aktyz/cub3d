@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/12 11:45:35 by marvin           ###   ########.fr       */
+/*   Updated: 2025/08/14 15:06:47 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 #define KEY_A 97
 #define KEY_S 115
 #define KEY_D 100
+#define COLOR_INIT_VALUE -1
 
 typedef enum e_cub3d_token_types
 {
@@ -73,6 +74,7 @@ typedef enum e_cub3d_errors
 	ERROR_WHEN_PARSING,
 	FILE_CLOSE,
 	WRONG_MAP,
+	COLOR,
 	ERROR_NB,
 }	t_cub3d_errors;
 
@@ -96,8 +98,8 @@ typedef struct s_file_names
  */
 typedef struct s_colors
 {
-	unsigned int	floor_color[3];
-	unsigned int	ceiling_color[3];
+	int	floor_color[3];
+	int	ceiling_color[3];
 }	t_colors;
 
 typedef struct s_player
@@ -196,7 +198,6 @@ typedef struct s_cub3d
 	t_intersection	intersection;
 }	t_cub3d;
 
-
 typedef struct s_token
 {
 	t_cub3d_token_types	data_id;
@@ -214,12 +215,18 @@ void	ft_add_map_token(int *i, char *line, t_cub3d *data);
 
 // PARSING
 void	ft_parse(t_cub3d *data);
-void	ft_store_rgb(unsigned int color_storage[3], char **color_values);
 void	ft_copy_map_token_to_struct(char *map_line, int *map_row,
 			t_cub3d *data);
 
+// COLORS
+void	ft_store_rgb(int color_storage[3], char **color_values,
+			t_cub3d *data);
+bool	are_all_colors(t_cub3d *data);
+void	init_colors(t_cub3d *data);
+
 // MAP VALIDATION
 bool	ft_is_alphanumeric(char *token);
+bool	ft_is_map_valid(t_cub3d *data);
 
 // ERROR HANDLING
 void	ft_error(t_cub3d_errors nb, char *ft_name, t_cub3d *data);
@@ -230,6 +237,7 @@ void	ft_clean(t_cub3d *data);
 // DEBUGGING
 void	ft_print_token_list(t_cub3d *data);
 void	ft_print_map_player(t_cub3d *data);
+void	ft_print_map(char **map, int map_rows);
 
 //ray_angles.c
 float	degrees_to_radians(float degrees);

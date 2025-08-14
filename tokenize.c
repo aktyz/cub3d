@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:10:04 by zslowian          #+#    #+#             */
-/*   Updated: 2025/07/09 12:40:43 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/12 18:40:44 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,9 @@ void	ft_add_data_id_value(int *i, char *line, t_token *last, t_cub3d *data)
 		ptr++;
 		k++;
 	}
+	if (!*ptr)
+		ft_error(TOKENIZING_ERROR,
+			"ft_add_data_id_value - data missing for one of the fields", data);
 	while (ft_isspace(*ptr) == 0)
 	{
 		char_count++;
