@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 19:24:41 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/12 15:14:01 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/14 15:02:06 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,6 @@ bool	ft_is_map_valid(t_cub3d *data)
 static bool	ft_flood_fill_check(char **map_copy, int row, int col,
 		t_cub3d *data)
 {
-	static int	i;
-
 	if (row < 0 || row >= data->map_rows || col < 0 || col >= data->map_cols)
 		return (false);
 	if (map_copy[row][col] == '1' || map_copy[row][col] == 'X')
@@ -86,11 +84,6 @@ static bool	ft_flood_fill_check(char **map_copy, int row, int col,
 		|| map_copy[row][col] == 'W')
 	{
 		map_copy[row][col] = 'X';
-		i++;
-		ft_printf("\n\nFlood-fill field check nb %d:\n", i);
-		ft_printf("\tFor row number:%d\n", row);
-		ft_printf("\tFor col number:%d\n\n", col);
-		ft_print_map(map_copy, data->map_rows);
 		return (ft_flood_fill_check(map_copy, row - 1, col, data)
 			&& ft_flood_fill_check(map_copy, row + 1, col, data)
 			&& ft_flood_fill_check(map_copy, row, col - 1, data)
