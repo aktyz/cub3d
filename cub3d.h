@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/12 19:17:18 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/14 15:06:47 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 #define KEY_A 97
 #define KEY_S 115
 #define KEY_D 100
+#define COLOR_INIT_VALUE -1
 
 typedef enum e_cub3d_token_types
 {
