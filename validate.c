@@ -6,40 +6,18 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 19:24:41 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/14 15:02:06 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/18 21:27:54 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-bool		ft_is_alphanumeric(char *token);
 bool		ft_is_map_valid(t_cub3d *data);
-static bool	ft_flood_fill_check(char **map_copy, int row, int col,
+static bool	ft_player_area_check(char **map_copy, int row, int col,
 				t_cub3d *data);
-static char	**ft_copy_map(t_cub3d *data, int map_rows, int map_cols);
-static void	ft_free_map_copy(char **map_copy, int map_rows);
-
-/**
- * Function checks if token contains anything else than white spaces.
- * If it contains it - the function returns true and should be added
- * to the token list.
- * Otherwise it contains only whitespace signs and doesn't need to be
- * added.
- *
- */
-bool	ft_is_alphanumeric(char *token)
-{
-	char	*ptr;
-
-	ptr = token;
-	while (*ptr)
-	{
-		if (ft_isalnum(*ptr))
-			return (true);
-		ptr++;
-	}
-	return (false);
-}
+static bool	ft_void_area_check(char **map_copy, t_cub3d *data);
+static bool	ft_flood_fill(char **map_copy, int row, int col,
+				t_cub3d *data);
 
 /**
  * Function validating the map provided by the user.
@@ -59,8 +37,13 @@ bool	ft_is_map_valid(t_cub3d *data)
 	map_copy = ft_copy_map(data, data->map_rows, data->map_cols);
 	if (!map_copy)
 		ft_error(MEM_ERROR, "ft_is_map_valid", data);
-	if (!ft_flood_fill_check(map_copy, data->player.start_row,
+	if (!ft_player_area_check(map_copy, data->player.start_row,
 			data->player.start_col, data))
+		is_valid = false;
+	// after this point if there are any zeroes those should
+	// not be reachable - switch them to '1'
+	ft_switch_remaining_zeroes(map_copy, data);
+	if (!ft_void_area_check(map_copy, data)) // needed for missing corner check
 		is_valid = false;
 	ft_free_map_copy(map_copy, data->map_rows);
 	return (is_valid);
@@ -70,7 +53,7 @@ bool	ft_is_map_valid(t_cub3d *data)
  * Flood fill algorithm to check if all accessible areas are properly enclosed.
  * Returns false if the flood fill reaches the border of the map (invalid map).
  */
-static bool	ft_flood_fill_check(char **map_copy, int row, int col,
+static bool	ft_player_area_check(char **map_copy, int row, int col,
 		t_cub3d *data)
 {
 	if (row < 0 || row >= data->map_rows || col < 0 || col >= data->map_cols)
@@ -84,55 +67,61 @@ static bool	ft_flood_fill_check(char **map_copy, int row, int col,
 		|| map_copy[row][col] == 'W')
 	{
 		map_copy[row][col] = 'X';
-		return (ft_flood_fill_check(map_copy, row - 1, col, data)
-			&& ft_flood_fill_check(map_copy, row + 1, col, data)
-			&& ft_flood_fill_check(map_copy, row, col - 1, data)
-			&& ft_flood_fill_check(map_copy, row, col + 1, data));
+		return (ft_player_area_check(map_copy, row - 1, col, data)
+			&& ft_player_area_check(map_copy, row + 1, col, data)
+			&& ft_player_area_check(map_copy, row, col - 1, data)
+			&& ft_player_area_check(map_copy, row, col + 1, data));
 	}
 	return (false);
 }
 
 /**
- * Creates a copy of the map for flood fill validation.
+ * Function takes the copy of the map and whenever a space or
+ * no char present on the map - it uses flood fill to check
+ * if it is correctly surrounded by walls (1s) protecting player
+ * from hitting the void area.
  */
-static char	**ft_copy_map(t_cub3d *data, int map_rows, int map_cols)
+static bool	ft_void_area_check(char **map_copy, t_cub3d *data)
 {
-	char	**map_copy;
-	int		i;
+	int		row;
+	int		col;
+	bool	result;
 
-	map_copy = ft_calloc(map_rows + 1, sizeof(char *));
-	if (!map_copy)
-		ft_error(MEM_ERROR, "ft_copy_map", data);
-	i = 0;
-	while (i < map_rows)
+	row = -1;
+	result = true;
+	while (++row < data->map_rows)
 	{
-		map_copy[i] = ft_calloc(map_cols + 1, sizeof(char));
-		if (!map_copy[i])
+		col = -1;
+		while (++col < data->map_cols)
 		{
-			ft_free_map_copy(map_copy, i);
-			ft_error(MEM_ERROR, "ft_copy_map", data);
+			if (map_copy[row][col] == ' ') // whenever you find space
+				result = ft_flood_fill(map_copy, row, col, data); // check all around
+			if (result == false)
+				return (false);
 		}
-		ft_strlcpy(map_copy[i], data->map[i], map_cols + 1);
-		i++;
 	}
-	return (map_copy);
+	return (result);
 }
 
-/**
- * Frees the map copy used for validation.
- */
-static void	ft_free_map_copy(char **map_copy, int map_rows)
+static bool	ft_flood_fill(char **map_copy, int row, int col,
+	t_cub3d *data)
 {
-	int	i;
-
-	if (!map_copy)
-		return ;
-	i = 0;
-	while (i < map_rows)
+	if (row < 0 || row >= data->map_rows
+		|| col < 0 || col >= data->map_cols - 1)
+		return (true);
+	if (map_copy[row][col] == '1' || map_copy[row][col] == 'V')
+		return (true);
+	if (map_copy[row][col] == ' ')
 	{
-		if (map_copy[i])
-			free(map_copy[i]);
-		i++;
+		map_copy[row][col] = 'V';
+		return (ft_flood_fill(map_copy, row - 1, col, data)
+			&& ft_flood_fill(map_copy, row + 1, col, data)
+			&& ft_flood_fill(map_copy, row, col - 1, data)
+			&& ft_flood_fill(map_copy, row, col + 1, data)
+			&& ft_flood_fill(map_copy, row - 1, col - 1, data)
+			&& ft_flood_fill(map_copy, row - 1, col + 1, data)
+			&& ft_flood_fill(map_copy, row + 1, col - 1, data)
+			&& ft_flood_fill(map_copy, row + 1, col + 1, data));
 	}
-	free(map_copy);
+	return (false);
 }

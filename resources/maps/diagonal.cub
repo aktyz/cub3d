@@ -1,0 +1,16 @@
+NO ./resources/textures/Bricks007_2K-JPG_Color.xpm
+SO ./resources/textures/Plaster001_2K-JPG_Color.xpm
+WE ./resources/textures/Tiles045_2K-JPG_Color.xpm
+EA ./resources/textures/Wood003_2K-JPG_Color.xpm
+
+
+F 220,100,0
+C 225,30,0
+
+111111111111
+100000000011
+10110S000111
+100100000010
+101101000111
+101110100111
+11111111111

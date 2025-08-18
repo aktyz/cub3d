@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/14 15:06:47 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/18 21:10:35 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ typedef struct s_player
 	int		start_row;
 	int		start_col;
 	char	orientation;
-	
+
 	//world coordinates of a player
 	float player_x;
 	float player_y;
@@ -138,23 +138,23 @@ typedef struct s_wall
 	int		wall_height[PP_WIDTH]; //the projected wall height for each ray
 	int		top[PP_WIDTH]; //y coordinate of a place, where the top of the wall should be drawn
 	int		bottom[PP_WIDTH]; //y coordinate of a place, where the bottom of the wall should be drawn
-	
+
 	t_cub3d_token_types	wall_face[PP_WIDTH];
 	float			wall_hit[PP_WIDTH];
 }	t_wall;
 
 typedef struct s_intersection
 {
-    float intersection_hor_x; //x coordinate of the intersection between the cast ray and horizontal grid line 
-    float intersection_hor_y; //y coordinate of the intersection between the cast ray and horizontal grid line 
-    float intersection_ver_x; //x coordinate of the intersection between the cast ray and vertical grid line 
-    float intersection_ver_y; //y coordinate of the intersection between the cast ray and vertical grid line 
+    float intersection_hor_x; //x coordinate of the intersection between the cast ray and horizontal grid line
+    float intersection_hor_y; //y coordinate of the intersection between the cast ray and horizontal grid line
+    float intersection_ver_x; //x coordinate of the intersection between the cast ray and vertical grid line
+    float intersection_ver_y; //y coordinate of the intersection between the cast ray and vertical grid line
     float distance_to_wall_hor;
     float distance_to_wall_ver;
 } t_intersection;
 
 
-typedef struct s_input 
+typedef struct s_input
 {
 	bool	turn_left;
 	bool	turn_right;
@@ -187,11 +187,11 @@ typedef struct s_cub3d
 	void			*mlx;
 	void			*win;
 	t_img			image;
-	
+
 	//keys input
 	t_input input;
 
-	
+
 	//game_state
 	t_player		player;
 	t_wall			wall;
@@ -203,8 +203,6 @@ typedef struct s_token
 	t_cub3d_token_types	data_id;
 	char				*value;
 } t_token;
-
-
 
 // INITIALIZATION
 void	ft_init(char *file_name, t_cub3d *data);
@@ -227,6 +225,9 @@ void	init_colors(t_cub3d *data);
 // MAP VALIDATION
 bool	ft_is_alphanumeric(char *token);
 bool	ft_is_map_valid(t_cub3d *data);
+char	**ft_copy_map(t_cub3d *data, int map_rows, int map_cols);
+void	ft_free_map_copy(char **map_copy, int map_rows);
+void	ft_switch_remaining_zeroes(char **map_copy, t_cub3d *data);
 
 // ERROR HANDLING
 void	ft_error(t_cub3d_errors nb, char *ft_name, t_cub3d *data);

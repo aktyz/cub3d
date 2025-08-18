@@ -6,7 +6,7 @@
 #    By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/16 21:43:31 by zslowian          #+#    #+#              #
-#    Updated: 2025/08/14 15:02:46 by zslowian         ###   ########.fr        #
+#    Updated: 2025/08/18 17:43:54 by zslowian         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ SRC = main.c \
 	color_utils.c \
 	parse.c \
 	tokenize.c \
+	validate_utils.c \
 	validate.c \
 	check_horizontal.c \
 	check_vertical.c \
@@ -40,7 +41,7 @@ SRC = main.c \
 	cast_rays.c \
 	hooks.c \
 	textures.c
-	
+
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
