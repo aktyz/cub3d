@@ -6,7 +6,7 @@
 #    By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/16 21:43:31 by zslowian          #+#    #+#              #
-#    Updated: 2025/08/19 16:08:07 by zslowian         ###   ########.fr        #
+#    Updated: 2025/08/19 16:09:06 by zslowian         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,7 +76,7 @@ clean:
 	$(MAKE) -C $(LIBFT_DIR) clean
 	$(MAKE) -C $(MLX_DIR) clean
 
-debug:
+re:
 	$(RM) $(NAME)
 	$(CC) $(CFLAGS) -g -o $(NAME) $(SRC) \
 	-L$(MLX_DIR) $(MLX_FLAGS) \
