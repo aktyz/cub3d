@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhurnik <hhurnik@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 13:49:46 by zslowian          #+#    #+#             */
-/*   Updated: 2025/07/24 20:22:22 by hhurnik          ###   ########.fr       */
+/*   Updated: 2025/08/12 17:57:43 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static const char	**ft_get_error_message(void)
 
 	e_msg[1] = ": Provide only one argument: .cub file\n";
 	e_msg[2] = ": Memory allocation error\n";
-	e_msg[3] = ": Provided file has wrong format: .cub expected\n";
+	e_msg[3] = ": Provided file has wrong format\n";
 	e_msg[4] = ": File opening error (doesn't exist?)\n";
 	e_msg[5] = ": There is a problem with token creation - check input data\n";
 	e_msg[6] = ": There is a problem with parsing - check input data\n";
@@ -54,7 +54,9 @@ void	ft_error(t_cub3d_errors nb, char *ft_name, t_cub3d *data)
 		msg = ft_strjoin(ft_name, ft_get_error_message()[nb]);
 	else
 		msg = ft_strjoin(ft_name, ": Unknown error\n");
+	write(2, "Error:\t", ft_strlen("Error:\t"));
 	write(2, msg, ft_strlen(msg));
+	write(2, "\n", 1);
 	ft_clean(data);
 	free(msg);
 	exit(EXIT_FAILURE);

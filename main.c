@@ -3,22 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:00:34 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/12 10:52:16 by marvin           ###   ########.fr       */
+/*   Updated: 2025/08/19 10:37:00 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	t_cub3d	*data;
 
 	if (argc != 2)
 		ft_error(MAIN_ARGS, "main", NULL);
-	
 	else
 	{
 		data = ft_calloc(sizeof(t_cub3d), 1);
@@ -26,28 +25,20 @@ int main(int argc, char **argv)
 			ft_error(MEM_ERROR, "main", data);
 		ft_init(argv[1], data);
 		setup_player_and_map(data);
-	
 		//initialize mlx
 		init_mlx(data);
-
 		load_textures(data);
-
 		//handle clicking on red cross
 		mlx_hook(data->win, 17, 0, close_game, data);
-
 		/*2 - keypress event, when the key is held down its managed by OS as key repeat
 		and is stopped when the key is released*/
 		//mlx_hook(data->win, 2, 1, handle_keypress, data);
-		
 		//int	mlx_hook(void *win_ptr, int x_event, int x_mask, int (*funct)(), void *param);
 		mlx_hook(data->win, 2, 1L << 0, handle_keypress, data);     // KeyPress
 		mlx_hook(data->win, 3, 1L << 1, handle_keyrelease, data);   // KeyRelease
-
-		
 		//add the other keys later
 		mlx_loop_hook(data->mlx, game_loop, data);
 		mlx_loop(data->mlx);
-	
 		ft_clean(data);
 	}
 	return (EXIT_SUCCESS);
