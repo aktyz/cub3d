@@ -1,24 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_utils.c                                      :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/30 18:40:48 by zslowian          #+#    #+#             */
-/*   Updated: 2025/07/09 12:55:43 by zslowian         ###   ########.fr       */
+/*   Created: 2025/04/10 21:17:57 by zslowian          #+#    #+#             */
+/*   Updated: 2025/04/10 21:24:12 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "libft.h"
 
-void	ft_store_rgb(unsigned int color_storage[3], char **color_values);
-
-void	ft_store_rgb(unsigned int color_storage[3], char **color_values)
+int	ft_isspace(int c)
 {
-	int		i;
-
-	i = -1;
-	while (++i < 3)
-		color_storage[i] = ft_atoi((const char *)color_values[i]);
+	if (c == 32 || (c > 8 && c < 14))
+		return (1);
+	return (0);
 }

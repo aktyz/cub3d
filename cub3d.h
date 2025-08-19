@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/12 11:45:35 by marvin           ###   ########.fr       */
+/*   Updated: 2025/08/19 10:41:07 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 # include "math.h"
 # include <stdlib.h>
 # include <float.h>
-#include <stdbool.h>
-#include <X11/keysym.h>
+# include <stdbool.h>
+# include <X11/keysym.h>
 
 #define PP_HEIGHT 200 //height of the projection plane in pixels (screen)
 #define PP_WIDTH 320 //width of the projection plane in pixels (screen) - how many rays will be cast
@@ -37,6 +37,7 @@
 #define KEY_A 97
 #define KEY_S 115
 #define KEY_D 100
+#define COLOR_INIT_VALUE -1
 
 typedef enum e_cub3d_token_types
 {
@@ -73,6 +74,7 @@ typedef enum e_cub3d_errors
 	ERROR_WHEN_PARSING,
 	FILE_CLOSE,
 	WRONG_MAP,
+	COLOR,
 	ERROR_NB,
 }	t_cub3d_errors;
 
@@ -96,8 +98,8 @@ typedef struct s_file_names
  */
 typedef struct s_colors
 {
-	unsigned int	floor_color[3];
-	unsigned int	ceiling_color[3];
+	int	floor_color[3];
+	int	ceiling_color[3];
 }	t_colors;
 
 typedef struct s_player
@@ -106,7 +108,7 @@ typedef struct s_player
 	int		start_row;
 	int		start_col;
 	char	orientation;
-	
+
 	//world coordinates of a player
 	float player_x;
 	float player_y;
@@ -136,23 +138,23 @@ typedef struct s_wall
 	int		wall_height[PP_WIDTH]; //the projected wall height for each ray
 	int		top[PP_WIDTH]; //y coordinate of a place, where the top of the wall should be drawn
 	int		bottom[PP_WIDTH]; //y coordinate of a place, where the bottom of the wall should be drawn
-	
+
 	t_cub3d_token_types	wall_face[PP_WIDTH];
 	float			wall_hit[PP_WIDTH];
 }	t_wall;
 
 typedef struct s_intersection
 {
-    float intersection_hor_x; //x coordinate of the intersection between the cast ray and horizontal grid line 
-    float intersection_hor_y; //y coordinate of the intersection between the cast ray and horizontal grid line 
-    float intersection_ver_x; //x coordinate of the intersection between the cast ray and vertical grid line 
-    float intersection_ver_y; //y coordinate of the intersection between the cast ray and vertical grid line 
+    float intersection_hor_x; //x coordinate of the intersection between the cast ray and horizontal grid line
+    float intersection_hor_y; //y coordinate of the intersection between the cast ray and horizontal grid line
+    float intersection_ver_x; //x coordinate of the intersection between the cast ray and vertical grid line
+    float intersection_ver_y; //y coordinate of the intersection between the cast ray and vertical grid line
     float distance_to_wall_hor;
     float distance_to_wall_ver;
 } t_intersection;
 
 
-typedef struct s_input 
+typedef struct s_input
 {
 	bool	turn_left;
 	bool	turn_right;
@@ -185,25 +187,22 @@ typedef struct s_cub3d
 	void			*mlx;
 	void			*win;
 	t_img			image;
-	
+
 	//keys input
 	t_input input;
 
-	
+
 	//game_state
 	t_player		player;
 	t_wall			wall;
 	t_intersection	intersection;
 }	t_cub3d;
 
-
 typedef struct s_token
 {
 	t_cub3d_token_types	data_id;
 	char				*value;
 } t_token;
-
-
 
 // INITIALIZATION
 void	ft_init(char *file_name, t_cub3d *data);
@@ -214,12 +213,21 @@ void	ft_add_map_token(int *i, char *line, t_cub3d *data);
 
 // PARSING
 void	ft_parse(t_cub3d *data);
-void	ft_store_rgb(unsigned int color_storage[3], char **color_values);
 void	ft_copy_map_token_to_struct(char *map_line, int *map_row,
 			t_cub3d *data);
 
+// COLORS
+void	ft_store_rgb(int color_storage[3], char **color_values,
+			t_cub3d *data);
+bool	are_all_colors(t_cub3d *data);
+void	init_colors(t_cub3d *data);
+
 // MAP VALIDATION
 bool	ft_is_alphanumeric(char *token);
+bool	ft_is_map_valid(t_cub3d *data);
+char	**ft_copy_map(t_cub3d *data, int map_rows, int map_cols);
+void	ft_free_map_copy(char **map_copy, int map_rows);
+void	ft_switch_remaining_zeroes(char **map_copy, t_cub3d *data);
 
 // ERROR HANDLING
 void	ft_error(t_cub3d_errors nb, char *ft_name, t_cub3d *data);
@@ -230,6 +238,7 @@ void	ft_clean(t_cub3d *data);
 // DEBUGGING
 void	ft_print_token_list(t_cub3d *data);
 void	ft_print_map_player(t_cub3d *data);
+void	ft_print_map(char **map, int map_rows);
 
 //ray_angles.c
 float	degrees_to_radians(float degrees);

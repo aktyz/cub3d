@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
+#    By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/16 21:43:31 by zslowian          #+#    #+#              #
-#    Updated: 2025/08/12 10:34:20 by marvin           ###   ########.fr        #
+#    Updated: 2025/08/19 16:19:42 by zslowian         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,11 +16,10 @@ CFLAGS = -Wall -Wextra -Werror -g
 MLX_FLAGS = -lmlx -lX11 -lXext
 LIBFT_FLAGS = -lft
 MATH_FLAGS = -lm
-MLX = minilibx-linux
-MLX_SRC = git@github.com:42paris/minilibx-linux.git
-LIBFT = libft
-LIBFT_SRC = git@github.com:aktyz/libft.git
 RM = rm -rf
+
+MLX_DIR = minilibx-linux
+LIBFT_DIR = libft
 
 SRC = main.c \
 	clean.c \
@@ -28,9 +27,10 @@ SRC = main.c \
 	error.c \
 	init.c \
 	map.c \
-	parse_utils.c \
+	color_utils.c \
 	parse.c \
 	tokenize.c \
+	validate_utils.c \
 	validate.c \
 	check_horizontal.c \
 	check_vertical.c \
@@ -40,41 +40,40 @@ SRC = main.c \
 	cast_rays.c \
 	hooks.c \
 	textures.c
-	
+
+OBJ = $(SRC:.c=.o)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME): $(MLX) $(LIBFT)
-	$(CC) $(CFLAGS) -o $(NAME) $(SRC) \
-	-L $(MLX) $(MLX_FLAGS) \
-	-L $(LIBFT) $(LIBFT_FLAGS) \
+all: $(NAME)
+
+$(NAME): $(OBJ) $(MLX_DIR)/libmlx.a $(LIBFT_DIR)/libft.a
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) \
+	-L$(MLX_DIR) $(MLX_FLAGS) \
+	-L$(LIBFT_DIR) $(LIBFT_FLAGS) \
 	-no-pie \
 	$(MATH_FLAGS)
 
-$(MLX):
-	@git clone $(MLX_SRC)
-	@$(MAKE) -C ./minilibx-linux
+$(LIBFT_DIR)/libft.a:
+	$(MAKE) -C $(LIBFT_DIR)
 
-$(LIBFT):
-	@git clone $(LIBFT_SRC)
-	@$(MAKE) -C ./libft
+$(MLX_DIR)/libmlx.a:
+	$(MAKE) -C $(MLX_DIR)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 all: $(NAME)
 
 fclean: clean
 	$(RM) $(NAME)
+	$(MAKE) -C $(LIBFT_DIR) fclean
+	$(RM) $(MLX_DIR)/libmlx.a
 
 clean:
-	$(RM) ./$(LIBFT)
-	$(RM) ./$(MLX)
-
-debug:
-	$(RM) $(NAME)
-	$(CC) $(CFLAGS) -o $(NAME) $(SRC) \
-	-L $(MLX) $(MLX_FLAGS) \
-	-L $(LIBFT) $(LIBFT_FLAGS) \
-	-no-pie -g \
-	$(MATH_FLAGS)
+	$(RM) $(OBJ)
+	$(MAKE) -C $(LIBFT_DIR) clean
+	$(MAKE) -C $(MLX_DIR) clean
 
 re: fclean all
