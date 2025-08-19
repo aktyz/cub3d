@@ -106,7 +106,6 @@ static int	rgb_to_int(int r, int g, int b)
 	return (r << 16 | g << 8 | b);
 }
 
-
 void	draw_frame(t_cub3d *data)
 {
 	int	x;
