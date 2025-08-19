@@ -64,84 +64,71 @@ void look_left(t_cub3d *data)
 	if (data->player.player_angle < 0)
 		data->player.player_angle += 2.0f * M_PI;
 }
+
 void move_forward(t_cub3d *data)
 {
-	float dx;
-	float dy;
-	float new_x;
-	float new_y;
+	float 				dx;
+	float 				dy;
+	t_float_position	new;
+	t_int_position		map_grid;
 
 	dx = cosf(data->player.player_angle) * MOVE_SPEED;
 	dy = sinf(data->player.player_angle) * MOVE_SPEED;
-	new_x = data->player.player_x + dx;
-	new_y = data->player.player_y + dy;
-	int map_grid_x = (int)(new_x / GRID_SIZE);
-	int map_grid_y = (int)(new_y / GRID_SIZE);
-
-	//collision check, update player's position
-	if (map_grid_y >= 0 && map_grid_y < data->map_rows &&
-		map_grid_x >= 0 && map_grid_x < data->map_cols &&
-		data->map[map_grid_y][map_grid_x] != '1')
-	{
-		data->player.player_x = new_x;
-		data->player.player_y = new_y;
-	}
+	new.x = data->player.player_x + dx;
+	new.y = data->player.player_y + dy;
+	map_grid.x = (int)(new.x / GRID_SIZE);
+	map_grid.y = (int)(new.y / GRID_SIZE);
+	ft_update_player_pos(data, map_grid, new);
 }
 
 //moves the player backward by subtracting the forward movement components
 void move_backward(t_cub3d *data)
 {
-	float dx = cosf(data->player.player_angle) * MOVE_SPEED;
-	float dy = sinf(data->player.player_angle) * MOVE_SPEED; //assumes y increases downward; no negative sign needed in this coordinate system
-	float new_x = data->player.player_x - dx;
-	float new_y = data->player.player_y - dy;
-	int map_grid_x = (int)(new_x / GRID_SIZE);
-	int map_grid_y = (int)(new_y / GRID_SIZE);
+	float 				dx;
+	float 				dy;
+	t_float_position	new;
+	t_int_position		map_grid;
 
-	if (map_grid_y >= 0 && map_grid_y < data->map_rows &&
-		map_grid_x >= 0 && map_grid_x < data->map_cols &&
-		data->map[map_grid_y][map_grid_x] != '1')
-	{
-		data->player.player_x = new_x;
-		data->player.player_y = new_y;
-	}
+	dx = cosf(data->player.player_angle) * MOVE_SPEED;
+	dy = sinf(data->player.player_angle) * MOVE_SPEED; //assumes y increases downward; no negative sign needed in this coordinate system
+	new.x = data->player.player_x - dx;
+	new.y = data->player.player_y - dy;
+	map_grid.x = (int)(new.x / GRID_SIZE);
+	map_grid.y = (int)(new.y / GRID_SIZE);
+	ft_update_player_pos(data, map_grid, new);
 }
 
 //moves the player left
 void move_left(t_cub3d *data)
 {
-	float move_angle = data->player.player_angle - (M_PI / 2.0f);
-	float dx = cosf(move_angle) * MOVE_SPEED;
-	float dy = sinf(move_angle) * MOVE_SPEED;
-	float new_x = data->player.player_x + dx;
-	float new_y = data->player.player_y + dy;
-	int map_grid_x = (int)(new_x / GRID_SIZE);
-	int map_grid_y = (int)(new_y / GRID_SIZE);
+	float 				dx;
+	float 				dy;
+	t_float_position	new;
+	t_int_position		map_grid;
 
-	if (map_grid_y >= 0 && map_grid_y < data->map_rows &&
-		map_grid_x >= 0 && map_grid_x < data->map_cols &&
-		data->map[map_grid_y][map_grid_x] != '1')
-	{
-		data->player.player_x = new_x;
-		data->player.player_y = new_y;
-	}
+	float move_angle = data->player.player_angle - (M_PI / 2.0f);
+	dx = cosf(move_angle) * MOVE_SPEED;
+	dy = sinf(move_angle) * MOVE_SPEED;
+	new.x = data->player.player_x + dx;
+	new.y = data->player.player_y + dy;
+	map_grid.x = (int)(new.x / GRID_SIZE);
+	map_grid.y = (int)(new.y / GRID_SIZE);
+	ft_update_player_pos(data, map_grid, new);
 }
 
 void move_right(t_cub3d *data)
 {
-	float move_angle = data->player.player_angle + (M_PI / 2.0f);
-	float dx = cosf(move_angle) * MOVE_SPEED;
-	float dy = sinf(move_angle) * MOVE_SPEED;
-	float new_x = data->player.player_x + dx;
-	float new_y = data->player.player_y + dy;
-	int map_grid_x = (int)(new_x / GRID_SIZE);
-	int map_grid_y = (int)(new_y / GRID_SIZE);
+	float 				dx;
+	float 				dy;
+	t_float_position	new;
+	t_int_position		map_grid;
 
-	if (map_grid_y >= 0 && map_grid_y < data->map_rows &&
-		map_grid_x >= 0 && map_grid_x < data->map_cols &&
-		data->map[map_grid_y][map_grid_x] != '1')
-	{
-		data->player.player_x = new_x;
-		data->player.player_y = new_y;
-	}
+	float move_angle = data->player.player_angle + (M_PI / 2.0f);
+	dx = cosf(move_angle) * MOVE_SPEED;
+	dy = sinf(move_angle) * MOVE_SPEED;
+	new.x = data->player.player_x + dx;
+	new.y = data->player.player_y + dy;
+	map_grid.x = (int)(new.x / GRID_SIZE);
+	map_grid.y = (int)(new.y / GRID_SIZE);
+	ft_update_player_pos(data, map_grid, new);
 }

@@ -6,7 +6,7 @@
 #    By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/16 21:43:31 by zslowian          #+#    #+#              #
-#    Updated: 2025/08/19 16:19:42 by zslowian         ###   ########.fr        #
+#    Updated: 2025/08/19 17:40:47 by zslowian         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ SRC = main.c \
 	ray_angles.c \
 	cast_rays.c \
 	hooks.c \
+	hooks_utils.c \
 	textures.c
 
 OBJ = $(SRC:.c=.o)
@@ -69,11 +70,18 @@ all: $(NAME)
 fclean: clean
 	$(RM) $(NAME)
 	$(MAKE) -C $(LIBFT_DIR) fclean
-	$(RM) $(MLX_DIR)/libmlx.a
+	$(MAKE) -C $(MLX_DIR) clean
 
 clean:
 	$(RM) $(OBJ)
 	$(MAKE) -C $(LIBFT_DIR) clean
-	$(MAKE) -C $(MLX_DIR) clean
+
+debug: $(OBJ)
+	$(RM) $(NAME)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) \
+	-L$(MLX_DIR) $(MLX_FLAGS) \
+	-L$(LIBFT_DIR) $(LIBFT_FLAGS) \
+	-no-pie -g \
+	$(MATH_FLAGS)
 
 re: fclean all
