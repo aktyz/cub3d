@@ -21,7 +21,7 @@ static bool	ft_flood_fill(char **map_copy, int row, int col,
 
 /**
  * Function validating the map provided by the user.
- * It checks if the map is all surounded by walls using
+ * It checks if the map is all surrounded by walls using
  * backtracking algorithm.
  * Return values:
  * - true if the map is valid
