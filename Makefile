@@ -6,7 +6,7 @@
 #    By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/16 21:43:31 by zslowian          #+#    #+#              #
-#    Updated: 2025/08/19 16:09:06 by zslowian         ###   ########.fr        #
+#    Updated: 2025/08/19 16:19:42 by zslowian         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,13 +75,5 @@ clean:
 	$(RM) $(OBJ)
 	$(MAKE) -C $(LIBFT_DIR) clean
 	$(MAKE) -C $(MLX_DIR) clean
-
-re:
-	$(RM) $(NAME)
-	$(CC) $(CFLAGS) -g -o $(NAME) $(SRC) \
-	-L$(MLX_DIR) $(MLX_FLAGS) \
-	-L$(LIBFT_DIR) $(LIBFT_FLAGS) \
-	-no-pie \
-	$(MATH_FLAGS)
 
 re: fclean all
