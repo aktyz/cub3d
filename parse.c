@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 17:50:18 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/20 01:02:00 by marvin           ###   ########.fr       */
+/*   Updated: 2025/08/20 01:09:07 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,4 +130,33 @@ static void	ft_save_color(t_cub3d *data, t_token *token)
 		i++;
 	}
 	free(color_values);
+}
+
+static void	ft_save_texture_file_name(t_cub3d *data, t_token *token)
+{
+	char	*extension;
+	char	**texture_ptr;
+
+	extension = ft_strrchr(token->value, '.');
+	if (!extension || ft_strncmp(extension, ".xpm", 5) != 0)
+		ft_error(FF_ERROR, "ft_save_texture_file_name", data);
+	if (token->data_id == NO)
+		texture_ptr = &data->textures->no_texture;
+	else if (token->data_id == SO)
+		texture_ptr = &data->textures->so_texture;
+	else if (token->data_id == WE)
+		texture_ptr = &data->textures->we_texture;
+	else if (token->data_id == EA)
+		texture_ptr = &data->textures->ea_texture;
+	else
+		ft_error(ERROR_WHEN_PARSING,
+			"ft_save_texture_file_name - invalid data_id", data);
+	if (*texture_ptr)
+		ft_error(ERROR_WHEN_PARSING,
+			"ft_save_texture_file_name", data);
+	*texture_ptr = ft_calloc(ft_strlen(token->value) + 1, sizeof(char));
+	if (!*texture_ptr)
+		ft_error(MEM_ERROR,
+			"ft_save_texture_file_name", data);
+	ft_strlcpy(*texture_ptr, token->value, ft_strlen(token->value) + 1);
 }
