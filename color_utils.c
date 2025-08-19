@@ -26,7 +26,7 @@ void	ft_store_rgb(int color_storage[3], char **color_values,
 	while (++i < 3)
 	{
 		if (!color_values[i])
-			ft_error(COLOR, "ft_store_rgb - too few rgb", data);
+			ft_error(COLOR, "ft_store_rgb - insufficient RGB color values provided", data);
 		color = ft_atoi((const char *)color_values[i]);
 		if (color < 0 || color > 255)
 			ft_error(COLOR, "ft_store_rgb - rgb out of range", data);
