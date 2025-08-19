@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/18 21:10:35 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/19 10:41:07 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 # include "math.h"
 # include <stdlib.h>
 # include <float.h>
-#include <stdbool.h>
-#include <X11/keysym.h>
+# include <stdbool.h>
+# include <X11/keysym.h>
 
 #define PP_HEIGHT 200 //height of the projection plane in pixels (screen)
 #define PP_WIDTH 320 //width of the projection plane in pixels (screen) - how many rays will be cast

@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 17:50:18 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/18 20:56:56 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/19 10:37:18 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	ft_parse(t_cub3d *data)
 		ft_error(WRONG_MAP, "one or more textures missing", data);
 	if (!are_all_colors(data))
 		ft_error(WRONG_MAP, "one or two color values missing", data);
-}
+} // function more than 25 lines
 
 static void	ft_save_info(t_cub3d *data, t_token *token)
 {
@@ -101,8 +101,6 @@ static void	ft_save_map(t_cub3d *data, t_list **ptr)
 	}
 	if (!data->player.orientation)
 		ft_error(WRONG_MAP, "ft_save_map - player pos missing", data);
-	ft_printf("Map before validation:\n");
-	ft_print_map(data->map, data->map_rows);
 	if (!ft_is_map_valid(data))
 		ft_error(WRONG_MAP, "not surounded by walls", data);
 }

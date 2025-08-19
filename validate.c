@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 19:24:41 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/18 21:27:54 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/19 10:34:46 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,8 @@ bool	ft_is_map_valid(t_cub3d *data)
 	if (!ft_player_area_check(map_copy, data->player.start_row,
 			data->player.start_col, data))
 		is_valid = false;
-	// after this point if there are any zeroes those should
-	// not be reachable - switch them to '1'
 	ft_switch_remaining_zeroes(map_copy, data);
-	if (!ft_void_area_check(map_copy, data)) // needed for missing corner check
+	if (!ft_void_area_check(map_copy, data))
 		is_valid = false;
 	ft_free_map_copy(map_copy, data->map_rows);
 	return (is_valid);
@@ -94,8 +92,8 @@ static bool	ft_void_area_check(char **map_copy, t_cub3d *data)
 		col = -1;
 		while (++col < data->map_cols)
 		{
-			if (map_copy[row][col] == ' ') // whenever you find space
-				result = ft_flood_fill(map_copy, row, col, data); // check all around
+			if (map_copy[row][col] == ' ')
+				result = ft_flood_fill(map_copy, row, col, data);
 			if (result == false)
 				return (false);
 		}
