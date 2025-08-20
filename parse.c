@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 17:50:18 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/20 14:51:41 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:20:50 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ static void	ft_save_map(t_cub3d *data, t_list **ptr)
 	}
 	if (!data->player.orientation)
 		ft_error(WRONG_MAP, "ft_save_map - player pos missing", data);
-	ft_print_map(data->map, data->map_rows);
 	if (!ft_is_map_valid(data))
 		ft_error(WRONG_MAP, "not surrounded by walls", data);
 }
