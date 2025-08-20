@@ -3,40 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhurnik <hhurnik@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/20 18:38:19 by hhurnik          ###   ########.fr       */
+/*   Updated: 2025/08/20 20:11:48 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include "libft/headers/libft.h"
-# include "math.h"
-# include "minilibx-linux/mlx.h"
+# include <math.h>
 # include <X11/keysym.h>
 # include <fcntl.h>
-# include <float.h>
 # include <stdbool.h>
 # include <stdlib.h>
+# include "libft/headers/libft.h"
+# include "minilibx-linux/mlx.h"
 
-# define PP_HEIGHT 200                
-	// height of the projection plane in pixels (screen)
-# define PP_WIDTH 320                 
-	// width of the projection plane in pixels (screen)
-	//- how many rays will be cast
-# define FOV 60.0f                     // field of view - a float literal
-# define FOV_RAD 1.04719755f // fov in radians (60 * M_PI / 180)
+# define PP_HEIGHT 200
+# define PP_WIDTH 320
+# define FOV 60.0f
+# define FOV_RAD 1.04719755f
 # define GRID_SIZE 64
-# define EPSILON 0.0001f                // a small value for float comparisons
-# define WIN_WIDTH 640 //(PP_WIDTH * SCALE)   // width of the scaled window
-# define WIN_HEIGHT 400 // PP_HEIGHT * SCALE - height of the scaled window
-# define SCALE 2                        // scale (*dims of projection plane)
-# define MOVE_SPEED 4.0f                // how fast a player moves (ASWD keys)
-# define ROTATION_SPEED 0.03490658503f //(M_PI / 90.0f)
-	// how fast a player rotates (left/right arrow keys)
+# define EPSILON 0.0001f
+# define WIN_WIDTH 640
+# define WIN_HEIGHT 400
+# define SCALE 2
+# define MOVE_SPEED 4.0f
+# define ROTATION_SPEED 0.03490658503f
 # define KEY_W 119
 # define KEY_A 97
 # define KEY_S 115
@@ -114,7 +109,7 @@ typedef struct s_player
 	// world coordinates of a player
 	float				player_x;
 	float				player_y;
-	float				player_angle; // player's absolute viewing angle 
+	float				player_angle; // player's absolute viewing angle
 										// (0 - East, PI/2
 		//- North)
 }						t_player;
@@ -139,11 +134,11 @@ typedef struct s_wall
 {
 	float				distances[PP_WIDTH];
 		// actual distances from player to the wall hit for each ray
-	int					wall_height[PP_WIDTH]; // the projected wall 
+	int					wall_height[PP_WIDTH]; // the projected wall
 		//height for each ray
-	int					top[PP_WIDTH]; // y coordinate of a place, 
+	int					top[PP_WIDTH]; // y coordinate of a place,
 				//where the top of the wall should be drawn
-	int					bottom[PP_WIDTH]; // y coordinate of a place, 
+	int					bottom[PP_WIDTH]; // y coordinate of a place,
 				//where the bottom of the wall should be drawn
 	t_cub3d_token_types	wall_face[PP_WIDTH];
 	float				wall_hit[PP_WIDTH];
@@ -152,16 +147,16 @@ typedef struct s_wall
 typedef struct s_intersection
 {
 	float				intersection_hor_x;
-		// x coordinate of the intersection between the cast ray 
+		// x coordinate of the intersection between the cast ray
 		//and horizontal grid line
 	float				intersection_hor_y;
-		// y coordinate of the intersection between the cast ray 
+		// y coordinate of the intersection between the cast ray
 		//and horizontal grid line
 	float				intersection_ver_x;
-		// x coordinate of the intersection between the cast ray 
+		// x coordinate of the intersection between the cast ray
 		//and vertical grid line
 	float				intersection_ver_y;
-		// y coordinate of the intersection between the cast ray 
+		// y coordinate of the intersection between the cast ray
 		//and vertical grid line
 	float				distance_to_wall_hor;
 	float				distance_to_wall_ver;
