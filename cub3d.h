@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/19 17:34:37 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/20 11:24:14 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,12 +210,6 @@ typedef struct s_float_position
 	float	y;
 } t_float_position;
 
-typedef struct s_int_position
-{
-	int	x;
-	int	y;
-} t_int_position;
-
 // INITIALIZATION
 void	ft_init(char *file_name, t_cub3d *data);
 
@@ -301,8 +295,7 @@ void	move_right(t_cub3d *data);
 void	move_left(t_cub3d *data);
 void	move_forward(t_cub3d *data);
 void	move_backward(t_cub3d *data);
-void	ft_update_player_pos(t_cub3d *data, t_int_position map_grid,
-			t_float_position new);
+void	ft_update_player_pos(t_cub3d *data, t_float_position new);
 
 //textures.c
 unsigned int get_texture_pixel_color(t_texture_data *texture, int x, int y);
