@@ -6,7 +6,7 @@
 #    By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/16 21:43:31 by zslowian          #+#    #+#              #
-#    Updated: 2025/08/20 11:36:29 by zslowian         ###   ########.fr        #
+#    Updated: 2025/08/20 15:38:36 by zslowian         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ SRC = main.c \
 	map.c \
 	color_utils.c \
 	parse.c \
+	parse_utils.c \
 	tokenize.c \
 	validate_utils.c \
 	validate.c \
