@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 17:50:18 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/20 01:09:07 by marvin           ###   ########.fr       */
+/*   Updated: 2025/08/20 11:49:31 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	ft_parse(t_cub3d *data)
 		ft_error(WRONG_MAP, "one or more textures missing", data);
 	if (!are_all_colors(data))
 		ft_error(WRONG_MAP, "one or two color values missing", data);
-} // function more than 25 lines
+} // Function has more than 25 lines
 
 static void	ft_save_info(t_cub3d *data, t_token *token)
 {
@@ -122,8 +122,6 @@ static void	ft_save_color(t_cub3d *data, t_token *token)
 		ft_store_rgb(data->colors->ceiling_color, color_values, data);
 	else
 		ft_error(ERROR_WHEN_PARSING, "ft_save_info\n", data);
-
-	//added to free the memory for array allocated by ft_split
 	while (color_values[i])
 	{
 		free(color_values[i]);

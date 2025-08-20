@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 18:42:30 by zslowian          #+#    #+#             */
-/*   Updated: 2025/07/15 18:20:54 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/20 11:48:11 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	ft_copy_map_token_to_struct(char *map_line, int *map_row,
 	}
 	data->map[*map_row][char_pos - 1] = '\0';
 	*map_row = *map_row + 1;
-}
+} // Function has more than 25 lines
 
 /**
  * Function checks if map character is valid. It returns:

@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:10:04 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/12 18:40:44 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/20 11:52:37 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void				ft_tokenize(t_cub3d *data);
 void				ft_add_token(int *i, char *line, t_cub3d *data);
 bool				ft_is_data_identifier(int *i, char *line, t_cub3d *data);
 void				ft_add_data_id_value(int *i, char *line, t_token *last,
-						 t_cub3d *data);
+						t_cub3d *data);
 static const char	**ft_get_data_identifiers(void);
 
 /**
@@ -31,13 +31,15 @@ void	ft_tokenize(t_cub3d *data)
 	int		i;
 	int		line_len;
 
-	while ((line = get_next_line(data->infile_fd)) != NULL)
+	line = get_next_line(data->infile_fd);
+	while (line)
 	{
 		i = 0;
 		line_len = ft_strlen(line);
 		while (i < line_len)
 			ft_add_token(&i, line, data);
 		free(line);
+		line = get_next_line(data->infile_fd);
 	}
 	if (close(data->infile_fd) == 0)
 		data->infile_fd = -1;
@@ -106,7 +108,7 @@ bool	ft_is_data_identifier(int *i, char *line, t_cub3d *data)
 		}
 	}
 	return (false);
-}
+} // Function has more than 25 lines
 
 /**
  * Function adds the data value to the last token from the list if there's
@@ -121,9 +123,9 @@ void	ft_add_data_id_value(int *i, char *line, t_token *last, t_cub3d *data)
 
 	if (data->tokens == NULL)
 		ft_error(TOKENIZING_ERROR, "ft_add_data_id_value", data);
-	if ((last->data_id < NO || last->data_id > C) // only for tokens with the data_id to be enriched
-		|| ((last->data_id >= NO && last->data_id <= C) && last->value != NULL) // make sure you don't overwrite
-		|| (last->data_id && last->value != NULL)) // make sure you don't overwrite a different type data_id token
+	if ((last->data_id < NO || last->data_id > C)
+		|| ((last->data_id >= NO && last->data_id <= C) && last->value != NULL)
+		|| (last->data_id && last->value != NULL))
 		ft_error(TOKENIZING_ERROR,
 			"ft_add_data_id_value - data value is being added on wrong token", data);
 	ptr = &line[*i];
@@ -145,7 +147,7 @@ void	ft_add_data_id_value(int *i, char *line, t_token *last, t_cub3d *data)
 	last->value = ft_calloc(sizeof(char), char_count + 1);
 	ft_strlcpy(last->value, &line[k], char_count);
 	*i = k + char_count;
-}
+} // Function has more than 25 lines
 
 static const char	**ft_get_data_identifiers(void)
 {
