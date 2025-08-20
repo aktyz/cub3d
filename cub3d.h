@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/20 20:16:22 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/20 22:54:35 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,13 +225,18 @@ void					ft_init(char *file_name, t_cub3d *data);
 
 // TOKEN CREATION
 void					ft_tokenize(t_cub3d *data);
-void					ft_add_map_token(int *i, char *line, t_cub3d *data);
+bool					ft_add_token(int *i, char *line, t_cub3d *data);
+bool					ft_add_map_token(int *i, char *line, t_cub3d *data);
+bool					ft_new_token(t_cub3d *data, int j, int *i, int k);
+void					ft_parse_cub3d_line(t_cub3d *data, char *line);
+bool					ft_new_map_token(t_cub3d *data, int char_count,
+							char *line, int *i);
 const char				**ft_get_data_identifiers(void);
-
-//tokenize_utils.c
-void					ft_new_token(t_cub3d *data, int j, int *i, int k);
-void					ft_check_tokens_before_value_add(t_cub3d *data,
+bool					ft_check_tokens_before_value_add(t_cub3d *data,
 							t_token *last);
+bool					ft_populate_token_value(t_token *last, char *line,
+							int char_count, int k);
+
 // PARSING
 void					ft_parse(t_cub3d *data);
 void					ft_copy_map_token_to_struct(char *map_line,
@@ -261,6 +266,7 @@ void					ft_error(t_cub3d_errors nb, char *ft_name,
 
 // CLEAN-UP
 void					ft_clean(t_cub3d *data);
+void					ft_delete_token(void *token_content_node);
 
 // DEBUGGING
 void					ft_print_token_list(t_cub3d *data);
