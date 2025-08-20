@@ -6,13 +6,13 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 18:42:30 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/20 12:17:13 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/20 22:09:34 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void		ft_add_map_token(int *i, char *line, t_cub3d *data);
+bool		ft_add_map_token(int *i, char *line, t_cub3d *data);
 void		ft_copy_map_token_to_struct(char *map_line, int *map_row,
 				t_cub3d *data);
 static bool	ft_validate_map_char(char map_char, bool *is_player);
@@ -25,14 +25,15 @@ static void	ft_space_out_map_line(int *char_pos, int *map_row, t_cub3d *data);
  * and adds the valid ones to the token list with MAP token type.
  *
  */
-void	ft_add_map_token(int *i, char *line, t_cub3d *data)
+bool	ft_add_map_token(int *i, char *line, t_cub3d *data)
 {
 	char	*ptr;
 	int		char_count;
-	t_token	*new;
+	bool	is_error;
 
 	ptr = &line[*i];
 	char_count = 0;
+	is_error = false;
 	while (*ptr)
 	{
 		char_count++;
@@ -41,15 +42,9 @@ void	ft_add_map_token(int *i, char *line, t_cub3d *data)
 	if (char_count > data->map_cols)
 		data->map_cols = char_count;
 	if (char_count && ft_is_alphanumeric(&line[*i]))
-	{
-		new = ft_calloc(sizeof(t_token), 1);
-		new->value = ft_calloc(sizeof(char), char_count + 1);
-		ft_strlcpy(new->value, &line[*i], char_count);
-		new->data_id = MAP;
-		ft_lstadd_back(&data->tokens, ft_lstnew(new));
-		data->map_rows++;
-	}
+		is_error = ft_new_map_token(data, char_count, line, i);
 	*i += char_count;
+	return (is_error);
 }
 
 /**

@@ -3,19 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhurnik <hhurnik@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:10:04 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/20 18:14:22 by hhurnik          ###   ########.fr       */
+/*   Updated: 2025/08/20 22:49:57 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 void		ft_tokenize(t_cub3d *data);
-void		ft_add_token(int *i, char *line, t_cub3d *data);
-bool		ft_is_data_identifier(int *i, char *line, t_cub3d *data);
-void		ft_add_data_id_value(int *i, char *line, t_token *last,
+bool		ft_add_token(int *i, char *line, t_cub3d *data);
+static bool	ft_is_data_identifier(int *i, char *line, t_cub3d *data,
+				bool *is_error);
+static bool	ft_add_data_id_value(int *i, char *line, t_token *last,
 				t_cub3d *data);
 const char	**ft_get_data_identifiers(void);
 
@@ -28,17 +29,13 @@ const char	**ft_get_data_identifiers(void);
 void	ft_tokenize(t_cub3d *data)
 {
 	char	*line;
-	int		i;
-	int		line_len;
 
 	line = get_next_line(data->infile_fd);
 	while (line)
 	{
-		i = 0;
-		line_len = ft_strlen(line);
-		while (i < line_len)
-			ft_add_token(&i, line, data);
-		free(line);
+		ft_parse_cub3d_line(data, line);
+		if (line)
+			free(line);
 		line = get_next_line(data->infile_fd);
 	}
 	if (close(data->infile_fd) == 0)
@@ -51,25 +48,29 @@ void	ft_tokenize(t_cub3d *data)
  * Function starts at a nonvoid character. It then needs to check
  * if the string forms one of the data identifiers, if yes it add's token
  * if it's not a data identifier it adds a word.
- *
+ * If there's any error inside this function, it returns true.
+ * Returns false if all good.
  */
-void	ft_add_token(int *i, char *line, t_cub3d *data)
+bool	ft_add_token(int *i, char *line, t_cub3d *data)
 {
 	bool	is_id;
 	t_token	*last;
+	bool	is_error;
 
-	is_id = ft_is_data_identifier(i, line, data);
+	is_error = false;
+	is_id = ft_is_data_identifier(i, line, data, &is_error);
 	if (is_id)
-		return ;
+		return (is_error);
 	if (!data->tokens)
-		ft_error(TOKENIZING_ERROR, "ft_add_token", data);
-	last = (t_token *)ft_lstlast(data->tokens)->content;
+		return (true);
+	last = (t_token *) ft_lstlast(data->tokens)->content;
 	if (!last->value)
-		ft_add_data_id_value(i, line, last, data);
+		return (ft_add_data_id_value(i, line, last, data));
 	else if (line[*i] != '\n')
-		ft_add_map_token(i, line, data);
+		return (ft_add_map_token(i, line, data));
 	else
 		*i = *i + 1;
+	return (false);
 }
 
 /**
@@ -80,7 +81,8 @@ void	ft_add_token(int *i, char *line, t_cub3d *data)
  * the string can be added as a word.
  *
  */
-bool	ft_is_data_identifier(int *i, char *line, t_cub3d *data)
+static bool	ft_is_data_identifier(int *i, char *line, t_cub3d *data,
+		bool *is_error)
 {
 	int		j;
 	int		k;
@@ -94,7 +96,7 @@ bool	ft_is_data_identifier(int *i, char *line, t_cub3d *data)
 		if (ft_strncmp((const char *)&line[k], ft_get_data_identifiers()[j],
 			ft_strlen(ft_get_data_identifiers()[j])) == 0)
 		{
-			ft_new_token(data, j, i, k);
+			*is_error = ft_new_token(data, j, i, k);
 			return (true);
 		}
 	}
@@ -104,15 +106,18 @@ bool	ft_is_data_identifier(int *i, char *line, t_cub3d *data)
 /**
  * Function adds the data value to the last token from the list if there's
  * list node with data_id type created.
- *
+ * If there's any error inside this function, it returns true.
+ * Returns false if all good.
  */
-void	ft_add_data_id_value(int *i, char *line, t_token *last, t_cub3d *data)
+static bool	ft_add_data_id_value(int *i, char *line, t_token *last,
+		t_cub3d *data)
 {
 	char	*ptr;
 	int		char_count;
 	int		k;
 
-	ft_check_tokens_before_value_add(data, last);
+	if (ft_check_tokens_before_value_add(data, last))
+		return (true);
 	ptr = &line[*i];
 	char_count = 0;
 	k = *i;
@@ -122,16 +127,14 @@ void	ft_add_data_id_value(int *i, char *line, t_token *last, t_cub3d *data)
 		k++;
 	}
 	if (!*ptr)
-		ft_error(TOKENIZING_ERROR, "ft_add_data_id_value"
-			"- data missing for one of the fields", data);
+		return (true);
 	while (ft_isspace(*ptr) == 0)
 	{
 		char_count++;
 		ptr++;
 	}
-	last->value = ft_calloc(sizeof(char), char_count + 1);
-	ft_strlcpy(last->value, &line[k], char_count);
 	*i = k + char_count;
+	return (ft_populate_token_value(last, line, char_count, k));
 }
 
 const char	**ft_get_data_identifiers(void)

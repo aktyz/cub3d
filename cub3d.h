@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/20 22:48:41 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/20 22:51:56 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,8 +225,17 @@ void					ft_init(char *file_name, t_cub3d *data);
 
 // TOKEN CREATION
 void					ft_tokenize(t_cub3d *data);
-void					ft_add_map_token(int *i, char *line, t_cub3d *data);
+bool					ft_add_token(int *i, char *line, t_cub3d *data);
+bool					ft_add_map_token(int *i, char *line, t_cub3d *data);
+bool					ft_new_token(t_cub3d *data, int j, int *i, int k);
+void					ft_parse_cub3d_line(t_cub3d *data, char *line);
+bool					ft_new_map_token(t_cub3d *data, int char_count,
+							char *line, int *i);
 const char				**ft_get_data_identifiers(void);
+bool					ft_check_tokens_before_value_add(t_cub3d *data,
+							t_token *last);
+bool					ft_populate_token_value(t_token *last, char *line,
+							int char_count, int k);
 
 //tokenize_utils.c
 void					ft_new_token(t_cub3d *data, int j, int *i, int k);
