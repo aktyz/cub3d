@@ -6,7 +6,7 @@
 /*   By: hhurnik <hhurnik@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:10:04 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/20 18:13:04 by hhurnik          ###   ########.fr       */
+/*   Updated: 2025/08/20 18:14:22 by hhurnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,19 +94,7 @@ bool	ft_is_data_identifier(int *i, char *line, t_cub3d *data)
 		if (ft_strncmp((const char *)&line[k], ft_get_data_identifiers()[j],
 			ft_strlen(ft_get_data_identifiers()[j])) == 0)
 		{
-<<<<<<< HEAD
 			ft_new_token(data, j, i, k);
-=======
-			new_token = ft_calloc(sizeof(t_token), 1);
-			if (new_token == NULL)
-				ft_error(MEM_ERROR, "ft_is_data_identifier", data);
-			new_token->data_id = (t_cub3d_token_types)j;
-			if (data->tokens == NULL)
-				data->tokens = ft_lstnew((void *)new_token);
-			else
-				ft_lstadd_back(&data->tokens, ft_lstnew((void *)new_token));
-			*i = k + ft_strlen(ft_get_data_identifiers()[j]);
->>>>>>> 24fc15f (Fix: Norminetted version of Honorata's files)
 			return (true);
 		}
 	}
@@ -124,17 +112,7 @@ void	ft_add_data_id_value(int *i, char *line, t_token *last, t_cub3d *data)
 	int		char_count;
 	int		k;
 
-<<<<<<< HEAD
 	ft_check_tokens_before_value_add(data, last);
-=======
-	if (data->tokens == NULL)
-		ft_error(TOKENIZING_ERROR, "ft_add_data_id_value", data);
-	if ((last->data_id < NO || last->data_id > C)
-		|| ((last->data_id >= NO && last->data_id <= C) && last->value != NULL)
-		|| (last->data_id && last->value != NULL))
-		ft_error(TOKENIZING_ERROR, "ft_add_data_id_value"
-			"- data value is being added on wrong token", data);
->>>>>>> 24fc15f (Fix: Norminetted version of Honorata's files)
 	ptr = &line[*i];
 	char_count = 0;
 	k = *i;
