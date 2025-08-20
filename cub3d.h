@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/20 20:11:48 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/20 20:16:22 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,20 @@
 # include "minilibx-linux/mlx.h"
 
 # define PP_HEIGHT 200
+	// height of the projection plane in pixels (screen)
 # define PP_WIDTH 320
-# define FOV 60.0f
-# define FOV_RAD 1.04719755f
+	// width of the projection plane in pixels (screen)
+	//- how many rays will be cast
+# define FOV 60.0f                     // field of view - a float literal
+# define FOV_RAD 1.04719755f // fov in radians (60 * M_PI / 180)
 # define GRID_SIZE 64
-# define EPSILON 0.0001f
-# define WIN_WIDTH 640
-# define WIN_HEIGHT 400
-# define SCALE 2
-# define MOVE_SPEED 4.0f
-# define ROTATION_SPEED 0.03490658503f
+# define EPSILON 0.0001f                // a small value for float comparisons
+# define WIN_WIDTH 640 //(PP_WIDTH * SCALE)   // width of the scaled window
+# define WIN_HEIGHT 400 // PP_HEIGHT * SCALE - height of the scaled window
+# define SCALE 2                        // scale (*dims of projection plane)
+# define MOVE_SPEED 4.0f                // how fast a player moves (ASWD keys)
+# define ROTATION_SPEED 0.03490658503f //(M_PI / 90.0f)
+	// how fast a player rotates (left/right arrow keys)
 # define KEY_W 119
 # define KEY_A 97
 # define KEY_S 115
