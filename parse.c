@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 17:50:18 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/19 10:37:18 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/20 01:09:07 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,14 +108,28 @@ static void	ft_save_map(t_cub3d *data, t_list **ptr)
 static void	ft_save_color(t_cub3d *data, t_token *token)
 {
 	char	**color_values;
+	int		i;
 
+	i = 0;
+	if (data->colors == NULL)
+		data->colors = ft_calloc(1, sizeof(t_colors));
+	if (data->colors == NULL)
+		ft_error(MEM_ERROR, "ft_save_color\n", data);
 	color_values = ft_split(token->value, ',');
 	if (token->data_id == F)
 		ft_store_rgb(data->colors->floor_color, color_values, data);
 	else if (token->data_id == C)
 		ft_store_rgb(data->colors->ceiling_color, color_values, data);
 	else
-		ft_error(ERROR_WHEN_PARSING, "ft_save_info", data);
+		ft_error(ERROR_WHEN_PARSING, "ft_save_info\n", data);
+
+	//added to free the memory for array allocated by ft_split
+	while (color_values[i])
+	{
+		free(color_values[i]);
+		i++;
+	}
+	free(color_values);
 }
 
 static void	ft_save_texture_file_name(t_cub3d *data, t_token *token)

@@ -100,13 +100,21 @@ static void	draw_wall_slice(t_cub3d *data, int x)
 	}
 }
 
-/*Draws a complete frame (ceiling, walls, and floor) to the image buffer
- * It iterates through every column of the projection plane
- */
+//convert rgb values to a single integer
+static int	rgb_to_int(int r, int g, int b)
+{
+	return (r << 16 | g << 8 | b);
+}
+
 void	draw_frame(t_cub3d *data)
 {
 	int	x;
 	int	y;
+	int floor_color;
+	int ceiling_color;
+	
+	floor_color = rgb_to_int(data->colors->floor_color[0], data->colors->floor_color[1], data->colors->floor_color[2]);
+	ceiling_color = rgb_to_int(data->colors->ceiling_color[0], data->colors->ceiling_color[1], data->colors->ceiling_color[2]);
 
 	x = 0;
 	while (x < PP_WIDTH)
@@ -115,7 +123,7 @@ void	draw_frame(t_cub3d *data)
 		y = 0;
 		while (y < data->wall.top[x])
 		{
-			ft_pixel_put(&data->image, x, y, 0x87CEEB); //ceiling color
+			ft_pixel_put(&data->image, x, y, ceiling_color);
 			y++;
 		}
 
@@ -126,7 +134,7 @@ void	draw_frame(t_cub3d *data)
 		y = data->wall.bottom[x];
 		while (y < PP_HEIGHT)
 		{
-			ft_pixel_put(&data->image, x, y, 0x556B2F); //floor color
+			ft_pixel_put(&data->image, x, y, floor_color);
 			y++;
 		}
 		x++;
