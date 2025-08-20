@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hhurnik <hhurnik@student.42.fr>            +#+  +:+       +#+         #
+#    By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/16 21:43:31 by zslowian          #+#    #+#              #
-#    Updated: 2025/08/20 18:33:08 by hhurnik          ###   ########.fr        #
+#    Updated: 2025/08/20 22:43:00 by zslowian         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,6 +66,7 @@ $(LIBFT_DIR)/libft.a:
 	$(MAKE) -C $(LIBFT_DIR)
 
 $(MLX_DIR)/libmlx.a:
+	git submodule update --init --recursive
 	$(MAKE) -C $(MLX_DIR)
 
 %.o: %.c
