@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/20 20:16:22 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/20 22:48:41 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,6 +261,7 @@ void					ft_error(t_cub3d_errors nb, char *ft_name,
 
 // CLEAN-UP
 void					ft_clean(t_cub3d *data);
+void					ft_delete_token(void *token_content_node);
 
 // DEBUGGING
 void					ft_print_token_list(t_cub3d *data);

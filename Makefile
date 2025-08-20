@@ -6,7 +6,7 @@
 #    By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/16 21:43:31 by zslowian          #+#    #+#              #
-#    Updated: 2025/08/20 22:43:00 by zslowian         ###   ########.fr        #
+#    Updated: 2025/08/20 22:48:56 by zslowian         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -90,5 +90,8 @@ debug: $(OBJ)
 	-L$(LIBFT_DIR) $(LIBFT_FLAGS) \
 	-no-pie -g \
 	$(MATH_FLAGS)
+
+valgrind: all
+	valgrind --leak-check=full --show-leak-kinds=all ./${NAME} ./resources/maps/subject.cub
 
 re: fclean all

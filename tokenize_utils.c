@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 14:55:03 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/20 15:07:01 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/20 17:37:07 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,24 @@ void	ft_check_tokens_before_value_add(t_cub3d *data, t_token *last)
 		ft_error(TOKENIZING_ERROR,
 			"ft_add_data_id_value - data value is being added on wrong token",
 			data);
+}
+
+void	ft_delete_token(void *token_content_node)
+{
+	t_token	*content;
+
+	content = (t_token *) token_content_node;
+	if (!content)
+		return ;
+	if (content->value)
+	{
+		free(content->value);
+		content->value = NULL;
+	}
+	if (content)
+	{
+		free(content);
+		content = NULL;
+	}
+	token_content_node = NULL;
 }
