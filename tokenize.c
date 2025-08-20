@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hhurnik <hhurnik@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:10:04 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/20 15:06:37 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/20 18:14:22 by hhurnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	ft_add_token(int *i, char *line, t_cub3d *data)
 		return ;
 	if (!data->tokens)
 		ft_error(TOKENIZING_ERROR, "ft_add_token", data);
-	last = (t_token *) ft_lstlast(data->tokens)->content;
+	last = (t_token *)ft_lstlast(data->tokens)->content;
 	if (!last->value)
 		ft_add_data_id_value(i, line, last, data);
 	else if (line[*i] != '\n')
@@ -122,8 +122,8 @@ void	ft_add_data_id_value(int *i, char *line, t_token *last, t_cub3d *data)
 		k++;
 	}
 	if (!*ptr)
-		ft_error(TOKENIZING_ERROR,
-			"ft_add_data_id_value - data missing for one of the fields", data);
+		ft_error(TOKENIZING_ERROR, "ft_add_data_id_value"
+			"- data missing for one of the fields", data);
 	while (ft_isspace(*ptr) == 0)
 	{
 		char_count++;
