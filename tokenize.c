@@ -6,18 +6,18 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:10:04 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/20 11:52:37 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:01:33 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void				ft_tokenize(t_cub3d *data);
-void				ft_add_token(int *i, char *line, t_cub3d *data);
-bool				ft_is_data_identifier(int *i, char *line, t_cub3d *data);
-void				ft_add_data_id_value(int *i, char *line, t_token *last,
-						t_cub3d *data);
-static const char	**ft_get_data_identifiers(void);
+void		ft_tokenize(t_cub3d *data);
+void		ft_add_token(int *i, char *line, t_cub3d *data);
+bool		ft_is_data_identifier(int *i, char *line, t_cub3d *data);
+void		ft_add_data_id_value(int *i, char *line, t_token *last,
+				t_cub3d *data);
+const char	**ft_get_data_identifiers(void);
 
 /**
  * Function:
@@ -82,7 +82,6 @@ void	ft_add_token(int *i, char *line, t_cub3d *data)
  */
 bool	ft_is_data_identifier(int *i, char *line, t_cub3d *data)
 {
-	t_token	*new_token;
 	int		j;
 	int		k;
 
@@ -95,20 +94,12 @@ bool	ft_is_data_identifier(int *i, char *line, t_cub3d *data)
 		if (ft_strncmp((const char *)&line[k], ft_get_data_identifiers()[j],
 			ft_strlen(ft_get_data_identifiers()[j])) == 0)
 		{
-			new_token = ft_calloc(sizeof(t_token), 1);
-			if (new_token == NULL)
-				ft_error(MEM_ERROR, "ft_is_data_identifier", data);
-			new_token->data_id = (t_cub3d_token_types) j;
-			if (data->tokens == NULL)
-				data->tokens = ft_lstnew((void *) new_token);
-			else
-				ft_lstadd_back(&data->tokens, ft_lstnew((void *) new_token));
-			*i = k + ft_strlen(ft_get_data_identifiers()[j]);
+			ft_new_token(data, j, i, k);
 			return (true);
 		}
 	}
 	return (false);
-} // Function has more than 25 lines
+}
 
 /**
  * Function adds the data value to the last token from the list if there's
@@ -149,7 +140,7 @@ void	ft_add_data_id_value(int *i, char *line, t_token *last, t_cub3d *data)
 	*i = k + char_count;
 } // Function has more than 25 lines
 
-static const char	**ft_get_data_identifiers(void)
+const char	**ft_get_data_identifiers(void)
 {
 	static const char	*data_identifiers[DATA_ID_NB];
 

@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/20 15:38:25 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:40:21 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,8 +214,10 @@ typedef struct s_float_position
 void	ft_init(char *file_name, t_cub3d *data);
 
 // TOKEN CREATION
-void	ft_tokenize(t_cub3d *data);
-void	ft_add_map_token(int *i, char *line, t_cub3d *data);
+void		ft_tokenize(t_cub3d *data);
+void		ft_add_map_token(int *i, char *line, t_cub3d *data);
+void		ft_new_token(t_cub3d *data, int j, int *i, int k);
+const char	**ft_get_data_identifiers(void);
 
 // PARSING
 void	ft_parse(t_cub3d *data);

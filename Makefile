@@ -6,7 +6,7 @@
 #    By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/16 21:43:31 by zslowian          #+#    #+#              #
-#    Updated: 2025/08/20 15:38:36 by zslowian         ###   ########.fr        #
+#    Updated: 2025/08/20 15:40:02 by zslowian         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ SRC = main.c \
 	parse.c \
 	parse_utils.c \
 	tokenize.c \
+	tokenize_utils.c \
 	validate_utils.c \
 	validate.c \
 	check_horizontal.c \
