@@ -6,7 +6,7 @@
 /*   By: hhurnik <hhurnik@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/20 18:11:16 by hhurnik          ###   ########.fr       */
+/*   Updated: 2025/08/20 18:38:19 by hhurnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,7 +219,7 @@ typedef struct s_float_position
 {
 	float	x;
 	float	y;
-} t_float_position;
+}						t_float_position;
 
 // INITIALIZATION
 void					ft_init(char *file_name, t_cub3d *data);
@@ -227,11 +227,19 @@ void					ft_init(char *file_name, t_cub3d *data);
 // TOKEN CREATION
 void					ft_tokenize(t_cub3d *data);
 void					ft_add_map_token(int *i, char *line, t_cub3d *data);
+const char				**ft_get_data_identifiers(void);
 
+//tokenize_utils.c
+void					ft_new_token(t_cub3d *data, int j, int *i, int k);
+void					ft_check_tokens_before_value_add(t_cub3d *data,
+							t_token *last);
 // PARSING
 void					ft_parse(t_cub3d *data);
 void					ft_copy_map_token_to_struct(char *map_line,
 							int *map_row, t_cub3d *data);
+
+//parse_utils.c
+void					ft_finish_parsing_checks(t_cub3d *data);
 
 // COLORS
 void					ft_store_rgb(int color_storage[3], char **color_values,
@@ -318,7 +326,8 @@ void					move_right(t_cub3d *data);
 void					move_left(t_cub3d *data);
 void					move_forward(t_cub3d *data);
 void					move_backward(t_cub3d *data);
-void					ft_update_player_pos(t_cub3d *data, t_float_position new);
+void					ft_update_player_pos(t_cub3d *data,
+							t_float_position new);
 
 // game_loop.c
 void					setup_player_and_map(t_cub3d *game);
@@ -330,7 +339,8 @@ void					draw_frame(t_cub3d *data);
 void					init_mlx(t_cub3d *data);
 void					render_scaled_frame(t_cub3d *data);
 unsigned int			get_pixel_color(t_img *image, int x, int y);
-void					draw_pixel_square(t_cub3d *data, int start_x, int start_y, int color);
+void					draw_pixel_square(t_cub3d *data, int start_x,
+							int start_y, int color);
 
 // textures.c
 unsigned int			get_texture_pixel_color(t_texture_data *texture, int x,

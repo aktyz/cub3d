@@ -6,7 +6,7 @@
 #    By: hhurnik <hhurnik@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/16 21:43:31 by zslowian          #+#    #+#              #
-#    Updated: 2025/08/20 18:11:58 by hhurnik          ###   ########.fr        #
+#    Updated: 2025/08/20 18:33:08 by hhurnik          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ LIBFT_DIR = libft
 SRC = main.c \
 	clean.c \
 	debug.c \
+	draw_frame.c \
 	error.c \
 	init.c \
 	map.c \
