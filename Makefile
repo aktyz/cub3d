@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+         #
+#    By: hhurnik <hhurnik@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/16 21:43:31 by zslowian          #+#    #+#              #
-#    Updated: 2025/08/20 15:40:02 by zslowian         ###   ########.fr        #
+#    Updated: 2025/08/20 18:11:58 by hhurnik          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,10 +35,12 @@ SRC = main.c \
 	validate_utils.c \
 	validate.c \
 	check_horizontal.c \
+	check_ray_direction.c \
 	check_vertical.c \
 	game_loop.c \
 	init_window.c \
 	ray_angles.c \
+	cast_rays_utils.c \
 	cast_rays.c \
 	hooks.c \
 	hooks_move.c \
