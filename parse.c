@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhurnik <hhurnik@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 17:50:18 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/20 18:12:39 by hhurnik          ###   ########.fr       */
+/*   Updated: 2025/08/20 23:16:32 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,25 +103,27 @@ static void	ft_save_color(t_cub3d *data, t_token *token)
 {
 	char	**color_values;
 	int		i;
+	bool	is_error;
 
 	i = 0;
+	is_error = false;
 	if (data->colors == NULL)
 		data->colors = ft_calloc(1, sizeof(t_colors));
 	if (data->colors == NULL)
 		ft_error(MEM_ERROR, "ft_save_color\n", data);
 	color_values = ft_split(token->value, ',');
 	if (token->data_id == F)
-		ft_store_rgb(data->colors->floor_color, color_values, data);
+		is_error = ft_store_rgb(data->colors->floor_color, color_values);
 	else if (token->data_id == C)
-		ft_store_rgb(data->colors->ceiling_color, color_values, data);
-	else
-		ft_error(ERROR_WHEN_PARSING, "ft_save_info\n", data);
+		is_error = ft_store_rgb(data->colors->ceiling_color, color_values);
 	while (color_values[i])
 	{
 		free(color_values[i]);
 		i++;
 	}
 	free(color_values);
+	if (is_error)
+		ft_error(COLOR, "check colors in the input file\n", data);
 }
 
 static void	ft_save_texture_file_name(t_cub3d *data, t_token *token)
