@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/19 10:41:07 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/20 11:24:14 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,6 +204,12 @@ typedef struct s_token
 	char				*value;
 } t_token;
 
+typedef struct s_float_position
+{
+	float	x;
+	float	y;
+} t_float_position;
+
 // INITIALIZATION
 void	ft_init(char *file_name, t_cub3d *data);
 
@@ -280,15 +286,16 @@ void render_scaled_frame(t_cub3d *data);
 unsigned int get_pixel_color(t_img *image, int x, int y);
 
 //hooks.c
-int	handle_keypress(int keycode, t_cub3d *data);
-int	handle_keyrelease(int keycode, t_cub3d *data);
-int	close_game(t_cub3d *data);
-void look_left(t_cub3d *data);
-void look_right(t_cub3d *data);
-void move_right(t_cub3d *data);
-void move_left(t_cub3d *data);
-void move_forward(t_cub3d *data);
-void move_backward(t_cub3d *data);
+int		handle_keypress(int keycode, t_cub3d *data);
+int		handle_keyrelease(int keycode, t_cub3d *data);
+int		close_game(t_cub3d *data);
+void	look_left(t_cub3d *data);
+void	look_right(t_cub3d *data);
+void	move_right(t_cub3d *data);
+void	move_left(t_cub3d *data);
+void	move_forward(t_cub3d *data);
+void	move_backward(t_cub3d *data);
+void	ft_update_player_pos(t_cub3d *data, t_float_position new);
 
 //textures.c
 unsigned int get_texture_pixel_color(t_texture_data *texture, int x, int y);
