@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:10:04 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/20 15:01:33 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:06:37 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,13 +112,7 @@ void	ft_add_data_id_value(int *i, char *line, t_token *last, t_cub3d *data)
 	int		char_count;
 	int		k;
 
-	if (data->tokens == NULL)
-		ft_error(TOKENIZING_ERROR, "ft_add_data_id_value", data);
-	if ((last->data_id < NO || last->data_id > C)
-		|| ((last->data_id >= NO && last->data_id <= C) && last->value != NULL)
-		|| (last->data_id && last->value != NULL))
-		ft_error(TOKENIZING_ERROR,
-			"ft_add_data_id_value - data value is being added on wrong token", data);
+	ft_check_tokens_before_value_add(data, last);
 	ptr = &line[*i];
 	char_count = 0;
 	k = *i;
@@ -138,7 +132,7 @@ void	ft_add_data_id_value(int *i, char *line, t_token *last, t_cub3d *data)
 	last->value = ft_calloc(sizeof(char), char_count + 1);
 	ft_strlcpy(last->value, &line[k], char_count);
 	*i = k + char_count;
-} // Function has more than 25 lines
+}
 
 const char	**ft_get_data_identifiers(void)
 {
