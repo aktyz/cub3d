@@ -6,7 +6,7 @@
 #    By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/16 21:43:31 by zslowian          #+#    #+#              #
-#    Updated: 2025/08/19 17:40:47 by zslowian         ###   ########.fr        #
+#    Updated: 2025/08/20 11:36:29 by zslowian         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ SRC = main.c \
 	ray_angles.c \
 	cast_rays.c \
 	hooks.c \
+	hooks_move.c \
 	hooks_utils.c \
 	textures.c
 
