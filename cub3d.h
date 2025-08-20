@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 22:02:02 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/20 22:51:56 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/20 22:54:35 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,10 +237,6 @@ bool					ft_check_tokens_before_value_add(t_cub3d *data,
 bool					ft_populate_token_value(t_token *last, char *line,
 							int char_count, int k);
 
-//tokenize_utils.c
-void					ft_new_token(t_cub3d *data, int j, int *i, int k);
-void					ft_check_tokens_before_value_add(t_cub3d *data,
-							t_token *last);
 // PARSING
 void					ft_parse(t_cub3d *data);
 void					ft_copy_map_token_to_struct(char *map_line,
