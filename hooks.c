@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 11:34:27 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/20 11:34:30 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/21 21:06:05 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	handle_keyrelease(int keycode, t_cub3d *data)
 void	look_right(t_cub3d *data)
 {
 	data->player.player_angle += ROTATION_SPEED;
-	if (data->player.player_angle >= 2.0f * M_PI)
+	if (data->player.player_angle >= 0)
 		data->player.player_angle -= 2.0f * M_PI;
 }
 
