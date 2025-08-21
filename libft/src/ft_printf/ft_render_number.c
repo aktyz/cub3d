@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_render_number.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hhurnik <hhurnik@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 18:48:27 by zslowian          #+#    #+#             */
-/*   Updated: 2024/05/21 18:48:27 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/21 12:43:49 by hhurnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ static void	ft_set_padding_zeros_wrapper(t_data *data)
 	{
 		if (data->format.precision > data->format.nbr_length)
 		{
-			data->format.nbr_padding_zeros = data->format.precision - \
-				data->format.nbr_length;
+			data->format.nbr_padding_zeros = data->format.precision
+				- data->format.nbr_length;
 			return ;
 		}
 	}
@@ -76,14 +76,14 @@ static void	ft_set_padding_spaces(t_data *data)
 
 	specifier = data->format.specifier;
 	if (data->format.width)
-		data->format.nbr_padding_spaces = data->format.width - \
-			data->format.nbr_padding_zeros - data->format.nbr_length;
+		data->format.nbr_padding_spaces = data->format.width
+			- data->format.nbr_padding_zeros - data->format.nbr_length;
 	else if (!data->format.is_number_negative)
 		data->format.nbr_padding_spaces++;
 	if (ft_in("uxXp", specifier))
 	{
-		if (((ft_in("xX", specifier) && data->format.hash && \
-				data->temp[0] != '0')) || specifier == 'p')
+		if (((ft_in("xX", specifier) && data->format.hash
+					&& data->temp[0] != '0')) || specifier == 'p')
 			data->format.nbr_padding_spaces -= 2;
 		return ;
 	}
@@ -124,8 +124,8 @@ static void	ft_sign(t_data *data)
  */
 static void	ft_put0x(t_data *data)
 {
-	if (((ft_in("xX", data->format.specifier) && data->format.hash && \
-				data->temp[0] != '0')) || data->format.specifier == 'p')
+	if (((ft_in("xX", data->format.specifier) && data->format.hash
+				&& data->temp[0] != '0')) || data->format.specifier == 'p')
 	{
 		if (data->format.upper_case)
 			ft_putstring_buffer("0X", 2, data);
