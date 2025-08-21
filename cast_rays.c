@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cast_rays.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hhurnik <hhurnik@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 16:06:59 by hhurnik           #+#    #+#             */
-/*   Updated: 2025/08/19 18:54:58 by hhurnik          ###   ########.fr       */
+/*   Updated: 2025/08/21 21:30:11 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ float	find_and_set_wall_data(t_cub3d *data, int column, float ray_angle,
 	{
 		data->wall.wall_hit[column] = intersection->intersection_ver_y;
 		if (is_ray_facing_right(ray_angle))
-			data->wall.wall_face[column] = WE;
-		else
 			data->wall.wall_face[column] = EA;
+		else
+			data->wall.wall_face[column] = WE;
 		return (distance_ver);
 	}
 }
