@@ -6,7 +6,7 @@
 #    By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/16 21:43:31 by zslowian          #+#    #+#              #
-#    Updated: 2025/08/20 22:48:56 by zslowian         ###   ########.fr        #
+#    Updated: 2025/08/21 13:16:56 by zslowian         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ MATH_FLAGS = -lm
 RM = rm -rf
 
 MLX_DIR = minilibx-linux
+MLX = libmlx.a
 LIBFT_DIR = libft
 
 SRC = main.c \
@@ -55,7 +56,7 @@ OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJ) $(MLX_DIR)/libmlx.a $(LIBFT_DIR)/libft.a
+$(NAME): $(MLX) $(LIBFT_DIR)/libft.a $(OBJ)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) \
 	-L$(MLX_DIR) $(MLX_FLAGS) \
 	-L$(LIBFT_DIR) $(LIBFT_FLAGS) \
@@ -65,9 +66,11 @@ $(NAME): $(OBJ) $(MLX_DIR)/libmlx.a $(LIBFT_DIR)/libft.a
 $(LIBFT_DIR)/libft.a:
 	$(MAKE) -C $(LIBFT_DIR)
 
-$(MLX_DIR)/libmlx.a:
+$(MLX):
 	git submodule update --init --recursive
+	cd $(MLX_DIR)
 	$(MAKE) -C $(MLX_DIR)
+	cd ..
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
