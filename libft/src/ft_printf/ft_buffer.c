@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_buffer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hhurnik <hhurnik@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 20:06:20 by zslowian          #+#    #+#             */
-/*   Updated: 2024/10/03 16:15:54 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/21 12:39:09 by hhurnik          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,11 @@ void	ft_itoa_buffer(t_data *data, t_value int_value)
 	else if (int_value.ul_value < data->format.base)
 	{
 		if (data->format.upper_case)
-			data->temp[data->format.nbr_length++] = \
-				UP_SYMBOLS[int_value.ul_value];
+			data->temp[data->format.nbr_length++]
+				= UP_SYMBOLS[int_value.ul_value];
 		else
-			data->temp[data->format.nbr_length++] = \
-				LOW_SYMBOLS[int_value.ul_value];
+			data->temp[data->format.nbr_length++]
+				= LOW_SYMBOLS[int_value.ul_value];
 	}
 	else
 	{
