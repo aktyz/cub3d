@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 19:10:04 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/20 22:49:57 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/21 14:49:58 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,9 @@ bool	ft_add_token(int *i, char *line, t_cub3d *data)
 	last = (t_token *) ft_lstlast(data->tokens)->content;
 	if (!last->value)
 		return (ft_add_data_id_value(i, line, last, data));
-	else if (line[*i] != '\n')
-		return (ft_add_map_token(i, line, data));
 	else
-		*i = *i + 1;
+		return (ft_add_map_token(i, line, last, data));
+	*i = *i + 1;
 	return (false);
 }
 

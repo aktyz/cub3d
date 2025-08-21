@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 19:24:41 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/19 10:34:46 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/21 15:40:41 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@ bool		ft_is_map_valid(t_cub3d *data);
 static bool	ft_player_area_check(char **map_copy, int row, int col,
 				t_cub3d *data);
 static bool	ft_void_area_check(char **map_copy, t_cub3d *data);
-static bool	ft_flood_fill(char **map_copy, int row, int col,
+static bool	ft_flood_fill_space(char **map_copy, int row, int col,
+				t_cub3d *data);
+static bool	ft_check_enclosure(char **map_copy, t_cub3d *data);
+static bool	ft_flood_fill_zero(char **map_copy, int row, int col,
 				t_cub3d *data);
 
 /**
@@ -40,7 +43,8 @@ bool	ft_is_map_valid(t_cub3d *data)
 	if (!ft_player_area_check(map_copy, data->player.start_row,
 			data->player.start_col, data))
 		is_valid = false;
-	ft_switch_remaining_zeroes(map_copy, data);
+	if (!ft_check_enclosure(map_copy, data))
+		is_valid = false;
 	if (!ft_void_area_check(map_copy, data))
 		is_valid = false;
 	ft_free_map_copy(map_copy, data->map_rows);
@@ -93,7 +97,7 @@ static bool	ft_void_area_check(char **map_copy, t_cub3d *data)
 		while (++col < data->map_cols)
 		{
 			if (map_copy[row][col] == ' ')
-				result = ft_flood_fill(map_copy, row, col, data);
+				result = ft_flood_fill_space(map_copy, row, col, data);
 			if (result == false)
 				return (false);
 		}
@@ -101,7 +105,7 @@ static bool	ft_void_area_check(char **map_copy, t_cub3d *data)
 	return (result);
 }
 
-static bool	ft_flood_fill(char **map_copy, int row, int col,
+static bool	ft_flood_fill_space(char **map_copy, int row, int col,
 	t_cub3d *data)
 {
 	if (row < 0 || row >= data->map_rows
@@ -112,14 +116,60 @@ static bool	ft_flood_fill(char **map_copy, int row, int col,
 	if (map_copy[row][col] == ' ')
 	{
 		map_copy[row][col] = 'V';
-		return (ft_flood_fill(map_copy, row - 1, col, data)
-			&& ft_flood_fill(map_copy, row + 1, col, data)
-			&& ft_flood_fill(map_copy, row, col - 1, data)
-			&& ft_flood_fill(map_copy, row, col + 1, data)
-			&& ft_flood_fill(map_copy, row - 1, col - 1, data)
-			&& ft_flood_fill(map_copy, row - 1, col + 1, data)
-			&& ft_flood_fill(map_copy, row + 1, col - 1, data)
-			&& ft_flood_fill(map_copy, row + 1, col + 1, data));
+		return (ft_flood_fill_space(map_copy, row - 1, col, data)
+			&& ft_flood_fill_space(map_copy, row + 1, col, data)
+			&& ft_flood_fill_space(map_copy, row, col - 1, data)
+			&& ft_flood_fill_space(map_copy, row, col + 1, data)
+			&& ft_flood_fill_space(map_copy, row - 1, col - 1, data)
+			&& ft_flood_fill_space(map_copy, row - 1, col + 1, data)
+			&& ft_flood_fill_space(map_copy, row + 1, col - 1, data)
+			&& ft_flood_fill_space(map_copy, row + 1, col + 1, data));
+	}
+	return (false);
+}
+
+static bool	ft_check_enclosure(char **map_copy, t_cub3d *data)
+{
+	int		row;
+	int		col;
+	bool	result;
+
+	row = -1;
+	result = true;
+	while (++row < data->map_rows)
+	{
+		col = -1;
+		while (++col < data->map_cols)
+		{
+			if (map_copy[row][col] == '0')
+				result = ft_flood_fill_zero(map_copy, row, col, data);
+			if (result == false)
+				return (false);
+		}
+	}
+	return (result);
+}
+
+static bool	ft_flood_fill_zero(char **map_copy, int row, int col,
+	t_cub3d *data)
+{
+	if (row < 0 || row >= data->map_rows
+		|| col < 0 || col >= data->map_cols - 1)
+		return (false);
+	if (map_copy[row][col] == '1' || map_copy[row][col] == 'D'
+		|| map_copy[row][col] == 'X')
+		return (true);
+	if (map_copy[row][col] == '0')
+	{
+		map_copy[row][col] = 'D';
+		return (ft_flood_fill_zero(map_copy, row - 1, col, data)
+			&& ft_flood_fill_zero(map_copy, row + 1, col, data)
+			&& ft_flood_fill_zero(map_copy, row, col - 1, data)
+			&& ft_flood_fill_zero(map_copy, row, col + 1, data)
+			&& ft_flood_fill_zero(map_copy, row - 1, col - 1, data)
+			&& ft_flood_fill_zero(map_copy, row - 1, col + 1, data)
+			&& ft_flood_fill_zero(map_copy, row + 1, col - 1, data)
+			&& ft_flood_fill_zero(map_copy, row + 1, col + 1, data));
 	}
 	return (false);
 }

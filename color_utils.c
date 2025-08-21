@@ -6,7 +6,7 @@
 /*   By: zslowian <zslowian@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:40:48 by zslowian          #+#    #+#             */
-/*   Updated: 2025/08/20 23:16:11 by zslowian         ###   ########.fr       */
+/*   Updated: 2025/08/21 14:35:04 by zslowian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ bool	ft_store_rgb(int color_storage[3], char **color_values)
 	int	color;
 
 	i = -1;
+	if (color_storage[0] != COLOR_INIT_VALUE)
+		return (true);
 	while (++i < 3)
 	{
 		if (!color_values[i])
